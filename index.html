@@ -97,11 +97,56 @@
             <img src="https://i.imgur.com/rnGhRAA.png" alt="Render 12" class="rounded-lg shadow-lg" />
              <img src="https://i.imgur.com/qDJquf0.jpeg" alt="Render 12" class="rounded-lg shadow-lg" />
             <img src="https://i.imgur.com/vi0FTiy.jpeg" alt="Render 12" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/VfYpV0j.jpeg" alt="Render 12" class="rounded-lg shadow-lg" />
-            
+            <img src="https://i.imgur.com/VfYpV0j.jpeg" alt="Render 12" class="rounded-lg shadow-lg" /> 
             
         </div>
     </section>
+   <section id="collaborations" class="py-20 px-10 bg-gray-900">
+        <h2 class="text-4xl font-bold text-white text-center mb-6">Collaborations</h2>
+        <p class="text-lg text-gray-300 text-center mb-12">Creators and teams I've worked with</p>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-6xl mx-auto" id="collaborationsGrid">
+            <!-- Los videos se cargarán aquí -->
+            
+            <img src="https://i.imgur.com/ONSU82p.png" alt="Collaborator 1" class="w-40 h-40 object-contain" />
+            </a>
+            <img src="https://i.imgur.com/F4y5Vho.png" alt="Collaborator 1" class="w-40 h-40 object-contain" />
+            </a>
+            <img src="https://i.imgur.com/pu8vc4X.png" alt="Collaborator 1" class="w-40 h-40 object-contain" />
+            </a>
+        </div>
+    </section>
+
+    <script>
+        // Aquí pones los links de YouTube de tus colaboradores
+        const collaborators = [
+            'https://www.youtube.com/watch?v=MxAsJ3tGwxE',
+            'https://www.youtube.com/watch?v=0NkrCI9Aiu8',
+            'https://www.youtube.com/watch?v=8iGjIlYZEaU',
+            // Agrega más links aquí
+        ];
+
+        function getYouTubeVideoId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        const grid = document.getElementById('collaborationsGrid');
+        
+        collaborators.forEach(url => {
+            const videoId = getYouTubeVideoId(url);
+            if (videoId) {
+                const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+                const link = document.createElement('a');
+                link.href = url;
+                link.target = '_blank';
+                link.className = 'flex items-center justify-center hover:opacity-75 transition-all rounded-lg overflow-hidden';
+                link.innerHTML = `<img src="${thumbnail}" alt="YouTube Video" class="w-full h-full object-cover rounded-lg" />`;
+                grid.appendChild(link);
+            }
+        });
+        </script>
+
     <footer id="contact" class="bg-black text-center py-10 border-t border-white">
         <p class="text-gray-300">&copy; 2025 Colombianaso. All rights reserved.</p>
         <p class="text-gray-300 mt-2">Contact: <a href="mailto:colombianaso05@gmail.com" class="text-white">colombianaso05@gmail.com</a></p>
@@ -109,8 +154,10 @@
             <a href="https://discord.com/users/colombianaso" class="text-white">Discord: colombianaso</a>
         </div>
     </footer>
+
 </body>
 </html>
+
 
 
 
