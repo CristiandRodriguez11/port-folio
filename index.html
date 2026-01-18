@@ -120,35 +120,42 @@
         </div>
     </section>
 
-    <script>
-        // Aquí pones los links de YouTube de tus colaboradores
-        const collaborators = [ 
-            https://www.youtube.com/watch?v=2FE7pOBbRn8&t=438s
-        
-            // Agrega más links aquí
-        ];
+<script>
+    // Links de YouTube de tus colaboradores
+    const collaborators = [
+        "https://youtu.be/2FE7pOBbRn8?t=387"
+        // Agrega más links aquí
+    ];
 
-        function getYouTubeVideoId(url) {
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[2].length === 11) ? match[2] : null;
+    function getYouTubeVideoId(url) {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]{11}).*/;
+        const match = url.match(regExp);
+        return match ? match[2] : null;
+    }
+
+    const grid = document.getElementById('collaborationsGrid');
+
+    collaborators.forEach(url => {
+        const videoId = getYouTubeVideoId(url);
+        if (videoId) {
+            const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.target = '_blank';
+            link.className =
+                'flex items-center justify-center hover:opacity-75 transition-all rounded-lg overflow-hidden';
+
+            link.innerHTML = `
+                <img src="${thumbnail}" 
+                     alt="YouTube Video" 
+                     class="w-full h-full object-cover rounded-lg" />
+            `;
+
+            grid.appendChild(link);
         }
-
-        const grid = document.getElementById('collaborationsGrid');
-        
-        collaborators.forEach(url => {
-            const videoId = getYouTubeVideoId(url);
-            if (videoId) {
-                const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-                const link = document.createElement('a');
-                link.href = url;
-                link.target = '_blank';
-                link.className = 'flex items-center justify-center hover:opacity-75 transition-all rounded-lg overflow-hidden';
-                link.innerHTML = `<img src="${thumbnail}" alt="YouTube Video" class="w-full h-full object-cover rounded-lg" />`;
-                grid.appendChild(link);
-            }
-        });
-        </script>
+    });
+</script>
 
     <footer id="contact" class="bg-black text-center py-10 border-t border-white">
         <p class="text-gray-300">&copy; 2025 Colombianaso. All rights reserved.</p>
@@ -160,6 +167,7 @@
 
 </body>
 </html>
+
 
 
 
