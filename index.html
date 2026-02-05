@@ -29,6 +29,141 @@
             background-color: rgb(10, 13, 32);
             z-index: 1000;
         }
+
+        /* ESTILOS PARA EL CARRUSEL */
+        .carousel-container {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 400px;
+            margin: 40px 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            animation: scroll-right 15s linear infinite;
+            will-change: transform;
+        }
+
+        .carousel-track:hover {
+            animation-play-state: paused;
+        }
+
+        .carousel-item {
+            flex: 0 0 auto;
+            margin: 0 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .carousel-item:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        .carousel-item img {
+            height: 350px;
+            width: auto;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+        }
+
+        @keyframes scroll-right {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* LIGHTBOX STYLES */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 50px;
+            color: white;
+            cursor: pointer;
+            transition: color 0.3s;
+            z-index: 10000;
+        }
+
+        .lightbox-close:hover {
+            color: #00ffff;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 60px;
+            color: white;
+            cursor: pointer;
+            user-select: none;
+            padding: 20px;
+            transition: color 0.3s;
+        }
+
+        .lightbox-nav:hover {
+            color: #00ffff;
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        /* Gallery grid con hover mejorado */
+        .gallery-item {
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 12px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 255, 255, 0.4);
+        }
+
+        .gallery-item img {
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -51,84 +186,69 @@
         <p class="text-lg md:text-xl text-gray-300">Massive builds • Epic landscapes • Creative recreations from Colombia & beyond</p>
     </div>
 
-    <!-- Foto pequeña + info básica arriba -->
-    <div class="flex flex-col items-center mb-4">
-        <img src="https://i.imgur.com/seVKONK.png" alt="Cristiand" class="rounded-full w-40 h-40 md:w-48 md:h-48 shadow-2xl border-4 border-white mb-4" />
-        <p class="text-base md:text-lg text-gray-300 text-center max-w-2xl">
-            Hi! I'm Cristiand, 21 years old, passionate about creating huge and creative projects in Minecraft. I love pushing creativity and turning big ideas into reality.
-        </p>
-        <div class="flex flex-col md:flex-row gap-4 md:gap-8 mt-3 text-lg">
-            <span class="elegant-font">Discord: colombianaso</span>
-            <span class="elegant-font">X: @Colombianaso2</span>
-        </div>
+<!-- Foto pequeña + info básica arriba -->
+<div class="flex flex-col items-center mb-4">
+    <img src="https://i.imgur.com/seVKONK.png" alt="Cristiand" class="rounded-full w-40 h-40 md:w-48 md:h-48 shadow-2xl border-4 border-white mb-4" />
+    <p class="text-base md:text-lg text-gray-300 text-center max-w-2xl">
+        Hi! I'm Cristiand, 21 years old, passionate about creating huge and creative projects in Minecraft. I love pushing creativity and turning big ideas into reality.
+    </p>
+    <div class="flex flex-col md:flex-row gap-4 md:gap-8 mt-3 text-lg">
+        <span class="elegant-font">Discord: colombianaso</span>
+        <span class="elegant-font">X: @Colombianaso2</span>
     </div>
+</div>
 
-    <!-- Bloque ancho del proyecto MrBeast (más horizontal, menos alto) -->
-    <div class="w-full bg-gray-900/40 p-8 md:p-10 rounded-2xl border border-gray-700 shadow-xl max-w-5xl mx-auto">
-        <p class="text-lg md:text-xl text-gray-200 leading-relaxed text-center">
-            I was selected as the official representative of Colombia for the global MrBeast Gaming competition!<br><br>
-            One of my most ambitious Minecraft projects: recreating the most iconic places of my country —snowy mountains, jungles with jaguars, Cartagena walls, impressive cathedrals, coffee plantations, and modern cities— all built with tons of love and detail.<br><br>
-            I had so much fun building it and I feel I truly showed the world how beautiful and diverse Colombia is. The final result fills me with total pride. 🇨🇴❤️
-        </p>
+<!-- Bloque ancho del proyecto MrBeast (más horizontal, menos alto) -->
+<div class="w-full bg-gray-900/40 p-8 md:p-10 rounded-2xl border border-gray-700 shadow-xl max-w-5xl mx-auto">
+    <h3 class="text-3xl md:text-4xl font-bold text-white text-center mb-6">MRBEAST GAMING COLLABORATION</h3>
+    <p class="text-lg md:text-xl text-gray-200 leading-relaxed text-center">
+        I was selected as the official representative of Colombia for the global MrBeast Gaming competition!
+        One of my most ambitious Minecraft projects: recreating the most iconic places of my country —snowy mountains, jungles with jaguars, Cartagena walls, impressive cathedrals, coffee plantations, and modern cities— all built with tons of love and detail.
+        I had so much fun building it and I feel I truly showed the world how beautiful and diverse Colombia is. The final result fills me with total pride. 
+    </p>
+</div>
+
+<!-- Tweet más abajo, centrado y compacto -->
+<div class="flex items-center justify-center gap-3 mt-6">
+<img src="https://i.imgur.com/hbMNfIb.png" alt="MrBeast Gaming Logo" class="w-60 h-40 rounded-full" />
+<blockquote class="twitter-tweet" data-media-max-width="560">
+    <p lang="en" dir="ltr">It's an honor to have been asked to create this map and to represent Colombia. We gave it our all to deliver a quality product. Although we were a small team, we dedicated ourselves completely to the project, and this result fills us with pride. 
+
+Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/Man2O2HZzx</a></p>&mdash; Colombianaso | Builder (@Colombianaso2) <a href="https://twitter.com/Colombianaso2/status/2012944698176868401?ref_src=twsrc%5Etfw">January 18, 2026</a>
+</blockquote>
+</div>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></section>
+
+<section id="projects" class="py-20 px-10">
+    <h2 class="text-4xl font-bold text-white text-center mb-10">My Projects</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <img src="https://i.imgur.com/ZwIpFPk.jpeg" alt="Build 1" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/VeFq9Q9.jpeg" alt="Build 1" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/m1lsDa1.png" alt="Build 1" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/wMbNYmL.png" alt="Build 1" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/EXciFDJ.jpeg" alt="Build 1" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/S8Uayi3.jpeg" alt="Build 4" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/S9WcrIi.jpeg" alt="Build 3" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/JcSzQca.jpeg" alt="Build 4" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/axmYcbK.jpeg" alt="Build 4" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/Fr1JT2m.jpeg" alt="Build 4" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/8uhuk99.jpeg" alt="Build 4" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/E7w5sBL.jpeg" alt="Build 2" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/B9HJ5Qs.jpeg" alt="Build 5" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/6gQGVM1.png" alt="Build 6" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/d6zX3Mg.jpeg" alt="Build 6" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/bA7yxzc.png" alt="Build 6" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/ZaGQCUl.jpeg" alt="Build 6" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/r9eh8Pi.png" alt="Build 7" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/j9yq7TR.jpeg" alt="Build 6" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/PbzC2eP.png" alt="Build 9" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/7pVwVir.png" alt="Build 10" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/bcSdWph.png" alt="Build 11" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/OujhlI5.png" alt="Build 12" class="rounded-lg shadow-lg" />
     </div>
-
-    <!-- Tweet más abajo, centrado y compacto -->
-    <blockquote class="twitter-tweet mt-6" data-media-max-width="560">
-        <p lang="en" dir="ltr">It's an honor to have been asked to create this map and to represent Colombia. We gave it our all to deliver a quality product. Although we were a small team, we dedicated ourselves completely to the project, and this result fills us with pride. 🇨🇴<br><br>Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/Man2O2HZzx</a></p>&mdash; Colombianaso | Builder (@Colombianaso2) <a href="https://twitter.com/Colombianaso2/status/2012944698176868401?ref_src=twsrc%5Etfw">January 18, 2026</a>
-    </blockquote>
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </section>
 
-    <section id="projects" class="py-20 px-10">
-        <h2 class="text-4xl font-bold text-white text-center mb-10">My Projects</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <img src="https://i.imgur.com/ZwIpFPk.jpeg" alt="Build 1" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/VeFq9Q9.jpeg" alt="Build 1" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/m1lsDa1.png" alt="Build 1" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/wMbNYmL.png" alt="Build 1" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/EXciFDJ.jpeg" alt="Build 1" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/S8Uayi3.jpeg" alt="Build 4" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/S9WcrIi.jpeg" alt="Build 3" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/JcSzQca.jpeg" alt="Build 4" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/axmYcbK.jpeg" alt="Build 4" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/Fr1JT2m.jpeg" alt="Build 4" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/8uhuk99.jpeg" alt="Build 4" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/E7w5sBL.jpeg" alt="Build 2" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/B9HJ5Qs.jpeg" alt="Build 5" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/6gQGVM1.png" alt="Build 6" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/d6zX3Mg.jpeg" alt="Build 6" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/bA7yxzc.png" alt="Build 6" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/ZaGQCUl.jpeg" alt="Build 6" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/r9eh8Pi.png" alt="Build 7" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/j9yq7TR.jpeg" alt="Build 6" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/PbzC2eP.png" alt="Build 9" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/7pVwVir.png" alt="Build 10" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/bcSdWph.png" alt="Build 11" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/OujhlI5.png" alt="Build 12" class="rounded-lg shadow-lg" />
-        </div>
-    </section>
-     <section id="collaborations" class="py-20 px-10 bg-gray-900">
-        <h2 class="text-4xl font-bold text-white text-center mb-6">Collaborations</h2>
-        <p class="text-lg text-gray-300 text-center mb-12">Creators and teams I've worked with</p>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-6xl mx-auto" id="collaborationsGrid">
-            <!-- Los videos se cargarán aquí -->
-            
-            <img src="https://i.imgur.com/ONSU82p.png" alt="Collaborator 1" class="w-40 h-40 object-contain" />
-            </a>
-            <img src="https://i.imgur.com/sPSjnA7.png" alt="Collaborator 1" class="w-40 h-40 object-contain" />
-            </a>
-            <img src="https://i.imgur.com/F4y5Vho.png" alt="Collaborator 1" class="w-40 h-40 object-contain" />
-            </a>
-             <img src="https://i.imgur.com/pu8vc4X.png" alt="Collaborator 1" class="w-40 h-40 object-contain" />
-            </a>
-             <img src="https://i.imgur.com/O7FthFv.png" alt="Collaborator 1" class="w-60 h-60 object-contain" />
-            </a>
-           
-        </div>
-       
-    </section>
-
-  <!-- NUEVA SECCIÓN: PORTAFOLIO HYTALE (con galería) -->
+<!-- SECCIÓN PORTAFOLIO HYTALE MEJORADA -->
 <section id="portfolio-hytale" class="py-20 px-10 bg-gradient-to-b from-black via-gray-900 to-black">
     <div class="text-center mb-12">
         <h2 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 drop-shadow-2xl">PORTAFOLIO HYTALE</h2>
@@ -137,7 +257,7 @@
         </p>
     </div>
 
-    <!-- Imagen principal destacada (la que ya tenías, con overlay) -->
+    <!-- Imagen principal destacada -->
     <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 max-w-6xl mx-auto mb-16">
         <img 
             src="https://i.imgur.com/qzkiwTw.png"
@@ -154,36 +274,51 @@
         </div>
     </div>
 
-    <!-- Galería de muchas fotos (grid responsive) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-        <!-- Aquí pon todas tus imágenes de Hytale/One Piece style -->
-        <!-- Ejemplo: usa las que ya tienes o sube nuevas a imgur -->
-
-        <img src="https://i.imgur.com/DSsKdLS.jpeg" alt="Hytale Build 1" class="rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 object-cover h-64 w-full" />
-        <img src="https://i.imgur.com/AyjY4eK.jpeg" alt="Hytale Build 2" class="rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 object-cover h-64 w-full" />
-        <!-- Agrega más aquí (copia-pega líneas) -->
-        <!--<img src="https://i.imgur.com/[ID_IMAGEN_2].jpeg" alt="Hytale Build 2" class="rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 object-cover h-64 w-full" />
-        <img src="https://i.imgur.com/[ID_IMAGEN_3].jpeg" alt="Hytale Build 3" class="rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 object-cover h-64 w-full" />
-        <img src="https://i.imgur.com/[ID_IMAGEN_4].jpeg" alt="Hytale Build 4" class="rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 object-cover h-64 w-full" />
-        <img src="https://i.imgur.com/[ID_IMAGEN_5].jpeg" alt="One Piece Ship" class="rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 object-cover h-64 w-full" />
-        <img src="https://i.imgur.com/[ID_IMAGEN_6].jpeg" alt="Jungla Épica" class="rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 object-cover h-64 w-full" />
-    -->
-        <!-- Puedes seguir agregando cuantas quieras, el grid se ajusta solo -->
-    </div>
-
-    <!-- Opcional: botón o texto al final -->
-    <div class="text-center mt-12">
-        <p class="text-lg text-gray-400">PORTOLIO IN PROGRESS...</p>
+    <!-- CARRUSEL AUTOMÁTICO -->
+    <div class="mb-16">
+        <h3 class="text-3xl font-bold text-center text-cyan-400 mb-8">¡GALLERY BUILDS!</h3>
+        <div class="carousel-container">
+            <div class="carousel-track" id="carouselTrack">
+                <!-- Las imágenes se duplicarán aquí para efecto infinito -->
+            </div>
+        </div>
     </div>
 </section>
 
-    
+ <section id="collaborations" class="py-20 px-10 bg-gray-900">
+    <h2 class="text-4xl font-bold text-white text-center mb-6">Collaborations</h2>
+    <p class="text-lg text-gray-300 text-center mb-12">Creators and teams I've worked with</p>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-6xl mx-auto" id="collaborationsGrid">
+        <!-- Los videos se cargarán aquí -->
+        
+        <img src="https://i.imgur.com/ONSU82p.png" alt="Collaborator 1" class="w-40 h-40 object-contain" />
+        </a>
+        <img src="https://i.imgur.com/sPSjnA7.png" alt="Collaborator 1" class="w-40 h-40 object-contain" />
+        </a>
+        <img src="https://i.imgur.com/F4y5Vho.png" alt="Collaborator 1" class="w-40 h-40 object-contain" />
+        </a>
+         <img src="https://i.imgur.com/pu8vc4X.png" alt="Collaborator 1" class="w-40 h-40 object-contain" />
+        </a>
+         <img src="https://i.imgur.com/O7FthFv.png" alt="Collaborator 1" class="w-60 h-60 object-contain" />
+        </a>
+       
+    </div>
+   
+</section>  
+
+<!-- LIGHTBOX MODAL -->
+<div id="lightbox" class="lightbox">
+    <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+    <span class="lightbox-nav lightbox-prev" onclick="changeImage(-1)">&#10094;</span>
+    <span class="lightbox-nav lightbox-next" onclick="changeImage(1)">&#10095;</span>
+    <img id="lightbox-img" class="lightbox-content" src="" alt="Full size image">
+</div>
+
 <script>
     // Links de YouTube de tus colaboradores
     const collaborators = [
-    "https://youtu.be/2FE7pOBbRn8?t=387",          // video 1 (con timestamp)
-    "https://www.youtube.com/watch?v=yp1Byrhn9wY"   // video 2
-    // Agrega más links aquí, cada uno en su propia línea/coma
+    "https://youtu.be/2FE7pOBbRn8?t=387",
+    "https://www.youtube.com/watch?v=yp1Byrhn9wY"
     ];
 
     function getYouTubeVideoId(url) {
@@ -214,87 +349,90 @@
             grid.appendChild(link);
         }
     });
+
+    // JAVASCRIPT PARA HYTALE CARRUSEL
+    const hytaleImages = [
+        "https://i.imgur.com/DSsKdLS.jpeg",
+        "https://i.imgur.com/AyjY4eK.jpeg"
+    ];
+
+    let currentImageIndex = 0;
+
+    // Crear carrusel (duplicar imágenes para loop infinito)
+    const carouselTrack = document.getElementById('carouselTrack');
+    const carouselImages = [...hytaleImages, ...hytaleImages]; // Duplicar para efecto infinito
+    
+    carouselImages.forEach((img, index) => {
+        const div = document.createElement('div');
+        div.className = 'carousel-item';
+        div.innerHTML = `<img src="${img}" alt="Carousel ${index}" onclick="openLightbox(${index % hytaleImages.length})">`;
+        carouselTrack.appendChild(div);
+    });
+
+    // Funciones Lightbox
+    function openLightbox(index) {
+        currentImageIndex = index;
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        lightboxImg.src = hytaleImages[currentImageIndex];
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        const lightbox = document.getElementById('lightbox');
+        lightbox.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    function changeImage(direction) {
+        currentImageIndex += direction;
+        if (currentImageIndex < 0) {
+            currentImageIndex = hytaleImages.length - 1;
+        } else if (currentImageIndex >= hytaleImages.length) {
+            currentImageIndex = 0;
+        }
+        document.getElementById('lightbox-img').src = hytaleImages[currentImageIndex];
+    }
+
+    // Cerrar lightbox con ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') changeImage(-1);
+        if (e.key === 'ArrowRight') changeImage(1);
+    });
+
+    // Cerrar lightbox al hacer click fuera de la imagen
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+        if (e.target.id === 'lightbox') {
+            closeLightbox();
+        }
+    });
 </script>
 
-    <section id="renders" class="py-20 px-10">
-        <h2 class="text-4xl font-bold text-white text-center mb-10">My Builds & Renders</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <img src="https://i.imgur.com/7S38lTr.jpeg" alt="Render 1" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/E1jT0lB.png" alt="Render 1" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/3KADkQB.png" alt="Render 8" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/PGjVW3d.jpeg" alt="Render 2" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/ZnLPQ5M.png" alt="Render 4" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/gn8eR9w.png" alt="Render 5" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/VXDFiQ6.png" alt="Render 6" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/sLJjQQx.png" alt="Render 7" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/eFi6mn9.png" alt="Render 9" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/rnGhRAA.png" alt="Render 12" class="rounded-lg shadow-lg" />
-             <img src="https://i.imgur.com/qDJquf0.jpeg" alt="Render 12" class="rounded-lg shadow-lg" />
-            <img src="https://i.imgur.com/VfYpV0j.jpeg" alt="Render 12" class="rounded-lg shadow-lg" /> 
-            
-        </div>
-    </section>
-  
-
-    <footer id="contact" class="bg-black text-center py-10 border-t border-white">
-        <p class="text-gray-300">&copy; 2025 Colombianaso. All rights reserved.</p>
-        <p class="text-gray-300 mt-2">Contact: <a href="mailto:colombianaso05@gmail.com" class="text-white">colombianaso05@gmail.com</a></p>
-        <div class="mt-4 flex justify-center items-center space-x-2">
-            <a href="https://discord.com/users/colombianaso" class="text-white">Discord: colombianaso</a>
-        </div>
-    </footer>
-
-</body>
+<section id="renders" class="py-20 px-10">
+    <h2 class="text-4xl font-bold text-white text-center mb-10">My Builds & Renders</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <img src="https://i.imgur.com/7S38lTr.jpeg" alt="Render 1" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/E1jT0lB.png" alt="Render 1" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/3KADkQB.png" alt="Render 8" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/PGjVW3d.jpeg" alt="Render 2" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/ZnLPQ5M.png" alt="Render 4" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/gn8eR9w.png" alt="Render 5" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/VXDFiQ6.png" alt="Render 6" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/sLJjQQx.png" alt="Render 7" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/eFi6mn9.png" alt="Render 9" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/rnGhRAA.png" alt="Render 12" class="rounded-lg shadow-lg" />
+         <img src="https://i.imgur.com/qDJquf0.jpeg" alt="Render 12" class="rounded-lg shadow-lg" />
+        <img src="https://i.imgur.com/VfYpV0j.jpeg" alt="Render 12" class="rounded-lg shadow-lg" /> 
+        
+    </div>
+</section>
+<footer id="contact" class="bg-black text-center py-10 border-t border-white">
+    <p class="text-gray-300">&copy; 2025 Colombianaso. All rights reserved.</p>
+    <p class="text-gray-300 mt-2">Contact: <a href="colombianaso05@gmail.com" class="text-white"><span class="__cf_email__" data-cfemail="24474b484b49464d454a45574b1411644349454d480a474b49">[email&#160;protected]</span></a></p>
+    <div class="mt-4 flex justify-center items-center space-x-2">
+        <a href="https://discord.com/users/colombianaso" class="text-white">Discord: colombianaso</a>
+    </div>
+</footer></body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
