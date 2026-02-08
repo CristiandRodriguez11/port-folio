@@ -30,54 +30,6 @@
             z-index: 1000;
         }
 
-        /* ESTILOS PARA EL CARRUSEL */
-        .carousel-container {
-            overflow: hidden;
-            position: relative;
-            width: 100%;
-            height: 400px;
-            margin: 40px 0;
-        }
-
-        .carousel-track {
-            display: flex;
-            animation: scroll-right 15s linear infinite;
-            will-change: transform;
-        }
-
-        .carousel-track:hover {
-            animation-play-state: paused;
-        }
-
-        .carousel-item {
-            flex: 0 0 auto;
-            margin: 0 15px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .carousel-item:hover {
-            transform: scale(1.1);
-            z-index: 10;
-        }
-
-        .carousel-item img {
-            height: 350px;
-            width: auto;
-            object-fit: cover;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
-        }
-
-        @keyframes scroll-right {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
         /* LIGHTBOX STYLES */
         .lightbox {
             display: none;
@@ -159,6 +111,9 @@
 
         .gallery-item img {
             transition: transform 0.3s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .gallery-item:hover img {
@@ -173,6 +128,7 @@
             <ul class="flex space-x-6">
                 <li><a href="#about" class="hover:text-gray-400">About</a></li>
                 <li><a href="#projects" class="hover:text-gray-400">Projects</a></li>
+                <li><a href="#hytale-portfolio" class="hover:text-gray-400">Hytale Portfolio</a></li>
                 <li><a href="#renders" class="hover:text-gray-400">Renders</a></li>
                 <li><a href="#contact" class="hover:text-gray-400">Contact</a></li>
             </ul>
@@ -248,10 +204,10 @@ Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/M
     </div>
 </section>
 
-<!-- SECCIÓN PORTAFOLIO HYTALE MEJORADA -->
-<section id="portfolio-hytale" class="py-20 px-10 bg-gradient-to-b from-black via-gray-900 to-black">
+<!-- SECCIÓN PORTAFOLIO HYTALE PROFESIONAL -->
+<section id="hytale-portfolio" class="py-20 px-10 bg-gradient-to-b from-black via-gray-900 to-black">
     <div class="text-center mb-12">
-        <h2 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 drop-shadow-2xl">PORTAFOLIO HYTALE</h2>
+        <h2 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 drop-shadow-2xl">HYTALE PORTFOLIO</h2>
         <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto">
            PORTFOLIO IN PROGRESS... 
         </p>
@@ -274,12 +230,27 @@ Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/M
         </div>
     </div>
 
-    <!-- CARRUSEL AUTOMÁTICO -->
+    <!-- GALERÍA HYTALE PROFESIONAL -->
     <div class="mb-16">
-        <h3 class="text-3xl font-bold text-center text-cyan-400 mb-8">¡GALLERY BUILDS!</h3>
-        <div class="carousel-container">
-            <div class="carousel-track" id="carouselTrack">
-                <!-- Las imágenes se duplicarán aquí para efecto infinito -->
+        <h3 class="text-4xl font-bold text-center text-cyan-400 mb-10">GALLERY BUILDS</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+            <div class="gallery-item" onclick="openLightbox(0)">
+                <img src="https://i.imgur.com/DSsKdLS.jpeg" alt="Hytale Build 1" class="rounded-lg shadow-lg" />
+            </div>
+            <div class="gallery-item" onclick="openLightbox(1)">
+                <img src="https://i.imgur.com/AyjY4eK.jpeg" alt="Hytale Build 2" class="rounded-lg shadow-lg" />
+            </div>
+            <div class="gallery-item" onclick="openLightbox(2)">
+                <img src="https://i.imgur.com/Qs2i5xZ.jpeg" alt="Hytale Build 3" class="rounded-lg shadow-lg" />
+            </div>
+            <div class="gallery-item" onclick="openLightbox(3)">
+                <img src="https://i.imgur.com/BDpFLxA.jpeg" alt="Hytale Build 4" class="rounded-lg shadow-lg" />
+            </div>
+            <div class="gallery-item" onclick="openLightbox(4)">
+                <img src="https://i.imgur.com/cziiqGX.jpeg" alt="Hytale Build 5" class="rounded-lg shadow-lg" />
+            </div>
+            <div class="gallery-item" onclick="openLightbox(5)">
+                <img src="https://i.imgur.com/zKhb50g.jpeg" alt="Hytale Build 6" class="rounded-lg shadow-lg" />
             </div>
         </div>
     </div>
@@ -350,7 +321,7 @@ Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/M
         }
     });
 
-    // JAVASCRIPT PARA HYTALE CARRUSEL
+    // JAVASCRIPT PARA HYTALE LIGHTBOX
     const hytaleImages = [
         "https://i.imgur.com/DSsKdLS.jpeg",
         "https://i.imgur.com/AyjY4eK.jpeg",
@@ -358,21 +329,9 @@ Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/M
         "https://i.imgur.com/BDpFLxA.jpeg",
         "https://i.imgur.com/cziiqGX.jpeg",
         "https://i.imgur.com/zKhb50g.jpeg"
-        
     ];
 
     let currentImageIndex = 0;
-
-    // Crear carrusel (duplicar imágenes para loop infinito)
-    const carouselTrack = document.getElementById('carouselTrack');
-    const carouselImages = [...hytaleImages, ...hytaleImages]; // Duplicar para efecto infinito
-    
-    carouselImages.forEach((img, index) => {
-        const div = document.createElement('div');
-        div.className = 'carousel-item';
-        div.innerHTML = `<img src="${img}" alt="Carousel ${index}" onclick="openLightbox(${index % hytaleImages.length})">`;
-        carouselTrack.appendChild(div);
-    });
 
     // Funciones Lightbox
     function openLightbox(index) {
@@ -441,8 +400,3 @@ Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/M
     </div>
 </footer></body>
 </html>
-
-
-
-
-
