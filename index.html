@@ -3,413 +3,1276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colombianaso Builds</title>
+    <title>Colombianaso Builds — Minecraft Builder</title>
+    <meta name="description" content="Colombianaso — Minecraft builder from Colombia. Massive builds, epic landscapes, Hytale portfolio, and MrBeast Gaming collaboration.">
     <link rel="icon" type="image/png" href="https://i.imgur.com/seVKONK.png">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        body {
-            background-color: rgb(0, 0, 0);
-            color: white;
-            padding-top: 80px;
-        }
-        .border-white {
-            border-color: white;
-        }
-        .elegant-font {
-            font-family: 'Georgia', serif;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-        }
-        .sticky-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgb(10, 13, 32);
-            z-index: 1000;
+        /* ── TOKENS ── */
+        :root {
+            --bg:        #0d0d0d;
+            --bg-2:      #141414;
+            --bg-3:      #1c1c1c;
+            --border:    rgba(245,240,232,0.08);
+            --accent:    #f59e0b;
+            --accent-2:  #d97706;
+            --text:      #f0ebe0;
+            --muted:     #8a8072;
+            --radius:    12px;
+            --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
         }
 
-        /* LIGHTBOX STYLES */
+        /* ── RESET ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        img { display: block; max-width: 100%; }
+        a { color: inherit; text-decoration: none; }
+
+        /* ── TYPOGRAPHY ── */
+        .display { font-family: 'Archivo', sans-serif; font-weight: 900; letter-spacing: -0.03em; line-height: 0.95; }
+        .heading  { font-family: 'Archivo', sans-serif; font-weight: 700; letter-spacing: -0.02em; }
+
+        /* ── SCROLL ANIMATIONS ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ── HEADER ── */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: rgba(13,13,13,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 clamp(1.5rem, 5vw, 3rem);
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 900;
+            font-size: 1.15rem;
+            letter-spacing: -0.02em;
+            color: var(--text);
+        }
+        .logo span { color: var(--accent); }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        nav a {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--muted);
+            transition: color var(--transition);
+            letter-spacing: 0.01em;
+        }
+        nav a:hover { color: var(--text); }
+
+        /* Mobile menu */
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .menu-btn span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--text);
+            transition: var(--transition);
+        }
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 68px; left: 0; right: 0;
+            background: rgba(13,13,13,0.97);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem clamp(1.5rem, 5vw, 3rem);
+            z-index: 99;
+        }
+        .mobile-nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .mobile-nav a {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--muted);
+            transition: color var(--transition);
+        }
+        .mobile-nav a:hover { color: var(--text); }
+        .mobile-nav.open { display: block; }
+
+        /* ── LAYOUT ── */
+        main { padding-top: 68px; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 clamp(1.5rem, 5vw, 3rem);
+        }
+        section { padding: clamp(4rem, 10vw, 7rem) 0 0; }
+        section > .container:last-child,
+        section > footer { padding-bottom: clamp(4rem, 10vw, 7rem); }
+        .bento-wrap { padding-bottom: clamp(0.5rem, 1vw, 1rem); }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: calc(100vh - 68px);
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-bg-text {
+            position: absolute;
+            bottom: -2rem;
+            left: -1rem;
+            font-family: 'Archivo', sans-serif;
+            font-weight: 900;
+            font-size: clamp(6rem, 18vw, 18rem);
+            color: rgba(245,240,232,0.03);
+            letter-spacing: -0.05em;
+            line-height: 1;
+            user-select: none;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .hero-inner {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 4rem;
+            align-items: center;
+            width: 100%;
+        }
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(245,158,11,0.12);
+            border: 1px solid rgba(245,158,11,0.25);
+            border-radius: 100px;
+            padding: 0.35rem 0.85rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+        .hero-tag::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+        .hero-title em {
+            font-style: normal;
+            color: var(--accent);
+        }
+        .hero-description {
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            color: var(--muted);
+            max-width: 520px;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+        .hero-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: #0d0d0d;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            transition: background var(--transition), transform var(--transition);
+            cursor: pointer;
+            letter-spacing: 0.01em;
+        }
+        .btn-primary:hover { background: var(--accent-2); transform: translateY(-2px); }
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: border-color var(--transition), transform var(--transition);
+            cursor: pointer;
+        }
+        .btn-secondary:hover { border-color: rgba(245,240,232,0.3); transform: translateY(-2px); }
+
+        .hero-avatar-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        .hero-avatar {
+            width: clamp(120px, 15vw, 180px);
+            height: clamp(120px, 15vw, 180px);
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 40px rgba(245,158,11,0.15);
+        }
+        .hero-handle {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--muted);
+            letter-spacing: 0.05em;
+            text-align: center;
+        }
+        .hero-handle strong { color: var(--text); display: block; font-size: 0.95rem; }
+
+        /* ── SECTION HEADER ── */
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1rem;
+        }
+        .section-divider {
+            width: 100%;
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 3rem;
+        }
+
+        /* ── MRBEAST CARD ── */
+        .collab-card {
+            background: var(--bg-2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            margin-top: 3rem;
+        }
+        .collab-card-content {
+            padding: clamp(2rem, 4vw, 3.5rem);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.25rem;
+        }
+        .collab-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(245,158,11,0.12);
+            border: 1px solid rgba(245,158,11,0.2);
+            border-radius: 8px;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            width: fit-content;
+        }
+        .collab-card-title {
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+            line-height: 1.1;
+        }
+        .collab-card-text {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.75;
+            max-width: 460px;
+        }
+        .collab-card-media {
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 2.5rem;
+        }
+        .collab-logo {
+            width: 180px;
+            height: auto;
+            object-fit: contain;
+            filter: brightness(1.1);
+        }
+        .tweet-wrapper {
+            width: 100%;
+            max-width: 380px;
+        }
+
+        /* ── UNIFIED BENTO GRID (all gallery sections) ── */
+        .bento-wrap {
+            width: 100%;
+            padding: 0 clamp(0.5rem, 1.2vw, 1.2rem);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 320px;
+            gap: 8px;
+        }
+        .bento-grid .b-item {
+            border-radius: var(--radius);
+            overflow: hidden;
+            position: relative;
+            background: var(--bg-3);
+        }
+        .bento-grid .b-item.tall { grid-row: span 2; }
+        .bento-grid .b-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .bento-grid .b-item:hover img { transform: scale(1.04); }
+
+        /* Clickable overlay (for lightbox items) */
+        .bento-grid .b-item.clickable { cursor: pointer; }
+        .bento-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(13,13,13,0.55) 0%, transparent 55%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            padding: 0.85rem;
+        }
+        .bento-grid .b-item.clickable:hover .bento-overlay { opacity: 1; }
+        .bento-expand {
+            width: 34px; height: 34px;
+            background: rgba(245,158,11,0.92);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .bento-expand svg { width: 15px; height: 15px; stroke: #0d0d0d; fill: none; stroke-width: 2.5; }
+
+        @media (max-width: 1024px) {
+            .bento-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 280px; }
+        }
+        @media (max-width: 600px) {
+            .bento-grid { grid-template-columns: 1fr; grid-auto-rows: 260px; }
+            .bento-grid .b-item.tall { grid-row: span 1; }
+        }
+
+        /* ── HYTALE SECTION ── */
+        .hytale-hero-wrap {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+        .hytale-hero-wrap img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .hytale-hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(13,13,13,0.92) 0%, rgba(13,13,13,0.3) 50%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: clamp(1.5rem, 4vw, 3rem);
+        }
+        .hytale-hero-name {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-family: 'Archivo', sans-serif;
+            font-weight: 900;
+            color: var(--text);
+        }
+        .hytale-hero-sub {
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            font-family: 'Archivo', sans-serif;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* Hytale + Renders now use .bento-grid — see unified section above */
+
+        /* ── COLLABORATIONS ── */
+        .collabs-section { background: var(--bg-2); }
+        .collabs-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2.5rem;
+        }
+        .collab-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            border-radius: var(--radius);
+            background: var(--bg-3);
+            border: 1px solid var(--border);
+            transition: border-color var(--transition), transform var(--transition);
+            overflow: hidden;
+        }
+        .collab-item:hover { border-color: rgba(245,158,11,0.3); transform: translateY(-4px); }
+        .collab-item img {
+            width: 140px;
+            height: 100px;
+            object-fit: contain;
+            filter: brightness(0.9);
+            transition: filter var(--transition);
+        }
+        .collab-item:hover img { filter: brightness(1); }
+        .collab-video-item {
+            border-radius: var(--radius);
+            overflow: hidden;
+            position: relative;
+            background: var(--bg-3);
+            border: 1px solid var(--border);
+            transition: border-color var(--transition), transform var(--transition);
+        }
+        .collab-video-item:hover { border-color: rgba(245,158,11,0.3); transform: translateY(-4px); }
+        .collab-video-item img { width: 200px; height: 120px; object-fit: cover; }
+        .play-badge {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(13,13,13,0.4);
+        }
+        .play-badge svg { width: 36px; height: 36px; fill: var(--accent); filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
+
+        /* ── RENDERS SECTION ── */
+        .render-item {
+            border-radius: var(--radius);
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            background: var(--bg-3);
+            cursor: pointer;
+            position: relative;
+        }
+        .render-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .render-item:hover img { transform: scale(1.05); }
+        .render-item .grid-item-overlay { position: absolute; inset: 0; background: rgba(13,13,13,0); transition: background 0.3s ease; }
+        .render-item:hover .grid-item-overlay { background: rgba(245,158,11,0.06); }
+
+        /* ── LIGHTBOX ── */
         .lightbox {
             display: none;
             position: fixed;
+            inset: 0;
             z-index: 9999;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            justify-content: center;
+            background: rgba(13,13,13,0.97);
+            backdrop-filter: blur(10px);
             align-items: center;
+            justify-content: center;
         }
-
-        .lightbox.active {
-            display: flex;
-        }
-
-        .lightbox-content {
-            max-width: 90%;
-            max-height: 90%;
+        .lightbox.active { display: flex; }
+        .lightbox-img {
+            max-width: 90vw;
+            max-height: 90vh;
             object-fit: contain;
-            border-radius: 10px;
-            box-shadow: 0 0 50px rgba(0, 255, 255, 0.5);
+            border-radius: var(--radius);
+            box-shadow: 0 0 80px rgba(0,0,0,0.8);
         }
-
         .lightbox-close {
             position: absolute;
-            top: 30px;
-            right: 40px;
-            font-size: 50px;
-            color: white;
+            top: 1.5rem;
+            right: 2rem;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-3);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            transition: color 0.3s;
-            z-index: 10000;
+            transition: background var(--transition);
+            color: var(--text);
+            font-size: 1.25rem;
+            line-height: 1;
         }
-
-        .lightbox-close:hover {
-            color: #00ffff;
-        }
-
+        .lightbox-close:hover { background: var(--accent); color: #0d0d0d; }
         .lightbox-nav {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 60px;
-            color: white;
+            width: 52px;
+            height: 52px;
+            background: var(--bg-3);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            transition: background var(--transition), border-color var(--transition);
+            color: var(--text);
+            font-size: 1.25rem;
             user-select: none;
-            padding: 20px;
-            transition: color 0.3s;
+        }
+        .lightbox-nav:hover { background: var(--accent); border-color: var(--accent); color: #0d0d0d; }
+        .lightbox-prev { left: 1.5rem; }
+        .lightbox-next { right: 1.5rem; }
+        .lightbox-counter {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--muted);
+            background: var(--bg-3);
+            border: 1px solid var(--border);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
         }
 
-        .lightbox-nav:hover {
-            color: #00ffff;
+        /* ── FOOTER ── */
+        footer {
+            background: var(--bg-2);
+            border-top: 1px solid var(--border);
+            padding: clamp(3rem, 6vw, 5rem) 0 2rem;
+        }
+        .footer-inner {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 3rem;
+            align-items: start;
+            margin-bottom: 3rem;
+        }
+        .footer-brand {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .footer-brand span { color: var(--accent); }
+        .footer-tagline { color: var(--muted); font-size: 0.9rem; max-width: 320px; }
+        .footer-links { display: flex; flex-direction: column; gap: 0.75rem; align-items: flex-end; }
+        .footer-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color var(--transition);
+        }
+        .footer-link:hover { color: var(--text); }
+        .footer-link svg { width: 16px; height: 16px; fill: currentColor; }
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .footer-copy { color: var(--muted); font-size: 0.8rem; }
+        .footer-email a { color: var(--accent); font-size: 0.85rem; font-weight: 500; transition: color var(--transition); }
+        .footer-email a:hover { color: var(--accent-2); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .projects-grid { columns: 2; }
+            .renders-grid { grid-template-columns: repeat(2, 1fr); }
+            .collab-card { grid-template-columns: 1fr; }
+            .collab-card-media { padding: 2rem; }
+        }
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .menu-btn { display: flex; }
+            .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+            .hero-avatar-side { flex-direction: row; justify-content: flex-start; align-items: center; }
+            .hero-avatar { width: 80px; height: 80px; }
+            .hytale-grid { grid-template-columns: 1fr; }
+            .projects-grid { columns: 1; }
+            .renders-grid { grid-template-columns: 1fr; }
+            .footer-inner { grid-template-columns: 1fr; }
+            .footer-links { align-items: flex-start; }
+            .footer-bottom { flex-direction: column; }
+            .collab-card { border-radius: 16px; }
+        }
+        @media (max-width: 480px) {
+            .hero-links { flex-direction: column; }
+            .btn-primary, .btn-secondary { justify-content: center; }
         }
 
-        .lightbox-prev {
-            left: 20px;
+        /* ── CUSTOM CURSOR ── */
+        * { cursor: none !important; }
+        #cursor-dot {
+            position: fixed;
+            width: 8px; height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+            mix-blend-mode: normal;
+        }
+        #cursor-ring {
+            position: fixed;
+            width: 36px; height: 36px;
+            border: 1.5px solid rgba(245,158,11,0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99998;
+            transform: translate(-50%, -50%);
+            transition: width 0.35s cubic-bezier(0.25,0.46,0.45,0.94),
+                        height 0.35s cubic-bezier(0.25,0.46,0.45,0.94),
+                        border-color 0.2s ease,
+                        opacity 0.2s ease;
+        }
+        #cursor-dot.hovering {
+            width: 6px; height: 6px;
+            background: #fff;
+        }
+        #cursor-ring.hovering {
+            width: 52px; height: 52px;
+            border-color: var(--accent);
+            border-width: 2px;
+        }
+        #cursor-dot.clicking {
+            width: 4px; height: 4px;
+        }
+        #cursor-ring.clicking {
+            width: 28px; height: 28px;
+        }
+        /* Block cursor on touch devices */
+        @media (hover: none) {
+            * { cursor: auto !important; }
+            #cursor-dot, #cursor-ring { display: none; }
         }
 
-        .lightbox-next {
-            right: 20px;
+        /* ── PROGRESS BAR ── */
+        #progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 2px;
+            background: var(--accent);
+            z-index: 200;
+            width: 0%;
+            transition: width 0.1s linear;
         }
 
-        /* Gallery grid con hover mejorado */
-        .gallery-item {
-            cursor: pointer;
-            overflow: hidden;
-            border-radius: 12px;
-            position: relative;
-            transition: all 0.3s ease;
+        /* In Progress badge */
+        .in-progress-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(245,158,11,0.1);
+            border: 1px solid rgba(245,158,11,0.2);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-top: 0.75rem;
+            width: fit-content;
         }
-
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 255, 255, 0.4);
-        }
-
-        .gallery-item img {
-            transition: transform 0.3s ease;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.05);
+        .in-progress-badge::before {
+            content: '';
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: pulse 1.5s infinite;
         }
     </style>
 </head>
 <body>
-    <header class="sticky-header text-white p-6 flex justify-between items-center border-b border-white">
-        <h1 class="text-3xl font-bold">Colombianaso Builds</h1>
-        <nav>
-            <ul class="flex space-x-6">
-                <li><a href="#about" class="hover:text-gray-400">About</a></li>
-                <li><a href="#projects" class="hover:text-gray-400">Projects</a></li>
-                <li><a href="#hytale-portfolio" class="hover:text-gray-400">HYTALE PORTFOLIO</a></li>
-                <li><a href="#renders" class="hover:text-gray-400">Renders</a></li>
-                <li><a href="#contact" class="hover:text-gray-400">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
 
-<section id="about" class="text-center py-12 flex flex-col items-center justify-center gap-8 max-w-7xl mx-auto px-6 lg:px-12">
-    <!-- Título grande y centrado, ancho -->
-    <div class="w-full">
-        <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3">MY MINECRAFT PORTFOLIO</h2>
-        <p class="text-lg md:text-xl text-gray-300">Massive builds • Epic landscapes • Creative recreations from Colombia & beyond</p>
-    </div>
+<!-- Progress bar -->
+<div id="progress-bar"></div>
 
-<!-- Foto pequeña + info básica arriba -->
-<div class="flex flex-col items-center mb-4">
-    <img src="https://i.imgur.com/seVKONK.png" alt="Cristiand" class="rounded-full w-40 h-40 md:w-48 md:h-48 shadow-2xl border-4 border-white mb-4" />
-    <p class="text-base md:text-lg text-gray-300 text-center max-w-2xl">
-        Hi! I'm Cristiand, 21 years old, passionate about creating huge and creative projects in Minecraft. I love pushing creativity and turning big ideas into reality.
-    </p>
-    <div class="flex flex-col md:flex-row gap-4 md:gap-8 mt-3 text-lg">
-        <span class="elegant-font">Discord: colombianaso</span>
-        <span class="elegant-font">X: @Colombianaso2</span>
-    </div>
-</div>
+<!-- Custom cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
 
-<!-- Bloque ancho del proyecto MrBeast (más horizontal, menos alto) -->
-<div class="w-full bg-gray-900/40 p-8 md:p-10 rounded-2xl border border-gray-700 shadow-xl max-w-5xl mx-auto">
-    <h3 class="text-3xl md:text-4xl font-bold text-white text-center mb-6">MRBEAST GAMING COLLABORATION</h3>
-    <p class="text-lg md:text-xl text-gray-200 leading-relaxed text-center">
-        I was selected as the official representative of Colombia for the global MrBeast Gaming competition!
-        One of my most ambitious Minecraft projects: recreating the most iconic places of my country —snowy mountains, jungles with jaguars, Cartagena walls, impressive cathedrals, coffee plantations, and modern cities— all built with tons of love and detail.
-        I had so much fun building it and I feel I truly showed the world how beautiful and diverse Colombia is. The final result fills me with total pride. 
-    </p>
-</div>
+<!-- ── HEADER ── -->
+<header>
+    <div class="logo">Colombianaso<span>.</span></div>
+    <nav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#hytale-portfolio">Hytale</a></li>
+            <li><a href="#renders">Renders</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+        <span></span><span></span><span></span>
+    </button>
+</header>
 
-<!-- Tweet más abajo, centrado y compacto -->
-<div class="flex items-center justify-center gap-3 mt-6">
-<img src="https://i.imgur.com/hbMNfIb.png" alt="MrBeast Gaming Logo" class="w-60 h-40 rounded-full" />
-<blockquote class="twitter-tweet" data-media-max-width="560">
-    <p lang="en" dir="ltr">It's an honor to have been asked to create this map and to represent Colombia. We gave it our all to deliver a quality product. Although we were a small team, we dedicated ourselves completely to the project, and this result fills us with pride. 
+<!-- Mobile nav -->
+<nav class="mobile-nav" id="mobileNav">
+    <ul>
+        <li><a href="#about"            onclick="closeMobileNav()">About</a></li>
+        <li><a href="#projects"         onclick="closeMobileNav()">Projects</a></li>
+        <li><a href="#hytale-portfolio" onclick="closeMobileNav()">Hytale Portfolio</a></li>
+        <li><a href="#renders"          onclick="closeMobileNav()">Renders</a></li>
+        <li><a href="#contact"          onclick="closeMobileNav()">Contact</a></li>
+    </ul>
+</nav>
 
+<main>
+
+<!-- ── HERO / ABOUT ── -->
+<section id="about" class="hero">
+    <div class="hero-bg-text" aria-hidden="true">BUILDS</div>
+    <div class="container">
+        <div class="hero-inner">
+            <div>
+                <div class="hero-tag reveal">Minecraft Builder · Colombia</div>
+                <h1 class="display hero-title reveal reveal-delay-1">
+                    MY<br>MINECRAFT<br><em>PORTFOLIO</em>
+                </h1>
+                <p class="hero-description reveal reveal-delay-2">
+                    Hi! I'm Cristiand, 21 years old — passionate about creating massive, creative Minecraft projects.
+                    I love pushing creativity and turning big ideas into reality, from Colombia and beyond.
+                </p>
+                <div class="hero-links reveal reveal-delay-3">
+                    <a href="#projects" class="btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        View Projects
+                    </a>
+                    <a href="#contact" class="btn-secondary">
+                        Get in Touch
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-avatar-side reveal reveal-delay-4">
+                <img src="https://i.imgur.com/seVKONK.png" alt="Cristiand — Colombianaso" class="hero-avatar" />
+                <div class="hero-handle">
+                    <strong>Cristiand</strong>
+                    Discord: colombianaso<br>
+                    X: @Colombianaso2
+                </div>
+            </div>
+        </div>
+
+        <!-- MrBeast Collaboration Card -->
+        <div class="collab-card reveal" style="margin-top:3.5rem;">
+            <div class="collab-card-content">
+                <div class="collab-badge">
+                    ★ Featured Collaboration
+                </div>
+                <h2 class="heading collab-card-title">MrBeast Gaming Collaboration</h2>
+                <p class="collab-card-text">
+                    Selected as the official representative of Colombia for the global MrBeast Gaming competition.
+                    I recreated the most iconic places of my country — snowy mountains, jungles with jaguars,
+                    Cartagena walls, impressive cathedrals, coffee plantations, and modern cities — all with tons of love and detail.
+                    The final result fills me with total pride.
+                </p>
+                <a href="https://twitter.com/Colombianaso2/status/2012944698176868401" target="_blank" rel="noopener" class="btn-primary" style="width:fit-content;margin-top:0.5rem;">
+                    View on X
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+            <div class="collab-card-media">
+                <img src="https://i.imgur.com/hbMNfIb.png" alt="MrBeast Gaming Logo" class="collab-logo" />
+                <blockquote class="twitter-tweet" data-media-max-width="400">
+                    <p lang="en" dir="ltr">It's an honor to have been asked to create this map and to represent Colombia. We gave it our all to deliver a quality product. Although we were a small team, we dedicated ourselves completely to the project, and this result fills us with pride.
 Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/Man2O2HZzx</a></p>&mdash; Colombianaso | Builder (@Colombianaso2) <a href="https://twitter.com/Colombianaso2/status/2012944698176868401?ref_src=twsrc%5Etfw">January 18, 2026</a>
-</blockquote>
-</div>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></section>
-
-<section id="projects" class="py-20 px-10">
-    <h2 class="text-4xl font-bold text-white text-center mb-10">My Projects</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <img src="https://i.imgur.com/ZwIpFPk.jpeg" alt="Build 1" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/VeFq9Q9.jpeg" alt="Build 1" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/m1lsDa1.png" alt="Build 1" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/wMbNYmL.png" alt="Build 1" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/EXciFDJ.jpeg" alt="Build 1" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/S8Uayi3.jpeg" alt="Build 4" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/S9WcrIi.jpeg" alt="Build 3" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/JcSzQca.jpeg" alt="Build 4" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/axmYcbK.jpeg" alt="Build 4" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/Fr1JT2m.jpeg" alt="Build 4" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/8uhuk99.jpeg" alt="Build 4" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/E7w5sBL.jpeg" alt="Build 2" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/B9HJ5Qs.jpeg" alt="Build 5" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/6gQGVM1.png" alt="Build 6" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/d6zX3Mg.jpeg" alt="Build 6" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/bA7yxzc.png" alt="Build 6" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/ZaGQCUl.jpeg" alt="Build 6" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/r9eh8Pi.png" alt="Build 7" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/j9yq7TR.jpeg" alt="Build 6" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/PbzC2eP.png" alt="Build 9" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/7pVwVir.png" alt="Build 10" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/bcSdWph.png" alt="Build 11" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/OujhlI5.png" alt="Build 12" class="rounded-lg shadow-lg" />
-    </div>
-</section>
-
-<!-- SECCIÓN PORTAFOLIO HYTALE PROFESIONAL -->
-<section id="hytale-portfolio" class="py-20 px-10 bg-gradient-to-b from-black via-gray-900 to-black">
-    <div class="text-center mb-12">
-        <h2 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 drop-shadow-2xl">HYTALE PORTFOLIO</h2>
-        <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto">
-           PORTFOLIO IN PROGRESS... 
-        </p>
-    </div>
-
-    <!-- Imagen principal destacada -->
-    <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 max-w-6xl mx-auto mb-16">
-        <img 
-            src="https://i.imgur.com/qzkiwTw.png"
-            alt="PORTAFOLIO HYTALE" 
-            class="w-full h-auto object-cover"
-        />
-        <div class="absolute inset-0 flex flex-col items-center justify-end pb-12 px-6 text-center bg-gradient-to-t from-black/90 via-transparent to-transparent">
-            <div class="text-4xl md:text-6xl font-bold text-white drop-shadow-lg mb-4">
-                COLOMBIANASO
-            </div>
-            <div class="text-3xl md:text-5xl font-bold text-cyan-400 drop-shadow-lg">
-                ¡BUILDS!
-            </div>
-        </div>
-    </div>
-
-    <!-- GALERÍA HYTALE PROFESIONAL -->
-    <div class="mb-16">
-        <h3 class="text-4xl font-bold text-center text-cyan-400 mb-10">GALLERY BUILDS</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            <div class="gallery-item" onclick="openLightbox(0)">
-                <img src="https://i.imgur.com/DSsKdLS.jpeg" alt="Hytale Build 1" class="rounded-lg shadow-lg w-full h-auto min-h-[400px] object-cover" />
-            </div>
-            <div class="gallery-item" onclick="openLightbox(1)">
-                <img src="https://i.imgur.com/5LAVs1f.jpeg" alt="Hytale Build 2" class="rounded-lg shadow-lg w-full h-auto min-h-[400px] object-cover" />
-            </div>
-            <div class="gallery-item" onclick="openLightbox(2)">
-                <img src="https://i.imgur.com/jaEGDVK.jpeg" alt="Hytale Build 2" class="rounded-lg shadow-lg w-full h-auto min-h-[400px] object-cover" />
-            </div>
-            <div class="gallery-item" onclick="openLightbox(3)">
-                <img src="https://i.imgur.com/Qs2i5xZ.jpeg" alt="Hytale Build 3" class="rounded-lg shadow-lg w-full h-auto min-h-[400px] object-cover" />
-            </div>
-            <div class="gallery-item" onclick="openLightbox(4)">
-                <img src="https://i.imgur.com/BDpFLxA.jpeg" alt="Hytale Build 4" class="rounded-lg shadow-lg w-full h-auto min-h-[400px] object-cover" />
-            </div>
-            <div class="gallery-item" onclick="openLightbox(5)">
-                <img src="https://i.imgur.com/cziiqGX.jpeg" alt="Hytale Build 5" class="rounded-lg shadow-lg w-full h-auto min-h-[400px] object-cover" />
-            </div>
-            <div class="gallery-item" onclick="openLightbox(6)">
-                <img src="https://i.imgur.com/zKhb50g.jpeg" alt="Hytale Build 6" class="rounded-lg shadow-lg w-full h-auto min-h-[400px] object-cover" />
-            </div>
-             <div class="gallery-item" onclick="openLightbox(7)">
-                <img src="https://i.imgur.com/6GwZfoT.jpeg" alt="Hytale Build 6" class="rounded-lg shadow-lg w-full h-auto min-h-[400px] object-cover" />
+                </blockquote>
             </div>
         </div>
     </div>
 </section>
 
- <section id="collaborations" class="py-20 px-10 bg-gray-900">
-    <h2 class="text-4xl font-bold text-white text-center mb-6">Collaborations</h2>
-    <p class="text-lg text-gray-300 text-center mb-12">Creators and teams I've worked with</p>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-6xl mx-auto" id="collaborationsGrid">
-        <!-- Los videos se cargarán aquí -->
-        
-        <img src="https://i.imgur.com/ONSU82p.png" alt="Collaborator 1" class="w-40 h-40 object-contain" />
-        </a>
-        <img src="https://i.imgur.com/sPSjnA7.png" alt="Collaborator 1" class="w-40 h-40 object-contain" />
-        </a>
-        <img src="https://i.imgur.com/F4y5Vho.png" alt="Collaborator 1" class="w-40 h-40 object-contain" />
-        </a>
-         <img src="https://i.imgur.com/pu8vc4X.png" alt="Collaborator 1" class="w-40 h-40 object-contain" />
-        </a>
-         <img src="https://i.imgur.com/O7FthFv.png" alt="Collaborator 1" class="w-60 h-60 object-contain" />
-        </a>
-       
-    </div>
-   
-</section>  
+<!-- ── PROJECTS ── -->
+<section id="projects">
+    <div class="container">
+        <p class="section-label reveal">Portfolio</p>
+        <h2 class="display section-title reveal reveal-delay-1">My Projects</h2>
+        <div class="section-divider"></div>
 
-<!-- LIGHTBOX MODAL -->
-<div id="lightbox" class="lightbox">
-    <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
-    <span class="lightbox-nav lightbox-prev" onclick="changeImage(-1)">&#10094;</span>
-    <span class="lightbox-nav lightbox-next" onclick="changeImage(1)">&#10095;</span>
-    <img id="lightbox-img" class="lightbox-content" src="" alt="Full size image">
+    </div><!-- /container header -->
+    <div class="bento-wrap">
+        <div class="bento-grid">
+            <div class="b-item tall reveal"><img src="https://i.imgur.com/ZwIpFPk.jpeg" alt="Build" loading="lazy"/></div>
+            <div class="b-item reveal reveal-delay-1"><img src="https://i.imgur.com/VeFq9Q9.jpeg" alt="Build" loading="lazy"/></div>
+            <div class="b-item tall reveal reveal-delay-2"><img src="https://i.imgur.com/m1lsDa1.png" alt="Build" loading="lazy"/></div>
+            <div class="b-item reveal"><img src="https://i.imgur.com/wMbNYmL.png" alt="Build" loading="lazy"/></div>
+            <div class="b-item tall reveal"><img src="https://i.imgur.com/EXciFDJ.jpeg" alt="Build" loading="lazy"/></div>
+            <div class="b-item reveal reveal-delay-1"><img src="https://i.imgur.com/S8Uayi3.jpeg" alt="Build" loading="lazy"/></div>
+            <div class="b-item tall reveal reveal-delay-2"><img src="https://i.imgur.com/S9WcrIi.jpeg" alt="Build" loading="lazy"/></div>
+            <div class="b-item reveal"><img src="https://i.imgur.com/JcSzQca.jpeg" alt="Build" loading="lazy"/></div>
+            <div class="b-item tall reveal"><img src="https://i.imgur.com/axmYcbK.jpeg" alt="Build" loading="lazy"/></div>
+            <div class="b-item reveal reveal-delay-1"><img src="https://i.imgur.com/Fr1JT2m.jpeg" alt="Build" loading="lazy"/></div>
+            <div class="b-item tall reveal reveal-delay-2"><img src="https://i.imgur.com/8uhuk99.jpeg" alt="Build" loading="lazy"/></div>
+            <div class="b-item reveal"><img src="https://i.imgur.com/E7w5sBL.jpeg" alt="Build" loading="lazy"/></div>
+            <div class="b-item tall reveal"><img src="https://i.imgur.com/B9HJ5Qs.jpeg" alt="Build" loading="lazy"/></div>
+            <div class="b-item reveal reveal-delay-1"><img src="https://i.imgur.com/6gQGVM1.png" alt="Build" loading="lazy"/></div>
+            <div class="b-item tall reveal reveal-delay-2"><img src="https://i.imgur.com/d6zX3Mg.jpeg" alt="Build" loading="lazy"/></div>
+            <div class="b-item reveal"><img src="https://i.imgur.com/bA7yxzc.png" alt="Build" loading="lazy"/></div>
+            <div class="b-item tall reveal"><img src="https://i.imgur.com/ZaGQCUl.jpeg" alt="Build" loading="lazy"/></div>
+            <div class="b-item reveal reveal-delay-1"><img src="https://i.imgur.com/r9eh8Pi.png" alt="Build" loading="lazy"/></div>
+            <div class="b-item tall reveal reveal-delay-2"><img src="https://i.imgur.com/j9yq7TR.jpeg" alt="Build" loading="lazy"/></div>
+            <div class="b-item reveal"><img src="https://i.imgur.com/PbzC2eP.png" alt="Build" loading="lazy"/></div>
+            <div class="b-item tall reveal"><img src="https://i.imgur.com/7pVwVir.png" alt="Build" loading="lazy"/></div>
+            <div class="b-item reveal reveal-delay-1"><img src="https://i.imgur.com/bcSdWph.png" alt="Build" loading="lazy"/></div>
+            <div class="b-item tall reveal reveal-delay-2"><img src="https://i.imgur.com/OujhlI5.png" alt="Build" loading="lazy"/></div>
+        </div>
+    </div>
+</section>
+
+<!-- ── HYTALE PORTFOLIO ── -->
+<section id="hytale-portfolio" style="background:var(--bg-2); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+    <div class="container">
+        <p class="section-label reveal">Professional Work</p>
+        <h2 class="display section-title reveal reveal-delay-1">Hytale Portfolio</h2>
+        <div class="in-progress-badge reveal reveal-delay-2">Portfolio in progress</div>
+        <div class="section-divider" style="margin-top:2rem;"></div>
+
+        <!-- Hero image -->
+        <div class="hytale-hero-wrap reveal">
+            <img src="https://i.imgur.com/qzkiwTw.png" alt="Hytale Portfolio Hero" loading="lazy" />
+            <div class="hytale-hero-overlay">
+                <div class="hytale-hero-name">COLOMBIANASO</div>
+                <div class="hytale-hero-sub">BUILDS!</div>
+            </div>
+        </div>
+
+        <p class="section-label reveal" style="margin-bottom:1rem;">Gallery</p>
+        <h3 class="heading reveal reveal-delay-1" style="font-size:clamp(1.5rem,3vw,2rem);margin-bottom:2rem;">Gallery Builds</h3>
+    </div><!-- /container -->
+    <div class="bento-wrap">
+        <div class="bento-grid">
+            <div class="b-item tall clickable reveal" onclick="openLightbox('hytale',0)">
+                <img src="https://i.imgur.com/DSsKdLS.jpeg" alt="Hytale Build 1" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item clickable reveal reveal-delay-1" onclick="openLightbox('hytale',1)">
+                <img src="https://i.imgur.com/5LAVs1f.jpeg" alt="Hytale Build 2" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item tall clickable reveal reveal-delay-2" onclick="openLightbox('hytale',2)">
+                <img src="https://i.imgur.com/jaEGDVK.jpeg" alt="Hytale Build 3" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item clickable reveal" onclick="openLightbox('hytale',3)">
+                <img src="https://i.imgur.com/Qs2i5xZ.jpeg" alt="Hytale Build 4" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item tall clickable reveal" onclick="openLightbox('hytale',4)">
+                <img src="https://i.imgur.com/BDpFLxA.jpeg" alt="Hytale Build 5" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item clickable reveal reveal-delay-1" onclick="openLightbox('hytale',5)">
+                <img src="https://i.imgur.com/cziiqGX.jpeg" alt="Hytale Build 6" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item tall clickable reveal reveal-delay-2" onclick="openLightbox('hytale',6)">
+                <img src="https://i.imgur.com/zKhb50g.jpeg" alt="Hytale Build 7" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item clickable reveal" onclick="openLightbox('hytale',7)">
+                <img src="https://i.imgur.com/6GwZfoT.jpeg" alt="Hytale Build 8" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── COLLABORATIONS ── -->
+<section id="collaborations" class="collabs-section">
+    <div class="container">
+        <p class="section-label reveal">Network</p>
+        <h2 class="display section-title reveal reveal-delay-1">Collaborations</h2>
+        <p class="reveal reveal-delay-2" style="color:var(--muted);margin-bottom:0.5rem;">Creators and teams I've worked with</p>
+        <div class="section-divider"></div>
+
+        <div class="collabs-grid" id="collabsGrid">
+            <div class="collab-item reveal">
+                <img src="https://i.imgur.com/ONSU82p.png" alt="Collaborator" />
+            </div>
+            <div class="collab-item reveal reveal-delay-1">
+                <img src="https://i.imgur.com/sPSjnA7.png" alt="Collaborator" />
+            </div>
+            <div class="collab-item reveal reveal-delay-2">
+                <img src="https://i.imgur.com/F4y5Vho.png" alt="Collaborator" />
+            </div>
+            <div class="collab-item reveal reveal-delay-3">
+                <img src="https://i.imgur.com/pu8vc4X.png" alt="Collaborator" />
+            </div>
+            <div class="collab-item reveal">
+                <img src="https://i.imgur.com/O7FthFv.png" alt="Collaborator" style="width:180px;" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── RENDERS ── -->
+<section id="renders">
+    <div class="container">
+        <p class="section-label reveal">Visual Showcase</p>
+        <h2 class="display section-title reveal reveal-delay-1">My Builds & Renders</h2>
+        <div class="section-divider"></div>
+
+    </div><!-- /container -->
+    <div class="bento-wrap">
+        <div class="bento-grid">
+            <div class="b-item tall clickable reveal" onclick="openLightbox('renders',0)">
+                <img src="https://i.imgur.com/7S38lTr.jpeg" alt="Render" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item clickable reveal reveal-delay-1" onclick="openLightbox('renders',1)">
+                <img src="https://i.imgur.com/E1jT0lB.png" alt="Render" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item tall clickable reveal reveal-delay-2" onclick="openLightbox('renders',2)">
+                <img src="https://i.imgur.com/3KADkQB.png" alt="Render" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item clickable reveal" onclick="openLightbox('renders',3)">
+                <img src="https://i.imgur.com/PGjVW3d.jpeg" alt="Render" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item tall clickable reveal" onclick="openLightbox('renders',4)">
+                <img src="https://i.imgur.com/ZnLPQ5M.png" alt="Render" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item clickable reveal reveal-delay-1" onclick="openLightbox('renders',5)">
+                <img src="https://i.imgur.com/QVWzWU8.jpeg" alt="Render" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item tall clickable reveal reveal-delay-2" onclick="openLightbox('renders',6)">
+                <img src="https://i.imgur.com/VXDFiQ6.png" alt="Render" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item clickable reveal" onclick="openLightbox('renders',7)">
+                <img src="https://i.imgur.com/sLJjQQx.png" alt="Render" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item tall clickable reveal" onclick="openLightbox('renders',8)">
+                <img src="https://i.imgur.com/eFi6mn9.png" alt="Render" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item clickable reveal reveal-delay-1" onclick="openLightbox('renders',9)">
+                <img src="https://i.imgur.com/rnGhRAA.png" alt="Render" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item tall clickable reveal reveal-delay-2" onclick="openLightbox('renders',10)">
+                <img src="https://i.imgur.com/qDJquf0.jpeg" alt="Render" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+            <div class="b-item clickable reveal" onclick="openLightbox('renders',11)">
+                <img src="https://i.imgur.com/VfYpV0j.jpeg" alt="Render" loading="lazy"/>
+                <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<!-- ── FOOTER / CONTACT ── -->
+<footer id="contact">
+    <div class="container">
+        <div class="footer-inner reveal">
+            <div>
+                <div class="footer-brand">Colombianaso<span>.</span></div>
+                <p class="footer-tagline">Minecraft builder from Colombia — creating massive builds, epic landscapes, and creative projects since day one.</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://discord.com/users/colombianaso" target="_blank" rel="noopener" class="footer-link">
+                    <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+                    Discord: colombianaso
+                </a>
+                <a href="https://twitter.com/Colombianaso2" target="_blank" rel="noopener" class="footer-link">
+                    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    @Colombianaso2
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom reveal">
+            <p class="footer-copy">&copy; 2025 Colombianaso. All rights reserved.</p>
+            <div class="footer-email">
+                <a href="mailto:colombianaso05@gmail.com">colombianaso05@gmail.com</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- ── LIGHTBOX ── -->
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+    <button class="lightbox-nav lightbox-prev" onclick="changeImage(-1)" aria-label="Previous">&#8592;</button>
+    <button class="lightbox-nav lightbox-next" onclick="changeImage(1)"  aria-label="Next">&#8594;</button>
+    <img id="lightbox-img" class="lightbox-img" src="" alt="Full size view" />
+    <div class="lightbox-counter" id="lightbox-counter">1 / 1</div>
 </div>
+
+<!-- Twitter embed -->
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <script>
-    // Links de YouTube de tus colaboradores
-    const collaborators = [
+// ── CUSTOM CURSOR ──
+(function() {
+    const dot  = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    let mouseX = 0, mouseY = 0;
+    let ringX  = 0, ringY  = 0;
+    let rafId;
+
+    document.addEventListener('mousemove', e => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.style.left = mouseX + 'px';
+        dot.style.top  = mouseY + 'px';
+    });
+
+    // Ring follows with smooth lerp
+    function animateRing() {
+        ringX += (mouseX - ringX) * 0.12;
+        ringY += (mouseY - ringY) * 0.12;
+        ring.style.left = ringX + 'px';
+        ring.style.top  = ringY + 'px';
+        rafId = requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    // Hover effect on interactive elements
+    const hoverSelectors = 'a, button, [onclick], .gallery-card, .grid-item, .render-item, .collab-item, .collab-video-item, .btn-primary, .btn-secondary';
+    document.querySelectorAll(hoverSelectors).forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            dot.classList.add('hovering');
+            ring.classList.add('hovering');
+        });
+        el.addEventListener('mouseleave', () => {
+            dot.classList.remove('hovering');
+            ring.classList.remove('hovering');
+        });
+    });
+
+    // Click effect
+    document.addEventListener('mousedown', () => {
+        dot.classList.add('clicking');
+        ring.classList.add('clicking');
+    });
+    document.addEventListener('mouseup', () => {
+        dot.classList.remove('clicking');
+        ring.classList.remove('clicking');
+    });
+
+    // Hide when leaving window
+    document.addEventListener('mouseleave', () => {
+        dot.style.opacity  = '0';
+        ring.style.opacity = '0';
+    });
+    document.addEventListener('mouseenter', () => {
+        dot.style.opacity  = '1';
+        ring.style.opacity = '1';
+    });
+})();
+
+// ── PROGRESS BAR ──
+window.addEventListener('scroll', () => {
+    const scrollTop    = document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress     = (scrollTop / scrollHeight) * 100;
+    document.getElementById('progress-bar').style.width = progress + '%';
+});
+
+// ── MOBILE NAV ──
+const menuBtn  = document.getElementById('menuBtn');
+const mobileNav = document.getElementById('mobileNav');
+menuBtn.addEventListener('click', () => mobileNav.classList.toggle('open'));
+function closeMobileNav() { mobileNav.classList.remove('open'); }
+
+// ── SCROLL ANIMATIONS ──
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            observer.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── COLLABORATIONS — dynamic YouTube thumbnails ──
+const youtubeLinks = [
     "https://youtu.be/2FE7pOBbRn8?t=387",
     "https://www.youtube.com/watch?v=yp1Byrhn9wY"
-    ];
+];
+function getYouTubeId(url) {
+    const m = url.match(/(?:youtu\.be\/|v=|embed\/)([^#&?]{11})/);
+    return m ? m[1] : null;
+}
+const collabsGrid = document.getElementById('collabsGrid');
+youtubeLinks.forEach((url, i) => {
+    const id = getYouTubeId(url);
+    if (!id) return;
+    const thumb = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
+    const wrap  = document.createElement('a');
+    wrap.href   = url;
+    wrap.target = '_blank';
+    wrap.rel    = 'noopener';
+    wrap.className = `collab-video-item reveal${i === 1 ? ' reveal-delay-1' : ''}`;
+    wrap.innerHTML  = `
+        <img src="${thumb}" alt="YouTube collaboration" loading="lazy" />
+        <div class="play-badge">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>`;
+    collabsGrid.appendChild(wrap);
+    observer.observe(wrap);
+});
 
-    function getYouTubeVideoId(url) {
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]{11}).*/;
-        const match = url.match(regExp);
-        return match ? match[2] : null;
-    }
+// ── LIGHTBOX ──
+const galleries = {
+    projects: [
+        "https://i.imgur.com/ZwIpFPk.jpeg","https://i.imgur.com/VeFq9Q9.jpeg",
+        "https://i.imgur.com/m1lsDa1.png", "https://i.imgur.com/wMbNYmL.png",
+        "https://i.imgur.com/EXciFDJ.jpeg","https://i.imgur.com/S8Uayi3.jpeg",
+        "https://i.imgur.com/S9WcrIi.jpeg","https://i.imgur.com/JcSzQca.jpeg",
+        "https://i.imgur.com/axmYcbK.jpeg","https://i.imgur.com/Fr1JT2m.jpeg",
+        "https://i.imgur.com/8uhuk99.jpeg","https://i.imgur.com/E7w5sBL.jpeg",
+        "https://i.imgur.com/B9HJ5Qs.jpeg","https://i.imgur.com/6gQGVM1.png",
+        "https://i.imgur.com/d6zX3Mg.jpeg","https://i.imgur.com/bA7yxzc.png",
+        "https://i.imgur.com/ZaGQCUl.jpeg","https://i.imgur.com/r9eh8Pi.png",
+        "https://i.imgur.com/j9yq7TR.jpeg","https://i.imgur.com/PbzC2eP.png",
+        "https://i.imgur.com/7pVwVir.png", "https://i.imgur.com/bcSdWph.png",
+        "https://i.imgur.com/OujhlI5.png"
+    ],
+    hytale: [
+        "https://i.imgur.com/DSsKdLS.jpeg","https://i.imgur.com/5LAVs1f.jpeg",
+        "https://i.imgur.com/jaEGDVK.jpeg","https://i.imgur.com/Qs2i5xZ.jpeg",
+        "https://i.imgur.com/BDpFLxA.jpeg","https://i.imgur.com/cziiqGX.jpeg",
+        "https://i.imgur.com/zKhb50g.jpeg","https://i.imgur.com/6GwZfoT.jpeg"
+    ],
+    renders: [
+        "https://i.imgur.com/7S38lTr.jpeg","https://i.imgur.com/E1jT0lB.png",
+        "https://i.imgur.com/3KADkQB.png", "https://i.imgur.com/PGjVW3d.jpeg",
+        "https://i.imgur.com/ZnLPQ5M.png", "https://i.imgur.com/QVWzWU8.jpeg",
+        "https://i.imgur.com/VXDFiQ6.png", "https://i.imgur.com/sLJjQQx.png",
+        "https://i.imgur.com/eFi6mn9.png", "https://i.imgur.com/rnGhRAA.png",
+        "https://i.imgur.com/qDJquf0.jpeg","https://i.imgur.com/VfYpV0j.jpeg"
+    ]
+};
 
-    const grid = document.getElementById('collaborationsGrid');
+let activeGallery = 'projects';
+let currentIndex  = 0;
 
-    collaborators.forEach(url => {
-        const videoId = getYouTubeVideoId(url);
-        if (videoId) {
-            const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+function openLightbox(gallery, index) {
+    activeGallery = gallery;
+    currentIndex  = index;
+    updateLightbox();
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+}
+function changeImage(dir) {
+    const imgs = galleries[activeGallery];
+    currentIndex = (currentIndex + dir + imgs.length) % imgs.length;
+    updateLightbox();
+}
+function updateLightbox() {
+    const imgs = galleries[activeGallery];
+    document.getElementById('lightbox-img').src = imgs[currentIndex];
+    document.getElementById('lightbox-counter').textContent = `${currentIndex + 1} / ${imgs.length}`;
+}
 
-            const link = document.createElement('a');
-            link.href = url;
-            link.target = '_blank';
-            link.className =
-                'flex items-center justify-center hover:opacity-75 transition-all rounded-lg overflow-hidden';
-
-            link.innerHTML = `
-                <img src="${thumbnail}" 
-                     alt="YouTube Video" 
-                     class="w-full h-full object-cover rounded-lg" />
-            `;
-
-            grid.appendChild(link);
-        }
-    });
-
-    // JAVASCRIPT PARA HYTALE LIGHTBOX
-    const hytaleImages = [
-        "https://i.imgur.com/DSsKdLS.jpeg",
-        "https://i.imgur.com/5LAVs1f.jpeg",
-        "https://i.imgur.com/jaEGDVK.jpeg",
-        "https://i.imgur.com/Qs2i5xZ.jpeg",
-        "https://i.imgur.com/BDpFLxA.jpeg",
-        "https://i.imgur.com/cziiqGX.jpeg",
-        "https://i.imgur.com/zKhb50g.jpeg",
-        "https://i.imgur.com/6GwZfoT.jpeg"
-    ];
-
-    let currentImageIndex = 0;
-
-    // Funciones Lightbox
-    function openLightbox(index) {
-        currentImageIndex = index;
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        lightboxImg.src = hytaleImages[currentImageIndex];
-        lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeLightbox() {
-        const lightbox = document.getElementById('lightbox');
-        lightbox.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
-
-    function changeImage(direction) {
-        currentImageIndex += direction;
-        if (currentImageIndex < 0) {
-            currentImageIndex = hytaleImages.length - 1;
-        } else if (currentImageIndex >= hytaleImages.length) {
-            currentImageIndex = 0;
-        }
-        document.getElementById('lightbox-img').src = hytaleImages[currentImageIndex];
-    }
-
-    // Cerrar lightbox con ESC
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowLeft') changeImage(-1);
-        if (e.key === 'ArrowRight') changeImage(1);
-    });
-
-    // Cerrar lightbox al hacer click fuera de la imagen
-    document.getElementById('lightbox').addEventListener('click', (e) => {
-        if (e.target.id === 'lightbox') {
-            closeLightbox();
-        }
-    });
+// Keyboard & backdrop click
+document.addEventListener('keydown', e => {
+    if (!document.getElementById('lightbox').classList.contains('active')) return;
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowLeft')  changeImage(-1);
+    if (e.key === 'ArrowRight') changeImage(1);
+});
+document.getElementById('lightbox').addEventListener('click', e => {
+    if (e.target.id === 'lightbox') closeLightbox();
+});
 </script>
 
-<section id="renders" class="py-20 px-10">
-    <h2 class="text-4xl font-bold text-white text-center mb-10">My Builds & Renders</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <img src="https://i.imgur.com/7S38lTr.jpeg" alt="Render 1" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/E1jT0lB.png" alt="Render 1" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/3KADkQB.png" alt="Render 8" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/PGjVW3d.jpeg" alt="Render 2" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/ZnLPQ5M.png" alt="Render 4" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/QVWzWU8.jpeg" alt="Render 5" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/VXDFiQ6.png" alt="Render 6" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/sLJjQQx.png" alt="Render 7" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/eFi6mn9.png" alt="Render 9" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/rnGhRAA.png" alt="Render 12" class="rounded-lg shadow-lg" />
-         <img src="https://i.imgur.com/qDJquf0.jpeg" alt="Render 12" class="rounded-lg shadow-lg" />
-        <img src="https://i.imgur.com/VfYpV0j.jpeg" alt="Render 12" class="rounded-lg shadow-lg" /> 
-        
-    </div>
-</section>
-<footer id="contact" class="bg-black text-center py-10 border-t border-white">
-    <p class="text-gray-300">&copy; 2025 Colombianaso. All rights reserved.</p>
-    <p class="text-gray-300 mt-2">Contact: <a href="colombianaso05@gmail.com" class="text-white"><span class="__cf_email__" data-cfemail="24474b484b49464d454a45574b1411644349454d480a474b49">[email&#160;protected]</span></a></p>
-    <div class="mt-4 flex justify-center items-center space-x-2">
-        <a href="https://discord.com/users/colombianaso" class="text-white">Discord: colombianaso</a>
-    </div>
-</footer></body>
+</body>
 </html>
-
-
-
-
-
