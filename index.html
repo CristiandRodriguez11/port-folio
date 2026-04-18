@@ -736,6 +736,125 @@
             transition: width 0.1s linear;
         }
 
+        /* ── ADMIN PANEL ── */
+        #admin-pw-modal {
+            display: none; position: fixed; inset: 0; z-index: 99990;
+            background: rgba(13,13,13,0.93); backdrop-filter: blur(12px);
+            align-items: center; justify-content: center;
+        }
+        #admin-pw-modal.open { display: flex; }
+        .admin-pw-box {
+            background: #1a1a1a; border: 1px solid rgba(245,240,232,0.12);
+            border-radius: 16px; padding: 2.5rem; width: 340px; text-align: center;
+        }
+        .admin-pw-box h3 { font-family:'Archivo',sans-serif; font-weight:700; font-size:1.2rem; margin-bottom:0.5rem; }
+        .admin-pw-box p { color: var(--muted); font-size:0.85rem; margin-bottom:1.5rem; }
+        .admin-input {
+            width: 100%; background: #111; border: 1px solid rgba(245,240,232,0.1);
+            border-radius: 8px; padding: 0.75rem 1rem; color: var(--text);
+            font-family: 'Space Grotesk', sans-serif; font-size: 1rem;
+            text-align: center; letter-spacing: 0.2em; outline: none; margin-bottom: 1rem;
+            transition: border-color 0.2s;
+        }
+        .admin-input:focus { border-color: var(--accent); }
+        .admin-input.error { border-color: #ef4444; animation: shake 0.3s; }
+        @keyframes shake {
+            0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)}
+        }
+        .admin-btn-enter {
+            width: 100%; background: var(--accent); color: #0d0d0d;
+            border: none; border-radius: 8px; padding: 0.75rem;
+            font-weight: 700; font-size: 0.95rem; cursor: pointer;
+            transition: background 0.2s;
+        }
+        .admin-btn-enter:hover { background: var(--accent-2); }
+        .admin-pw-cancel { margin-top:0.75rem; color:var(--muted); font-size:0.8rem; cursor:pointer; background:none; border:none; }
+        .admin-pw-cancel:hover { color:var(--text); }
+
+        #admin-panel {
+            position: fixed; top: 0; right: -480px; width: 480px; height: 100vh;
+            background: #111; border-left: 1px solid rgba(245,240,232,0.1);
+            z-index: 99980; transition: right 0.4s cubic-bezier(0.4,0,0.2,1);
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+        #admin-panel.open { right: 0; }
+        .admin-header {
+            padding: 1.25rem 1.5rem; border-bottom: 1px solid rgba(245,240,232,0.08);
+            display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+        }
+        .admin-header h2 { font-family:'Archivo',sans-serif; font-size:1rem; font-weight:700; }
+        .admin-header span { font-size:0.7rem; color:var(--accent); font-weight:600; letter-spacing:0.1em; text-transform:uppercase; }
+        .admin-close {
+            width:32px; height:32px; background:var(--bg-3); border:1px solid var(--border);
+            border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+            color:var(--text); font-size:1rem; transition:background 0.2s;
+        }
+        .admin-close:hover { background:var(--accent); color:#0d0d0d; }
+        .admin-tabs {
+            display: flex; border-bottom: 1px solid rgba(245,240,232,0.08); flex-shrink: 0;
+        }
+        .admin-tab {
+            flex: 1; padding: 0.75rem; text-align: center; font-size: 0.78rem;
+            font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+            color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent;
+            transition: color 0.2s, border-color 0.2s; background: none; border-top:none; border-left:none; border-right:none;
+        }
+        .admin-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+        .admin-body { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
+        .admin-section-title-row { margin-bottom: 1.25rem; }
+        .admin-label { font-size: 0.75rem; font-weight: 600; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; display:block; }
+        .admin-text-input {
+            width: 100%; background: #1a1a1a; border: 1px solid rgba(245,240,232,0.1);
+            border-radius: 8px; padding: 0.6rem 0.85rem; color: var(--text);
+            font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem;
+            outline: none; transition: border-color 0.2s;
+        }
+        .admin-text-input:focus { border-color: var(--accent); }
+        .admin-images-list { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1rem; }
+        .admin-img-row {
+            display: grid; grid-template-columns: 56px 1fr 32px;
+            gap: 0.5rem; align-items: center;
+            background: #1a1a1a; border: 1px solid rgba(245,240,232,0.07);
+            border-radius: 10px; padding: 0.5rem 0.6rem;
+        }
+        .admin-img-thumb {
+            width: 56px; height: 40px; object-fit: cover; border-radius: 6px;
+            background: #222;
+        }
+        .admin-img-url {
+            background: transparent; border: none; color: var(--muted);
+            font-family: 'Space Grotesk', sans-serif; font-size: 0.78rem;
+            outline: none; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .admin-img-url:focus { color: var(--text); }
+        .admin-del-btn {
+            width:28px; height:28px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.2);
+            border-radius:6px; cursor:pointer; color:#ef4444; font-size:0.9rem;
+            display:flex; align-items:center; justify-content:center; transition:background 0.2s; flex-shrink:0;
+        }
+        .admin-del-btn:hover { background:rgba(239,68,68,0.3); }
+        .admin-add-btn {
+            width:100%; padding:0.6rem; background:rgba(245,158,11,0.08);
+            border:1px dashed rgba(245,158,11,0.3); border-radius:8px;
+            color:var(--accent); font-size:0.85rem; font-weight:600; cursor:pointer;
+            transition:background 0.2s; margin-bottom:1.25rem;
+        }
+        .admin-add-btn:hover { background:rgba(245,158,11,0.15); }
+        .admin-save-btn {
+            width:100%; padding:0.8rem; background:var(--accent); color:#0d0d0d;
+            border:none; border-radius:8px; font-weight:700; font-size:0.95rem;
+            cursor:pointer; transition:background 0.2s; margin-top:0.5rem;
+        }
+        .admin-save-btn:hover { background:var(--accent-2); }
+        .admin-saved-msg { text-align:center; color:#22c55e; font-size:0.8rem; font-weight:600; margin-top:0.6rem; opacity:0; transition:opacity 0.3s; }
+        .admin-saved-msg.show { opacity:1; }
+
+        /* Hidden trigger dot */
+        #admin-trigger {
+            position:absolute; width:18px; height:18px; cursor:pointer;
+            opacity:0; user-select:none;
+        }
+
         /* In Progress badge */
         .in-progress-badge {
             display: inline-flex;
@@ -872,8 +991,9 @@ Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/M
         <div class="section-divider"></div>
 
     </div><!-- /container header -->
-    <div class="bento-wrap">
-        <div class="bento-grid">
+    <div class="bento-wrap" id="projects-bento"><!-- rendered by JS --></div>
+    <!-- PLACEHOLDER so old code below is unreachable -->
+    <div style="display:none">
             <div class="b-item tall reveal"><img src="https://i.imgur.com/ZwIpFPk.jpeg" alt="Build" loading="lazy"/></div>
             <div class="b-item reveal reveal-delay-1"><img src="https://i.imgur.com/VeFq9Q9.jpeg" alt="Build" loading="lazy"/></div>
             <div class="b-item tall reveal reveal-delay-2"><img src="https://i.imgur.com/m1lsDa1.png" alt="Build" loading="lazy"/></div>
@@ -898,7 +1018,7 @@ Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/M
             <div class="b-item reveal reveal-delay-1"><img src="https://i.imgur.com/bcSdWph.png" alt="Build" loading="lazy"/></div>
             <div class="b-item tall reveal reveal-delay-2"><img src="https://i.imgur.com/OujhlI5.png" alt="Build" loading="lazy"/></div>
         </div>
-    </div>
+    </div></div><!-- end hidden -->
 </section>
 
 <!-- ── HYTALE PORTFOLIO ── -->
@@ -921,8 +1041,8 @@ Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/M
         <p class="section-label reveal" style="margin-bottom:1rem;">Gallery</p>
         <h3 class="heading reveal reveal-delay-1" style="font-size:clamp(1.5rem,3vw,2rem);margin-bottom:2rem;">Gallery Builds</h3>
     </div><!-- /container -->
-    <div class="bento-wrap">
-        <div class="bento-grid">
+    <div class="bento-wrap" id="hytale-bento"><!-- rendered by JS --></div>
+    <div style="display:none"><div class="bento-grid">
             <div class="b-item tall clickable reveal" onclick="openLightbox('hytale',0)">
                 <img src="https://i.imgur.com/DSsKdLS.jpeg" alt="Hytale Build 1" loading="lazy"/>
                 <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
@@ -955,8 +1075,7 @@ Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/M
                 <img src="https://i.imgur.com/6GwZfoT.jpeg" alt="Hytale Build 8" loading="lazy"/>
                 <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
             </div>
-        </div>
-    </div>
+        </div></div></div><!-- end hidden -->
 </section>
 
 <!-- ── COLLABORATIONS ── -->
@@ -995,8 +1114,8 @@ Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/M
         <div class="section-divider"></div>
 
     </div><!-- /container -->
-    <div class="bento-wrap">
-        <div class="bento-grid">
+    <div class="bento-wrap" id="renders-bento"><!-- rendered by JS --></div>
+    <div style="display:none"><div class="bento-wrap"><div class="bento-grid">
             <div class="b-item tall clickable reveal" onclick="openLightbox('renders',0)">
                 <img src="https://i.imgur.com/7S38lTr.jpeg" alt="Render" loading="lazy"/>
                 <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
@@ -1045,8 +1164,7 @@ Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/M
                 <img src="https://i.imgur.com/VfYpV0j.jpeg" alt="Render" loading="lazy"/>
                 <div class="bento-overlay"><div class="bento-expand"><svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
             </div>
-        </div>
-    </div>
+        </div></div></div></div><!-- end hidden -->
 </section>
 
 </main>
@@ -1071,7 +1189,7 @@ Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/M
             </div>
         </div>
         <div class="footer-bottom reveal">
-            <p class="footer-copy">&copy; 2025 Colombianaso. All rights reserved.</p>
+            <p class="footer-copy" style="position:relative;">&copy; 2025 Colombianaso. All rights reserved.<span id="admin-trigger" title=""></span></p>
             <div class="footer-email">
                 <a href="mailto:colombianaso05@gmail.com">colombianaso05@gmail.com</a>
             </div>
@@ -1086,6 +1204,36 @@ Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/M
     <button class="lightbox-nav lightbox-next" onclick="changeImage(1)"  aria-label="Next">&#8594;</button>
     <img id="lightbox-img" class="lightbox-img" src="" alt="Full size view" />
     <div class="lightbox-counter" id="lightbox-counter">1 / 1</div>
+</div>
+
+<!-- ── ADMIN PASSWORD MODAL ── -->
+<div id="admin-pw-modal">
+    <div class="admin-pw-box">
+        <h3>🔒 Admin Access</h3>
+        <p>Enter the password to manage your portfolio</p>
+        <input type="password" id="admin-pw-input" class="admin-input" placeholder="••••" maxlength="20" />
+        <button class="admin-btn-enter" onclick="checkAdminPassword()">Enter</button>
+        <button class="admin-pw-cancel" onclick="closeAdminModal()">Cancel</button>
+    </div>
+</div>
+
+<!-- ── ADMIN PANEL ── -->
+<div id="admin-panel">
+    <div class="admin-header">
+        <div>
+            <h2>Portfolio Manager</h2>
+            <span>⚡ Admin Mode</span>
+        </div>
+        <button class="admin-close" onclick="closeAdminPanel()">✕</button>
+    </div>
+    <div class="admin-tabs">
+        <button class="admin-tab active" onclick="switchAdminTab('projects',this)">Projects</button>
+        <button class="admin-tab" onclick="switchAdminTab('hytale',this)">Hytale</button>
+        <button class="admin-tab" onclick="switchAdminTab('renders',this)">Renders</button>
+    </div>
+    <div class="admin-body" id="admin-body">
+        <!-- Populated by JS -->
+    </div>
 </div>
 
 <!-- Twitter embed -->
@@ -1205,44 +1353,91 @@ youtubeLinks.forEach((url, i) => {
     observer.observe(wrap);
 });
 
-// ── LIGHTBOX ──
-const galleries = {
-    projects: [
-        "https://i.imgur.com/ZwIpFPk.jpeg","https://i.imgur.com/VeFq9Q9.jpeg",
-        "https://i.imgur.com/m1lsDa1.png", "https://i.imgur.com/wMbNYmL.png",
-        "https://i.imgur.com/EXciFDJ.jpeg","https://i.imgur.com/S8Uayi3.jpeg",
-        "https://i.imgur.com/S9WcrIi.jpeg","https://i.imgur.com/JcSzQca.jpeg",
-        "https://i.imgur.com/axmYcbK.jpeg","https://i.imgur.com/Fr1JT2m.jpeg",
-        "https://i.imgur.com/8uhuk99.jpeg","https://i.imgur.com/E7w5sBL.jpeg",
-        "https://i.imgur.com/B9HJ5Qs.jpeg","https://i.imgur.com/6gQGVM1.png",
-        "https://i.imgur.com/d6zX3Mg.jpeg","https://i.imgur.com/bA7yxzc.png",
-        "https://i.imgur.com/ZaGQCUl.jpeg","https://i.imgur.com/r9eh8Pi.png",
-        "https://i.imgur.com/j9yq7TR.jpeg","https://i.imgur.com/PbzC2eP.png",
-        "https://i.imgur.com/7pVwVir.png", "https://i.imgur.com/bcSdWph.png",
-        "https://i.imgur.com/OujhlI5.png"
-    ],
-    hytale: [
-        "https://i.imgur.com/DSsKdLS.jpeg","https://i.imgur.com/5LAVs1f.jpeg",
-        "https://i.imgur.com/jaEGDVK.jpeg","https://i.imgur.com/Qs2i5xZ.jpeg",
-        "https://i.imgur.com/BDpFLxA.jpeg","https://i.imgur.com/cziiqGX.jpeg",
-        "https://i.imgur.com/zKhb50g.jpeg","https://i.imgur.com/6GwZfoT.jpeg"
-    ],
-    renders: [
-        "https://i.imgur.com/7S38lTr.jpeg","https://i.imgur.com/E1jT0lB.png",
-        "https://i.imgur.com/3KADkQB.png", "https://i.imgur.com/PGjVW3d.jpeg",
-        "https://i.imgur.com/ZnLPQ5M.png", "https://i.imgur.com/QVWzWU8.jpeg",
-        "https://i.imgur.com/VXDFiQ6.png", "https://i.imgur.com/sLJjQQx.png",
-        "https://i.imgur.com/eFi6mn9.png", "https://i.imgur.com/rnGhRAA.png",
-        "https://i.imgur.com/qDJquf0.jpeg","https://i.imgur.com/VfYpV0j.jpeg"
-    ]
+// ── DATA — defaults (overridden by localStorage if saved) ──
+const DEFAULTS = {
+    projects: {
+        images: [
+            "https://i.imgur.com/ZwIpFPk.jpeg","https://i.imgur.com/VeFq9Q9.jpeg",
+            "https://i.imgur.com/m1lsDa1.png","https://i.imgur.com/wMbNYmL.png",
+            "https://i.imgur.com/EXciFDJ.jpeg","https://i.imgur.com/S8Uayi3.jpeg",
+            "https://i.imgur.com/S9WcrIi.jpeg","https://i.imgur.com/JcSzQca.jpeg",
+            "https://i.imgur.com/axmYcbK.jpeg","https://i.imgur.com/Fr1JT2m.jpeg",
+            "https://i.imgur.com/8uhuk99.jpeg","https://i.imgur.com/E7w5sBL.jpeg",
+            "https://i.imgur.com/B9HJ5Qs.jpeg","https://i.imgur.com/6gQGVM1.png",
+            "https://i.imgur.com/d6zX3Mg.jpeg","https://i.imgur.com/bA7yxzc.png",
+            "https://i.imgur.com/ZaGQCUl.jpeg","https://i.imgur.com/r9eh8Pi.png",
+            "https://i.imgur.com/j9yq7TR.jpeg","https://i.imgur.com/PbzC2eP.png",
+            "https://i.imgur.com/7pVwVir.png","https://i.imgur.com/bcSdWph.png",
+            "https://i.imgur.com/OujhlI5.png"
+        ]
+    },
+    hytale: {
+        images: [
+            "https://i.imgur.com/DSsKdLS.jpeg","https://i.imgur.com/5LAVs1f.jpeg",
+            "https://i.imgur.com/jaEGDVK.jpeg","https://i.imgur.com/Qs2i5xZ.jpeg",
+            "https://i.imgur.com/BDpFLxA.jpeg","https://i.imgur.com/cziiqGX.jpeg",
+            "https://i.imgur.com/zKhb50g.jpeg","https://i.imgur.com/6GwZfoT.jpeg"
+        ]
+    },
+    renders: {
+        images: [
+            "https://i.imgur.com/7S38lTr.jpeg","https://i.imgur.com/E1jT0lB.png",
+            "https://i.imgur.com/3KADkQB.png","https://i.imgur.com/PGjVW3d.jpeg",
+            "https://i.imgur.com/ZnLPQ5M.png","https://i.imgur.com/QVWzWU8.jpeg",
+            "https://i.imgur.com/VXDFiQ6.png","https://i.imgur.com/sLJjQQx.png",
+            "https://i.imgur.com/eFi6mn9.png","https://i.imgur.com/rnGhRAA.png",
+            "https://i.imgur.com/qDJquf0.jpeg","https://i.imgur.com/VfYpV0j.jpeg"
+        ]
+    }
 };
 
-let activeGallery = 'projects';
-let currentIndex  = 0;
+// Load saved data from localStorage or use defaults
+let portfolioData = JSON.parse(localStorage.getItem('colombianaso_data') || 'null') || JSON.parse(JSON.stringify(DEFAULTS));
+
+// Helper: get images array by section
+function getImages(section) { return portfolioData[section].images; }
+
+// ── RENDER BENTO GRIDS ──
+const expandSVG = `<svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>`;
+
+function renderBento(containerId, section, clickable) {
+    const wrap = document.getElementById(containerId);
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    const grid = document.createElement('div');
+    grid.className = 'bento-grid';
+    const images = getImages(section);
+    images.forEach((src, i) => {
+        const item = document.createElement('div');
+        const isTall = i % 2 === 0;
+        item.className = `b-item${isTall?' tall':''}${clickable?' clickable':''} reveal`;
+        const img = document.createElement('img');
+        img.src = src; img.alt = section + ' ' + (i+1); img.loading = 'lazy';
+        item.appendChild(img);
+        if (clickable) {
+            item.onclick = () => openLightbox(section, i);
+            item.innerHTML += `<div class="bento-overlay"><div class="bento-expand">${expandSVG}</div></div>`;
+            item.appendChild(img); // re-append (innerHTML shift fix)
+            item.insertBefore(img, item.firstChild);
+        }
+        grid.appendChild(item);
+        observer.observe(item);
+    });
+    wrap.appendChild(grid);
+}
+
+function renderAllGrids() {
+    renderBento('projects-bento', 'projects', true);
+    renderBento('hytale-bento',   'hytale',   true);
+    renderBento('renders-bento',  'renders',  true);
+}
+renderAllGrids();
+
+// ── LIGHTBOX ──
+let activeGallery = 'hytale', currentIndex = 0;
 
 function openLightbox(gallery, index) {
-    activeGallery = gallery;
-    currentIndex  = index;
+    activeGallery = gallery; currentIndex = index;
     updateLightbox();
     document.getElementById('lightbox').classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -1252,26 +1447,153 @@ function closeLightbox() {
     document.body.style.overflow = '';
 }
 function changeImage(dir) {
-    const imgs = galleries[activeGallery];
+    const imgs = getImages(activeGallery);
     currentIndex = (currentIndex + dir + imgs.length) % imgs.length;
     updateLightbox();
 }
 function updateLightbox() {
-    const imgs = galleries[activeGallery];
+    const imgs = getImages(activeGallery);
     document.getElementById('lightbox-img').src = imgs[currentIndex];
-    document.getElementById('lightbox-counter').textContent = `${currentIndex + 1} / ${imgs.length}`;
+    document.getElementById('lightbox-counter').textContent = `${currentIndex+1} / ${imgs.length}`;
 }
-
-// Keyboard & backdrop click
 document.addEventListener('keydown', e => {
     if (!document.getElementById('lightbox').classList.contains('active')) return;
-    if (e.key === 'Escape')     closeLightbox();
-    if (e.key === 'ArrowLeft')  changeImage(-1);
-    if (e.key === 'ArrowRight') changeImage(1);
+    if (e.key==='Escape') closeLightbox();
+    if (e.key==='ArrowLeft') changeImage(-1);
+    if (e.key==='ArrowRight') changeImage(1);
 });
 document.getElementById('lightbox').addEventListener('click', e => {
-    if (e.target.id === 'lightbox') closeLightbox();
+    if (e.target.id==='lightbox') closeLightbox();
 });
+
+// ── HIDDEN ADMIN TRIGGER ──
+// Triple-click on the invisible dot in the footer copyright
+let triggerClicks = 0, triggerTimer;
+document.getElementById('admin-trigger').addEventListener('click', () => {
+    triggerClicks++;
+    clearTimeout(triggerTimer);
+    triggerTimer = setTimeout(() => triggerClicks = 0, 800);
+    if (triggerClicks >= 3) {
+        triggerClicks = 0;
+        openAdminModal();
+    }
+});
+
+// ── ADMIN PASSWORD ──
+const ADMIN_PASSWORD = '1324';
+function openAdminModal() {
+    document.getElementById('admin-pw-modal').classList.add('open');
+    setTimeout(() => document.getElementById('admin-pw-input').focus(), 100);
+}
+function closeAdminModal() {
+    document.getElementById('admin-pw-modal').classList.remove('open');
+    document.getElementById('admin-pw-input').value = '';
+}
+function checkAdminPassword() {
+    const val = document.getElementById('admin-pw-input').value;
+    if (val === ADMIN_PASSWORD) {
+        closeAdminModal();
+        openAdminPanel();
+    } else {
+        const inp = document.getElementById('admin-pw-input');
+        inp.classList.add('error');
+        inp.value = '';
+        setTimeout(() => inp.classList.remove('error'), 500);
+    }
+}
+document.getElementById('admin-pw-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkAdminPassword();
+    if (e.key === 'Escape') closeAdminModal();
+});
+
+// ── ADMIN PANEL ──
+let currentAdminTab = 'projects';
+
+function openAdminPanel() {
+    document.getElementById('admin-panel').classList.add('open');
+    renderAdminTab('projects');
+}
+function closeAdminPanel() {
+    document.getElementById('admin-panel').classList.remove('open');
+}
+function switchAdminTab(tab, btn) {
+    currentAdminTab = tab;
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    renderAdminTab(tab);
+}
+
+function renderAdminTab(section) {
+    const body = document.getElementById('admin-body');
+    const images = getImages(section);
+    body.innerHTML = `
+        <div class="admin-images-list" id="admin-img-list"></div>
+        <button class="admin-add-btn" onclick="adminAddImage()">+ Add Image URL</button>
+        <button class="admin-save-btn" onclick="adminSave()">💾 Save Changes</button>
+        <div class="admin-saved-msg" id="admin-saved-msg">✓ Saved successfully!</div>
+    `;
+    const list = document.getElementById('admin-img-list');
+    images.forEach((src, i) => {
+        list.appendChild(adminImgRow(src, i));
+    });
+}
+
+function adminImgRow(src, i) {
+    const row = document.createElement('div');
+    row.className = 'admin-img-row';
+    row.dataset.index = i;
+    const thumb = document.createElement('img');
+    thumb.className = 'admin-img-thumb';
+    thumb.src = src;
+    thumb.onerror = () => thumb.style.opacity = '0.3';
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'admin-img-url';
+    input.value = src;
+    input.placeholder = 'https://...';
+    input.addEventListener('input', () => {
+        thumb.src = input.value;
+    });
+    const del = document.createElement('button');
+    del.className = 'admin-del-btn';
+    del.innerHTML = '✕';
+    del.title = 'Delete';
+    del.onclick = () => {
+        row.remove();
+    };
+    row.appendChild(thumb);
+    row.appendChild(input);
+    row.appendChild(del);
+    return row;
+}
+
+function adminAddImage() {
+    const list = document.getElementById('admin-img-list');
+    const i = list.children.length;
+    const row = adminImgRow('', i);
+    list.appendChild(row);
+    row.querySelector('input').focus();
+}
+
+function adminSave() {
+    const list = document.getElementById('admin-img-list');
+    const rows = list.querySelectorAll('.admin-img-row');
+    const newImages = [];
+    rows.forEach(row => {
+        const url = row.querySelector('input').value.trim();
+        if (url) newImages.push(url);
+    });
+    portfolioData[currentAdminTab].images = newImages;
+    localStorage.setItem('colombianaso_data', JSON.stringify(portfolioData));
+    // Re-render the affected grid
+    if (currentAdminTab === 'projects') renderBento('projects-bento','projects',false);
+    if (currentAdminTab === 'hytale')   renderBento('hytale-bento','hytale',true);
+    if (currentAdminTab === 'renders')  renderBento('renders-bento','renders',true);
+    // Show saved message
+    const msg = document.getElementById('admin-saved-msg');
+    msg.classList.add('show');
+    setTimeout(() => msg.classList.remove('show'), 2500);
+}
 </script>
 
 </body>
