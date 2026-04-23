@@ -141,7 +141,9 @@
         .mobile-nav.open { display: block; }
 
         /* ── LAYOUT ── */
-        main { padding-top: 68px; }
+        main { padding-top: 0; }
+        /* Banner goes full-bleed under the fixed header */
+        .showcase-banner { margin-top: 68px; }
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -877,6 +879,134 @@
             background: var(--accent);
             animation: pulse 1.5s infinite;
         }
+
+        /* ── SHOWCASE BANNER ── */
+        .showcase-banner {
+            position: relative;
+            height: clamp(420px, 65vh, 700px);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .showcase-img-wrap {
+            position: absolute;
+            inset: 0;
+        }
+        .showcase-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 35%;
+            display: block;
+            will-change: transform;
+            transform: scale(1.08);
+            transition: transform 0.1s linear;
+        }
+        /* Multi-layer dark vignette */
+        .showcase-vignette {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to right,  rgba(13,13,13,0.88) 0%, rgba(13,13,13,0.3) 55%, rgba(13,13,13,0.6) 100%),
+                linear-gradient(to bottom, rgba(13,13,13,0.5) 0%, transparent 30%, transparent 60%, rgba(13,13,13,0.85) 100%);
+        }
+        /* Subtle film grain overlay for texture */
+        .showcase-grain {
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            background-size: 200px 200px;
+            opacity: 0.35;
+            pointer-events: none;
+        }
+        /* Content */
+        .showcase-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 clamp(2rem, 6vw, 5rem);
+            max-width: 640px;
+        }
+        .showcase-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.25rem;
+        }
+        .showcase-eyebrow::before {
+            content: '';
+            display: inline-block;
+            width: 32px;
+            height: 1px;
+            background: var(--accent);
+        }
+        .showcase-heading {
+            font-size: clamp(3.2rem, 8vw, 7rem);
+            line-height: 0.92;
+            color: var(--text);
+            margin-bottom: 1.25rem;
+            text-shadow: 0 4px 32px rgba(0,0,0,0.5);
+        }
+        .showcase-heading em {
+            font-style: normal;
+            color: var(--accent);
+            -webkit-text-stroke: 1px var(--accent);
+        }
+        .showcase-sub {
+            font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+            color: rgba(240,235,224,0.65);
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            max-width: 360px;
+        }
+        /* Animated scroll hint dots */
+        .showcase-scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            z-index: 2;
+        }
+        .showcase-scroll-hint span {
+            display: block;
+            width: 2px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 2px;
+            opacity: 0;
+            animation: scrollDots 1.6s ease-in-out infinite;
+        }
+        .showcase-scroll-hint span:nth-child(1) { animation-delay: 0s; }
+        .showcase-scroll-hint span:nth-child(2) { animation-delay: 0.2s; }
+        .showcase-scroll-hint span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes scrollDots {
+            0%   { opacity: 0; transform: translateY(-4px); }
+            40%  { opacity: 1; transform: translateY(0); }
+            80%  { opacity: 0; transform: translateY(4px); }
+            100% { opacity: 0; }
+        }
+        /* Amber accent line on left edge */
+        .showcase-banner::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 20%; bottom: 20%;
+            width: 3px;
+            background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+            z-index: 3;
+        }
+        @media (max-width: 600px) {
+            .showcase-heading { font-size: clamp(2.8rem, 14vw, 4rem); }
+            .showcase-content { padding: 0 1.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -917,6 +1047,25 @@
 </nav>
 
 <main>
+
+<!-- ── SHOWCASE BANNER ── -->
+<div class="showcase-banner" id="showcaseBanner">
+    <div class="showcase-img-wrap">
+        <img src="https://i.imgur.com/jI4Sb0r.jpeg" alt="Colombianaso Build Showcase" class="showcase-img" id="showcaseImg" />
+        <div class="showcase-vignette"></div>
+        <div class="showcase-grain"></div>
+    </div>
+    <div class="showcase-content">
+        <div class="showcase-eyebrow reveal">Featured Build</div>
+        <h2 class="showcase-heading display reveal reveal-delay-1">BUILT WITH<br><em>PASSION</em></h2>
+        <p class="showcase-sub reveal reveal-delay-2">Every block placed with purpose — from Colombia to the world.</p>
+    </div>
+    <div class="showcase-scroll-hint">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</div>
 
 <!-- ── HERO / ABOUT ── -->
 <section id="about" class="hero">
@@ -1240,6 +1389,29 @@ Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/M
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <script>
+// ── SHOWCASE BANNER PARALLAX ──
+(function() {
+    const banner = document.getElementById('showcaseBanner');
+    const img    = document.getElementById('showcaseImg');
+    if (!banner || !img) return;
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (ticking) return;
+        requestAnimationFrame(() => {
+            const rect   = banner.getBoundingClientRect();
+            const wh     = window.innerHeight;
+            // Only run when banner is near viewport
+            if (rect.bottom > 0 && rect.top < wh) {
+                const progress = (wh - rect.top) / (wh + rect.height); // 0 → 1
+                const shift    = (progress - 0.5) * 80; // ±40px
+                img.style.transform = `scale(1.08) translateY(${shift}px)`;
+            }
+            ticking = false;
+        });
+        ticking = true;
+    });
+})();
+
 // ── CUSTOM CURSOR ──
 (function() {
     const dot  = document.getElementById('cursor-dot');
