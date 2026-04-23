@@ -65,9 +65,9 @@
             position: fixed;
             top: 0; left: 0; right: 0;
             z-index: 100;
-            background: rgba(13,13,13,0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(13,13,13,0.88);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border-bottom: 1px solid var(--border);
             padding: 0 clamp(1.5rem, 5vw, 3rem);
             height: 68px;
@@ -81,22 +81,59 @@
             font-size: 1.15rem;
             letter-spacing: -0.02em;
             color: var(--text);
+            flex-shrink: 0;
         }
         .logo span { color: var(--accent); }
 
+        /* Nav absolutely centered in header */
+        header > nav {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
         nav ul {
             display: flex;
-            gap: 2rem;
+            gap: 0.15rem;
             list-style: none;
+            align-items: center;
         }
         nav a {
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: var(--muted);
-            transition: color var(--transition);
-            letter-spacing: 0.01em;
+            position: relative;
+            display: inline-block;
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(240,235,224,0.7);
+            padding: 0.45rem 0.9rem;
+            border-radius: 6px;
+            transition: color 0.2s ease, background 0.2s ease;
         }
-        nav a:hover { color: var(--text); }
+        /* Animated amber underline grows from center */
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: calc(100% - 1.8rem);
+            height: 1.5px;
+            background: var(--accent);
+            border-radius: 2px;
+            transition: transform 0.22s cubic-bezier(0.4,0,0.2,1);
+            transform-origin: center;
+        }
+        nav a:hover {
+            color: var(--text);
+            background: rgba(245,240,232,0.05);
+        }
+        nav a:hover::after { transform: translateX(-50%) scaleX(1); }
+        /* Active section highlight via JS */
+        nav a.nav-active {
+            color: var(--accent);
+        }
+        nav a.nav-active::after { transform: translateX(-50%) scaleX(1); background: var(--accent); }
 
         /* Mobile menu */
         .menu-btn {
@@ -1469,6 +1506,26 @@ Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/M
         dot.style.opacity  = '1';
         ring.style.opacity = '1';
     });
+})();
+
+// ── ACTIVE NAV HIGHLIGHT ──
+(function() {
+    const sections = ['about','projects','hytale-portfolio','collaborations','renders','contact'];
+    const links = document.querySelectorAll('header nav a');
+    function updateActiveNav() {
+        let current = '';
+        sections.forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            if (window.scrollY >= el.offsetTop - 100) current = id;
+        });
+        links.forEach(a => {
+            const href = a.getAttribute('href').replace('#','');
+            a.classList.toggle('nav-active', href === current);
+        });
+    }
+    window.addEventListener('scroll', updateActiveNav, { passive: true });
+    updateActiveNav();
 })();
 
 // ── PROGRESS BAR ──
