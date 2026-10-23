@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>document.documentElement.classList.add('cm-js')</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Colombianaso Builds — Minecraft Builder</title>
@@ -206,12 +207,7 @@
         /* ── LAYOUT ── */
         main { padding-top: 0; }
         /* Banner goes full-bleed under the fixed header */
-        .showcase-banner {
-            margin-top: 68px;
-            height: calc(100vh - 68px);  /* full first screen */
-        }
-        /* Snap sections fill at least the viewport */
-        #about       { min-height: 100vh; }
+        .showcase-banner { margin-top: 68px; }
         #collaborations { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
         .container {
             max-width: 1200px;
@@ -1015,38 +1011,34 @@
             animation: pulse 1.5s infinite;
         }
 
-        /* ── SHOWCASE BANNER ── */
+        /* ── SHOWCASE BANNER / HERO ── */
         .showcase-banner {
             position: relative;
-            height: clamp(420px, 65vh, 700px);
+            min-height: calc(100vh - 68px);
+            min-height: calc(100svh - 68px);
             overflow: hidden;
             display: flex;
-            align-items: center;
-            justify-content: flex-start;
+            flex-direction: column;
+            justify-content: center;
+            padding: clamp(3rem, 8vh, 6rem) 0 clamp(1.25rem, 3.5vh, 2.25rem);
         }
-        .showcase-img-wrap {
-            position: absolute;
-            inset: 0;
-        }
+        .anchor-top { position: absolute; top: 0; left: 0; scroll-margin-top: 68px; }
+        .showcase-img-wrap { position: absolute; inset: 0; transition: opacity 1s ease; }
         .showcase-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center 35%;
+            object-position: 40% 35%;
             display: block;
-            will-change: transform;
-            transform: scale(1.08);
-            transition: transform 0.1s linear;
         }
-        /* Multi-layer dark vignette */
+        /* Dark vignette so the text always reads over the render */
         .showcase-vignette {
             position: absolute;
             inset: 0;
             background:
-                linear-gradient(to right,  rgba(13,13,13,0.88) 0%, rgba(13,13,13,0.3) 55%, rgba(13,13,13,0.6) 100%),
-                linear-gradient(to bottom, rgba(13,13,13,0.5) 0%, transparent 30%, transparent 60%, rgba(13,13,13,0.85) 100%);
+                linear-gradient(to right, rgba(13,13,13,0.9) 0%, rgba(13,13,13,0.6) 36%, rgba(13,13,13,0.12) 66%, rgba(13,13,13,0.35) 100%),
+                linear-gradient(to bottom, rgba(13,13,13,0.5) 0%, transparent 24%, transparent 55%, rgba(13,13,13,0.92) 100%);
         }
-        /* Subtle film grain overlay for texture */
         .showcase-grain {
             position: absolute;
             inset: 0;
@@ -1055,108 +1047,120 @@
             opacity: 0.35;
             pointer-events: none;
         }
-        /* Content */
         .showcase-content {
             position: relative;
             z-index: 2;
-            padding: 0 clamp(2rem, 6vw, 5rem);
-            max-width: 640px;
+            padding: 0 clamp(1.5rem, 6vw, 5rem);
+            max-width: 800px;
+            margin: auto 0;
         }
-        .showcase-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--accent);
+        .showcase-content .hero-tag { margin-bottom: 1.25rem; }
+        .showcase-content .hero-title {
+            font-size: clamp(2.8rem, min(8vw, 11.5vh), 6.6rem);
             margin-bottom: 1.25rem;
+            text-shadow: 0 4px 40px rgba(0,0,0,0.45);
         }
-        .showcase-eyebrow::before {
-            content: '';
-            display: inline-block;
-            width: 32px;
-            height: 1px;
-            background: var(--accent);
+        .showcase-content .hero-description {
+            color: rgba(240,235,224,0.74);
+            max-width: 480px;
+            margin-bottom: 1.75rem;
         }
-        .showcase-heading {
-            font-size: clamp(3.2rem, 8vw, 7rem);
-            line-height: 0.92;
-            color: var(--text);
-            margin-bottom: 1.25rem;
-            text-shadow: 0 4px 32px rgba(0,0,0,0.5);
+        /* Bottom strip: stat, featured collaboration, profile */
+        .showcase-bottom {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+            gap: 0.75rem;
+            padding: 0 clamp(1.5rem, 6vw, 5rem);
+            margin-top: clamp(1.75rem, 5vh, 3rem);
         }
-        .showcase-heading em {
-            font-style: normal;
-            color: var(--accent);
-            -webkit-text-stroke: 1px var(--accent);
-        }
-        .showcase-sub {
-            font-size: clamp(0.9rem, 1.8vw, 1.05rem);
-            color: rgba(240,235,224,0.65);
-            font-weight: 400;
-            letter-spacing: 0.02em;
-            max-width: 360px;
-        }
-        .showcase-stat {
-            display: inline-flex;
+        .sb-card {
+            display: flex;
             align-items: center;
             gap: 0.9rem;
-            margin-top: 1.25rem;
-            padding: 0.65rem 1.25rem 0.65rem 1rem;
-            border: 1px solid rgba(245,158,11,0.35);
-            border-radius: 100px;
-            background: rgba(13,13,13,0.45);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            padding: 0.7rem 1.1rem;
+            border-radius: 14px;
+            background: rgba(13,13,13,0.5);
+            border: 1px solid rgba(245,240,232,0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: var(--text);
         }
-        .showcase-stat b {
+        .sb-stat b {
             font-family: 'Archivo', sans-serif;
             font-weight: 900;
-            font-size: 2rem;
+            font-size: 2.1rem;
             line-height: 1;
             color: var(--accent);
             font-variant-numeric: tabular-nums;
+            min-width: 3.1ch;
         }
-        .showcase-stat > span {
-            font-size: 0.68rem;
+        .sb-label {
+            font-size: 0.66rem;
             font-weight: 700;
             letter-spacing: 0.18em;
             text-transform: uppercase;
-            line-height: 1.35;
-            color: rgba(240,235,224,0.8);
+            line-height: 1.4;
+            color: rgba(240,235,224,0.78);
         }
-        /* Animated scroll hint dots */
-        .showcase-scroll-hint {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            z-index: 2;
+        .sb-feature {
+            position: relative;
+            overflow: hidden;
+            border-color: rgba(245,158,11,0.35);
+            transition: transform 0.35s cubic-bezier(.16,1,.3,1), border-color 0.35s, background 0.35s;
         }
-        .showcase-scroll-hint span {
+        .sb-feature:hover { transform: translateY(-3px); border-color: var(--accent); background: rgba(13,13,13,0.72); }
+        .sb-feature img { width: 46px; height: 46px; object-fit: contain; flex: none; }
+        .sb-feature small {
             display: block;
-            width: 2px;
-            height: 8px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.15rem;
+        }
+        .sb-feature strong { display: block; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 1.02rem; letter-spacing: -0.01em; }
+        .sb-feature em { display: block; font-style: normal; font-size: 0.78rem; color: rgba(240,235,224,0.6); }
+        .sb-go {
+            flex: none;
+            margin-left: 0.4rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
             background: var(--accent);
-            border-radius: 2px;
-            opacity: 0;
-            animation: scrollDots 1.6s ease-in-out infinite;
+            color: #0d0d0d;
+            transition: transform 0.35s cubic-bezier(.16,1,.3,1);
         }
-        .showcase-scroll-hint span:nth-child(1) { animation-delay: 0s; }
-        .showcase-scroll-hint span:nth-child(2) { animation-delay: 0.2s; }
-        .showcase-scroll-hint span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes scrollDots {
-            0%   { opacity: 0; transform: translateY(-4px); }
-            40%  { opacity: 1; transform: translateY(0); }
-            80%  { opacity: 0; transform: translateY(4px); }
-            100% { opacity: 0; }
+        .sb-feature:hover .sb-go { transform: translateX(3px); }
+        .sb-feature::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(110deg, transparent 35%, rgba(255,220,150,0.16) 50%, transparent 65%);
+            transform: translateX(-100%);
+            animation: sbShine 5s ease-in-out 3s infinite;
+            pointer-events: none;
         }
+        @keyframes sbShine { 0% { transform: translateX(-100%); } 30%, 100% { transform: translateX(100%); } }
+        .sb-handle { margin-left: auto; }
+        .sb-handle img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex: none; }
+        .sb-handle b { display: block; font-size: 0.92rem; }
+        .sb-handle span { display: block; font-size: 0.74rem; color: rgba(240,235,224,0.6); line-height: 1.45; }
+        /* Entrance once the intro finishes (the motion layer adds .cm-live) */
+        .cm-js .showcase-banner .sb-a { opacity: 0; transform: translateY(22px); }
+        .cm-js .showcase-banner.cm-live .sb-a {
+            opacity: 1;
+            transform: none;
+            transition: opacity 0.9s ease, transform 1s cubic-bezier(.16,1,.3,1);
+            transition-delay: var(--d, 0s);
+        }
+        .cm-js .showcase-banner.cm-live .sb-feature.sb-a:hover { transform: translateY(-3px); transition-delay: 0s; }
+        .cm-js .showcase-banner:not(.cm-live) .showcase-img-wrap { opacity: 0; }
         /* Amber accent line on left edge */
         .showcase-banner::before {
             content: '';
@@ -1166,9 +1170,16 @@
             background: linear-gradient(to bottom, transparent, var(--accent), transparent);
             z-index: 3;
         }
-        @media (max-width: 600px) {
-            .showcase-heading { font-size: clamp(2.8rem, 14vw, 4rem); }
-            .showcase-content { padding: 0 1.5rem; }
+        /* Featured collaboration section (below the banner) */
+        .featured { min-height: auto; display: block; }
+        @media (max-width: 760px) {
+            .showcase-banner { padding-top: 2.5rem; }
+            .showcase-content .hero-title { font-size: clamp(2.6rem, 13vw, 4rem); }
+            .showcase-bottom { flex-direction: column; }
+            .sb-handle { margin-left: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .sb-feature::after { animation: none; }
         }
     </style>
 </head>
@@ -1227,64 +1238,55 @@
 
 <main>
 
-<!-- ── SHOWCASE BANNER ── -->
+<!-- ── HERO BANNER ── -->
 <div class="showcase-banner" id="showcaseBanner">
+    <span id="about" class="anchor-top"></span>
     <div class="showcase-img-wrap">
         <img src="https://i.imgur.com/jI4Sb0r.jpeg" alt="Colombianaso Build Showcase" class="showcase-img" id="showcaseImg" />
         <div class="showcase-vignette"></div>
         <div class="showcase-grain"></div>
     </div>
     <div class="showcase-content">
-        <div class="showcase-eyebrow reveal">Featured Build</div>
-        <h2 class="showcase-heading display reveal reveal-delay-1">BUILT WITH<br><em>PASSION</em></h2>
-        <p class="showcase-sub reveal reveal-delay-2">Every block placed with purpose — from Colombia to the world.</p>
-        <div class="showcase-stat reveal reveal-delay-3"><b><span data-to="90">90</span>+</b><span>Projects<br>completed</span></div>
+        <div class="hero-tag sb-a">Minecraft Builder · Colombia</div>
+        <h1 class="display hero-title sb-a" style="--d:.05s">
+            MY<br>MINECRAFT<br><em>PORTFOLIO</em>
+        </h1>
+        <p class="hero-description sb-a" style="--d:.45s">
+            Hi! I'm Colo — passionate about creating massive, creative Minecraft projects.
+            I love pushing creativity and turning big ideas into reality, from Colombia and beyond.
+        </p>
+        <div class="hero-links sb-a" style="--d:.6s">
+            <a href="#projects" class="btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                View Projects
+            </a>
+            <a href="#contact" class="btn-secondary">
+                Get in Touch
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
     </div>
-    <div class="showcase-scroll-hint">
-        <span></span>
-        <span></span>
-        <span></span>
+    <div class="showcase-bottom">
+        <div class="sb-card sb-stat sb-a" style="--d:.8s"><b><span data-to="90">90</span>+</b><span class="sb-label">Projects<br>completed</span></div>
+        <a class="sb-card sb-feature sb-a" style="--d:.95s" href="#featured">
+            <img src="https://i.imgur.com/hbMNfIb.png" alt="MrBeast Gaming" />
+            <span><small>★ Featured collaboration</small><strong>MrBeast Gaming</strong><em>Official representative of Colombia</em></span>
+            <span class="sb-go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </a>
+        <div class="sb-card sb-handle sb-a" style="--d:1.1s">
+            <img src="https://i.imgur.com/seVKONK.png" alt="Colo — Colombianaso" />
+            <span><b>Colo</b>Discord: colombianaso · X: @Colombianaso2</span>
+        </div>
     </div>
 </div>
 
-<!-- ── HERO / ABOUT ── -->
-<section id="about" class="hero">
+<!-- ── FEATURED COLLABORATION ── -->
+<section id="featured" class="hero featured">
     <div class="hero-bg-text" aria-hidden="true">BUILDS</div>
     <div class="container">
-        <div class="hero-inner">
-            <div>
-                <div class="hero-tag reveal">Minecraft Builder · Colombia</div>
-                <h1 class="display hero-title reveal reveal-delay-1">
-                    MY<br>MINECRAFT<br><em>PORTFOLIO</em>
-                </h1>
-                <p class="hero-description reveal reveal-delay-2">
-                    Hi! I'm Colo, — passionate about creating massive, creative Minecraft projects.
-                    I love pushing creativity and turning big ideas into reality, from Colombia and beyond.
-                </p>
-                <div class="hero-links reveal reveal-delay-3">
-                    <a href="#projects" class="btn-primary">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                        View Projects
-                    </a>
-                    <a href="#contact" class="btn-secondary">
-                        Get in Touch
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </a>
-                </div>
-            </div>
-
-            <div class="hero-avatar-side reveal reveal-delay-4">
-                <img src="https://i.imgur.com/seVKONK.png" alt="Colo — Colombianaso" class="hero-avatar" />
-                <div class="hero-handle">
-                    <strong>Colo</strong>
-                    Discord: colombianaso<br>
-                    X: @Colombianaso2
-                </div>
-            </div>
-        </div>
-
+        <p class="section-label reveal">Featured Collaboration</p>
         <!-- MrBeast Collaboration Card -->
-        <div class="collab-card reveal" style="margin-top:3.5rem;">
+        <div class="collab-card reveal" style="margin-top:1.25rem;">
             <div class="collab-card-content">
                 <div class="collab-badge">
                     ★ Featured Collaboration
@@ -1510,29 +1512,6 @@ Thank you to all the team… <a href="https://t.co/Man2O2HZzx">pic.twitter.com/M
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <script>
-// ── SHOWCASE BANNER PARALLAX ──
-(function() {
-    const banner = document.getElementById('showcaseBanner');
-    const img    = document.getElementById('showcaseImg');
-    if (!banner || !img) return;
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (ticking) return;
-        requestAnimationFrame(() => {
-            const rect   = banner.getBoundingClientRect();
-            const wh     = window.innerHeight;
-            // Only run when banner is near viewport
-            if (rect.bottom > 0 && rect.top < wh) {
-                const progress = (wh - rect.top) / (wh + rect.height); // 0 → 1
-                const shift    = (progress - 0.5) * 80; // ±40px
-                img.style.transform = `scale(1.08) translateY(${shift}px)`;
-            }
-            ticking = false;
-        });
-        ticking = true;
-    });
-})();
-
 // ── CUSTOM CURSOR ──
 (function() {
     const dot  = document.getElementById('cursor-dot');
@@ -1928,9 +1907,8 @@ function adminSave() {
 <script>
 /*!
  * Colombianaso — motion layer
- * Adds the "motion reel" banner and animation pass on top of the existing portfolio
- * without changing its HTML. Load it once, at the end of the page:
- *   <script src="motion.js" defer><\/script>
+ * The banner reel (a blueprint of the real build that renders into the photo)
+ * and the animation pass for the rest of the portfolio.
  */
 (() => {
   if (window.__colMotion) return;
@@ -1944,67 +1922,31 @@ function adminSave() {
   const lerp = (a, b, t) => a + (b - a) * t;
   const io = t => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
   const outCubic = t => 1 - Math.pow(1 - t, 3);
-  const inExpo = t => (t <= 0 ? 0 : Math.pow(2, 10 * t - 10));
-  const AMBER = '#f59e0b', CREAM = '#f0ebe0', MUTED = '#8a8072', INK = '#0d0d0d';
+  const AMBER = '#f59e0b', CREAM = '#f0ebe0', INK = '#0d0d0d';
 
   /* ───────────────────────── styles ───────────────────────── */
   const css = `
-  .cm-hud{position:fixed;inset:0;pointer-events:none;z-index:90;font-family:'Space Grotesk',sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,235,224,.75)}
-  .cm-hud .cm-c{position:absolute;width:16px;height:16px;border-color:rgba(240,235,224,.45);border-style:solid;border-width:0}
-  .cm-hud .tl{top:84px;left:14px;border-top-width:1.5px;border-left-width:1.5px}
-  .cm-hud .tr{top:84px;right:14px;border-top-width:1.5px;border-right-width:1.5px}
-  .cm-hud .bl{bottom:14px;left:14px;border-bottom-width:1.5px;border-left-width:1.5px}
-  .cm-hud .br{bottom:14px;right:14px;border-bottom-width:1.5px;border-right-width:1.5px}
-  .cm-hud .cm-sec,.cm-hud .cm-tc{position:absolute;bottom:16px;padding:.42rem .7rem;border-radius:100px;background:rgba(13,13,13,.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(245,240,232,.08);line-height:1}
-  .cm-hud .cm-sec{left:38px}
-  .cm-hud .cm-sec b{color:${AMBER};font-weight:700}
-  .cm-hud .cm-tc{right:38px;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:.7rem}
-  .cm-hud .cm-tc i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#ff4d2e;animation:cmBlink 1.2s steps(2,end) infinite}
-  .cm-hud .cm-bars{display:flex;gap:3px}
-  .cm-hud .cm-bars span{width:14px;height:2px;background:rgba(240,235,224,.25)}
-  .cm-hud .cm-bars span.on{background:${CREAM}}
-  @keyframes cmBlink{50%{opacity:0}}
-  @media (max-width:760px){.cm-hud .cm-sec,.cm-hud .cm-bars{display:none}.cm-hud .tl,.cm-hud .tr{top:78px}.cm-hud .cm-tc{right:30px;bottom:14px}}
-
   .cm-reel{position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none}
-  .cm-reel-btn{position:absolute;right:clamp(44px,4.5vw,70px);bottom:clamp(76px,9vh,96px);z-index:6;font:600 10px 'Space Grotesk',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:${CREAM};background:rgba(13,13,13,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(240,235,224,.22);border-radius:100px;padding:.55rem 1rem;cursor:pointer;transition:background .25s,border-color .25s}
+  .cm-reel-btn{position:absolute;top:clamp(14px,2.2vw,24px);right:clamp(14px,2.2vw,24px);z-index:6;font:600 10px 'Space Grotesk',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:${CREAM};background:rgba(13,13,13,.5);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(240,235,224,.22);border-radius:100px;padding:.55rem 1rem;cursor:pointer;transition:background .25s,border-color .25s,opacity .4s}
   .cm-reel-btn:hover{background:rgba(245,158,11,.9);border-color:${AMBER};color:${INK}}
   .cm-reel-btn:focus-visible{outline:2px solid ${AMBER};outline-offset:3px}
-  .showcase-content,.showcase-scroll-hint,.cm-frame{transition:opacity .8s ease}
-  .showcase-img-wrap{transition:opacity 1s ease}
-  .cm-reel-on .showcase-content,.cm-reel-on .showcase-scroll-hint,.cm-reel-on .cm-frame,.cm-reel-on .showcase-img-wrap{opacity:0}
-  @media (max-width:760px){.cm-reel-btn{right:24px;bottom:24px}}
   .cm-split{display:inline}
   .cm-w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.06em;margin-bottom:-.06em}
   .cm-wi{display:inline-block;transform:translate3d(0,108%,0);transition:transform 1s cubic-bezier(.16,1,.3,1);will-change:transform}
   .cm-in .cm-wi{transform:none}
-  .showcase-heading .cm-wi{transition-duration:1.1s}
 
   .cm-num{display:inline-flex;align-items:center;gap:.55rem;margin-right:.6rem;color:${AMBER}}
   .cm-num::before{content:'';width:7px;height:7px;background:${AMBER};display:inline-block;transform:rotate(0);animation:cmSpin 6s cubic-bezier(.7,0,.3,1) infinite}
   @keyframes cmSpin{0%,20%{transform:rotate(0)}30%,70%{transform:rotate(90deg)}80%,100%{transform:rotate(180deg)}}
 
-  .showcase-banner{overflow:hidden}
   .showcase-img-wrap{will-change:transform;transform-origin:50% 40%}
-  .cm-frame{position:absolute;inset:clamp(14px,2.2vw,28px);pointer-events:none;z-index:3;font:600 10px 'Space Grotesk',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,235,224,.7)}
-  .cm-frame .cm-c{position:absolute;width:22px;height:22px;border:0 solid rgba(240,235,224,.6)}
-  .cm-frame .tl{top:0;left:0;border-top-width:2px;border-left-width:2px}
-  .cm-frame .tr{top:0;right:0;border-top-width:2px;border-right-width:2px}
-  .cm-frame .bl{bottom:0;left:0;border-bottom-width:2px;border-left-width:2px}
-  .cm-frame .br{bottom:0;right:0;border-bottom-width:2px;border-right-width:2px}
-  .cm-frame .cm-rec{position:absolute;top:6px;right:34px;font-variant-numeric:tabular-nums}
-  .cm-frame .cm-rec i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#ff4d2e;margin-right:8px;vertical-align:0;animation:cmBlink 1.2s steps(2,end) infinite}
-  .cm-frame .cm-res{position:absolute;bottom:6px;right:34px}
-  .cm-frame .cm-ruler{position:absolute;left:52%;right:34px;bottom:30px;height:10px;border-bottom:1px solid rgba(240,235,224,.35);transform-origin:left;transform:scaleX(0);transition:transform 1.4s cubic-bezier(.77,0,.18,1) .3s;background:repeating-linear-gradient(90deg,rgba(240,235,224,.35) 0 1px,transparent 1px 60px) bottom/100% 6px no-repeat}
-  .cm-frame.cm-in .cm-ruler{transform:none}
-  @media (max-width:760px){.cm-frame .cm-res,.cm-frame .cm-ruler{display:none}}
 
   .cm-kinetic{position:absolute;inset:auto -10% -4% -10%;transform:rotate(-6deg);pointer-events:none;user-select:none;z-index:0;display:flex;flex-direction:column;gap:.1em}
   .cm-row{white-space:nowrap;font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(4.5rem,13vw,12rem);line-height:.9;letter-spacing:-.04em;will-change:transform}
   .cm-row.fill{color:rgba(245,240,232,.035)}
   .cm-row.line{color:transparent;-webkit-text-stroke:1.5px rgba(245,240,232,.06)}
   .cm-row .dot{display:inline-block;width:.16em;height:.16em;background:rgba(245,158,11,.18);margin:0 .4em;vertical-align:.3em}
-  #about.hero > .container{position:relative;z-index:1}
+  .featured > .container{position:relative;z-index:1}
   .cm-hide-bg{opacity:0!important}
 
   .bento-grid{perspective:1400px}
@@ -2063,11 +2005,6 @@ function adminSave() {
     }), opts);
     ob.observe(el);
   };
-  const tc = frames => {
-    const f = Math.floor(frames) % 60, s = Math.floor(frames / 60);
-    const p = n => String(n).padStart(2, '0');
-    return `${p(Math.floor(s / 3600))}:${p(Math.floor(s / 60) % 60)}:${p(s % 60)}:${p(f)}`;
-  };
 
   // Wraps every word of an element in a masked span, keeping <em>, <br> and colours intact.
   function split(el) {
@@ -2093,56 +2030,32 @@ function adminSave() {
     $$('.cm-wi', el).forEach((s, i) => (s.style.transitionDelay = `${i * 70}ms`));
   }
 
-  /* ───────────────────────── fixed HUD ───────────────────────── */
-  const SECTIONS = [
-    ['showcaseBanner', 'Featured'], ['about', 'About'], ['projects', 'Projects'],
-    ['collaborations', 'Collabs'], ['hytale-portfolio', 'Hytale'], ['contact', 'Contact']
-  ].filter(([id]) => document.getElementById(id));
-
-  const hud = document.createElement('div');
-  hud.className = 'cm-hud';
-  hud.setAttribute('aria-hidden', 'true');
-  hud.innerHTML = `<span class="cm-c tl"></span><span class="cm-c tr"></span><span class="cm-c bl"></span><span class="cm-c br"></span>
-    <div class="cm-sec"><b>00</b> — Featured</div>
-    <div class="cm-tc"><span class="cm-bars">${SECTIONS.map(() => '<span></span>').join('')}</span><i></i><span class="cm-time">00:00:00:00</span></div>`;
-  document.body.appendChild(hud);
-  const hudSec = $('.cm-sec', hud), hudTc = $('.cm-time', hud), hudBars = $$('.cm-bars span', hud);
-
   /* ───────────────────────── section numbers ───────────────────────── */
-  const numFor = id => String(SECTIONS.findIndex(s => s[0] === id)).padStart(2, '0');
-  [['about', '.hero-tag'], ['projects', '.section-label'], ['collaborations', '.section-label'], ['hytale-portfolio', '.section-label']]
-    .forEach(([id, sel]) => {
-      const el = $(`#${id} ${sel}`);
-      if (el && !$('.cm-num', el)) el.insertAdjacentHTML('afterbegin', `<span class="cm-num">${numFor(id)} —</span>`);
-    });
+  const SECTIONS = ['featured', 'projects', 'collaborations', 'hytale-portfolio', 'contact'].filter(id => document.getElementById(id));
+  const numFor = id => String(SECTIONS.indexOf(id) + 1).padStart(2, '0');
+  SECTIONS.slice(0, 4).forEach(id => {
+    const el = $(`#${id} .section-label`);
+    if (el && !$('.cm-num', el)) el.insertAdjacentHTML('afterbegin', `<span class="cm-num">${numFor(id)} —</span>`);
+  });
 
   /* ───────────────────────── hero banner ───────────────────────── */
   const banner = $('#showcaseBanner');
   const bannerWrap = $('.showcase-img-wrap');
-  const heroHeading = $('.showcase-heading');
-  let frame;
-  if (banner) {
-    frame = document.createElement('div');
-    frame.className = 'cm-frame';
-    frame.setAttribute('aria-hidden', 'true');
-    frame.innerHTML = `<span class="cm-c tl"></span><span class="cm-c tr"></span><span class="cm-c bl"></span><span class="cm-c br"></span>
-      <div class="cm-rec"><i></i><span>REC 00:00:00:00</span></div><div class="cm-ruler"></div><div class="cm-res">Render / 3840×2160 / Shaders on</div>`;
-    banner.appendChild(frame);
-  }
+  const heroHeading = banner && $('.hero-title', banner);
   if (heroHeading) split(heroHeading);
   let heroStart = 0;
   const startHero = () => {
     if (heroStart) return;
     heroStart = performance.now();
     document.documentElement.classList.add('cm-nav-in');
-    heroHeading && heroHeading.classList.add('cm-in');
-    frame && frame.classList.add('cm-in');
-    // count the projects badge up once the banner text shows
-    const n = $('.showcase-stat [data-to]');
+    banner && banner.classList.add('cm-live');
+    heroHeading && setTimeout(() => heroHeading.classList.add('cm-in'), 120);
+    // count the projects badge up as it appears
+    const n = banner && $('[data-to]', banner);
     if (n && !reduce) {
-      const to = +n.dataset.to, s0 = performance.now() + 500;
+      const to = +n.dataset.to, s0 = performance.now() + 900;
       n.textContent = '0';
-      const tick = now => { const k = clamp((now - s0) / 1500, 0, 1); n.textContent = Math.round(to * outCubic(k)); if (k < 1) requestAnimationFrame(tick); };
+      const tick = now => { const k = clamp((now - s0) / 1400, 0, 1); n.textContent = Math.round(to * outCubic(k)); if (k < 1) requestAnimationFrame(tick); };
       requestAnimationFrame(tick);
     }
   };
@@ -2150,16 +2063,16 @@ function adminSave() {
   /* ───────────────────────── titles ───────────────────────── */
   const TITLE_SEL = '.hero-title, .section-title, .collab-card-title, .hytale-hero-name, .hytale-hero-sub, h3.heading';
   const prepTitles = () => $$(TITLE_SEL).forEach(el => {
-    if (el.dataset.cmSplit) return;
+    if (el.dataset.cmSplit || el.closest('#showcaseBanner')) return;
     split(el);
     inView(el, t => t.classList.add('cm-in'), { threshold: .3 });
   });
   prepTitles();
 
   /* ───────────────────────── kinetic BUILDS rows ───────────────────────── */
-  const about = $('#about'), bgText = $('.hero-bg-text');
+  const feat = $('#featured'), bgText = feat && $('.hero-bg-text', feat);
   let rows = [];
-  if (about && bgText) {
+  if (feat && bgText) {
     bgText.classList.add('cm-hide-bg');
     const word = (bgText.textContent || 'BUILDS').trim();
     const unit = `${word}<span class="dot"></span>`;
@@ -2167,7 +2080,7 @@ function adminSave() {
     k.className = 'cm-kinetic';
     k.setAttribute('aria-hidden', 'true');
     k.innerHTML = ['line', 'fill', 'line'].map(c => `<div class="cm-row ${c}">${unit.repeat(10)}</div>`).join('');
-    about.insertBefore(k, about.firstChild);
+    feat.insertBefore(k, feat.firstChild);
     rows = $$('.cm-row', k);
   }
 
@@ -2322,18 +2235,9 @@ function adminSave() {
     if (ticking) return; ticking = true;
     requestAnimationFrame(() => {
       ticking = false;
-      const y = scrollY, max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
-      hudTc.textContent = tc(y / 4);
-      let cur = 0;
-      SECTIONS.forEach(([id], i) => {
-        const el = document.getElementById(id);
-        if (el && el.getBoundingClientRect().top < innerHeight * .45) cur = i;
-      });
       revealCards();
-      hudSec.innerHTML = `<b>${String(cur).padStart(2, '0')}</b> — ${SECTIONS[cur] ? SECTIONS[cur][1] : ''}`;
-      hudBars.forEach((b, i) => b.classList.toggle('on', i <= cur));
-      if (!reduce && rows.length && about) {
-        const r = about.getBoundingClientRect();
+      if (!reduce && rows.length && feat) {
+        const r = feat.getBoundingClientRect();
         const p = (innerHeight - r.top) / (innerHeight + r.height);
         rows.forEach((row, i) => (row.style.transform = `translate3d(${(i % 2 ? -1 : 1) * (p * 22 - 18)}%,0,0)`));
       }
@@ -2342,17 +2246,16 @@ function adminSave() {
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', onScroll);
 
-  /* ───────────────────────── per-frame: hero image + timecodes ───────────────────────── */
-  const rec = frame && $('.cm-rec span', frame);
+  /* ───────────────────────── per-frame: hero image drift + parallax ───────────────────────── */
+  const IMG_SCALE0 = 1.18, IMG_SCALE1 = 1.06;
   const loop = now => {
     if (bannerWrap) {
-      const intro = heroStart ? outCubic(clamp((now - heroStart) / 2400, 0, 1)) : 0;
-      const s = reduce ? 1.06 : lerp(1.18, 1.06, intro);
+      const intro = heroStart ? outCubic(clamp((now - heroStart) / 2600, 0, 1)) : 0;
+      const s = reduce ? IMG_SCALE1 : lerp(IMG_SCALE0, IMG_SCALE1, intro);
       const bh = banner.offsetHeight || innerHeight;
       const yOff = reduce ? 0 : clamp(scrollY * .22, 0, bh * (s - 1) / 2);
       bannerWrap.style.transform = `translate3d(0,${yOff}px,0) scale(${s})`;
     }
-    if (rec && heroStart) rec.textContent = 'REC ' + tc((now - heroStart) / 1000 * 60);
     requestAnimationFrame(loop);
   };
   requestAnimationFrame(loop);
@@ -2368,12 +2271,10 @@ function adminSave() {
   onScroll();
   heroReel();
 
-  // A short reel inside the main banner that shows how a great build is made:
-  // plan → build → detail → render, all on one rotating floating island,
-  // ending as the real featured image resolves out of blocks.
+  // A five-second reel in the banner: an architectural drawing of the real build
+  // drafts itself on blueprint paper, then renders tile by tile into the photo.
   function heroReel() {
     if (!banner) { startHero(); return; }
-    document.documentElement.classList.add('cm-nav-in');
     const cv = document.createElement('canvas');
     cv.className = 'cm-reel';
     cv.setAttribute('aria-hidden', 'true');
@@ -2384,395 +2285,359 @@ function adminSave() {
     banner.appendChild(btn);
     const ctx = cv.getContext('2d');
 
-    const COBALT = '#2b3dff', PAPER = '#ebe6dc';
-    const T_BUILD = 1.45, T_DETAIL = 3.55, T_RENDER = 5.0, T_CUT = 5.75, REVEAL = 6.35, END = 7.2;
-    const SCENES = [[0, 'Plan'], [T_BUILD, 'Build'], [T_DETAIL, 'Detail'], [T_RENDER, 'Render']];
+    const BLUE = '#2b3dff', LINE = '240,235,224';
+    const T_DRAFT = .15, T_RENDER = 2.2, T_DONE = 4.0, REVEAL = 4.45, END = 5.2;
     const sp = (t, a, b) => clamp((t - a) / (b - a), 0, 1);
-    const outBack = x => { const c = 1.7; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
     const font = (w, px, fam = "'Space Grotesk', sans-serif") => (ctx.font = `${w} ${px}px ${fam}`);
     const DISPLAY = "'Archivo', sans-serif";
-    const hash = (a, b, c = 0) => { const s = Math.sin(a * 127.1 + b * 311.7 + c * 74.7) * 43758.5453; return s - Math.floor(s); };
+    const rect = (c, x, y, w, h) => { ctx.fillStyle = c; ctx.fillRect(x, y, w, h); };
+    const hash = (a, b) => { const s = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return s - Math.floor(s); };
 
-    let W = 0, H = 0, dpr = 1, u = 1;
-    const imgEl = $('#showcaseImg') || $('.showcase-img');
-    let sample = null;
-    if (imgEl) { const im = new Image(); im.onload = () => { sample = im; }; im.src = imgEl.currentSrc || imgEl.src; }
+    let W = 0, H = 0, dpr = 1, u = 1, img = null, edgesOk = false;
+    let rc = null, tiles = [], tg = 64;
+
+    // the photo, cropped exactly like the banner (object-fit: cover; object-position: 40% 35%)
+    function cover(iw, ih, w, h) {
+      const ir = iw / ih, br = w / h;
+      if (ir > br) { const sw = ih * br; return [(iw - sw) * .4, 0, sw, ih]; }
+      const sh = iw / br; return [0, (ih - sh) * .35, iw, sh];
+    }
+    // same zoom the banner image starts at, so the hand-off is seamless
+    const zoom = c => { c.translate(W * .5, H * .4); c.scale(IMG_SCALE0, IMG_SCALE0); c.translate(-W * .5, -H * .4); };
+
+    // Plan: the photo printed as a blueprint (cyanotype) plus its coastline traced as linework.
+    let cyan = null, coast = [];
+    function prepPlan() {
+      cyan = null; coast = []; edgesOk = false;
+      if (!img) return;
+      const [sx, sy, sw, sh] = cover(img.naturalWidth, img.naturalHeight, W, H);
+      // cyanotype: shadows to deep navy, lights to paper white (falls back to a blend if pixels are locked)
+      cyan = document.createElement('canvas'); cyan.width = Math.round(W * Math.min(dpr, 1.5)); cyan.height = Math.round(H * Math.min(dpr, 1.5));
+      const c = cyan.getContext('2d'), k = cyan.width / W;
+      c.drawImage(img, sx, sy, sw, sh, 0, 0, cyan.width, cyan.height);
+      try {
+        const id = c.getImageData(0, 0, cyan.width, cyan.height), p = id.data;
+        for (let i = 0; i < p.length; i += 4) {
+          let l = (p[i] * .3 + p[i + 1] * .59 + p[i + 2] * .11) / 255;
+          l = Math.pow(clamp((l - .1) / .74, 0, 1), 1.1);
+          const br = 20 + 23 * l, bg = 30 + 31 * l, bb = 140 + 115 * l, m = .62 * l;
+          p[i] = br + (240 - br) * m; p[i + 1] = bg + (235 - bg) * m; p[i + 2] = bb + (224 - bb) * m;
+        }
+        c.putImageData(id, 0, 0);
+      } catch (err) {
+        c.setTransform(k, 0, 0, k, 0, 0);
+        c.globalCompositeOperation = 'source-over'; c.fillStyle = BLUE; c.fillRect(0, 0, W, H);
+        c.globalCompositeOperation = 'luminosity'; c.drawImage(img, sx, sy, sw, sh, 0, 0, W, H);
+        c.globalCompositeOperation = 'source-over';
+        return;
+      }
+      // coastline: traced on the whole photo (so every crop shows the real shore), then mapped to the banner
+      const iw = img.naturalWidth, ih = img.naturalHeight;
+      const gw = 240, gh = Math.max(8, Math.round(gw * ih / iw));
+      const g = document.createElement('canvas'); g.width = gw; g.height = gh;
+      const x2 = g.getContext('2d');
+      x2.drawImage(img, 0, 0, gw, gh);
+      const d = x2.getImageData(0, 0, gw, gh).data;
+      const raw = new Float32Array(gw * gh), F = new Float32Array(gw * gh);
+      for (let i = 0; i < gw * gh; i++) { const r = d[i * 4], gg = d[i * 4 + 1], b = d[i * 4 + 2]; raw[i] = (b - r) + (b - gg) * .5; }
+      const tmp = new Float32Array(gw * gh);
+      for (let pass = 0; pass < 2; pass++) {
+        const A = pass ? F : raw;
+        for (let y = 0; y < gh; y++) for (let x = 0; x < gw; x++) { let s = 0, n = 0; for (let k = -2; k <= 2; k++) { const xx = x + k; if (xx >= 0 && xx < gw) { s += A[y * gw + xx]; n++; } } tmp[y * gw + x] = s / n; }
+        for (let y = 0; y < gh; y++) for (let x = 0; x < gw; x++) { let s = 0, n = 0; for (let k = -2; k <= 2; k++) { const yy = y + k; if (yy >= 0 && yy < gh) { s += tmp[yy * gw + x]; n++; } } F[y * gw + x] = s / n; }
+      }
+      const sorted = Float32Array.from(F).sort(), lvl = sorted[Math.floor(sorted.length * .72)];
+      if (sorted[sorted.length - 1] - sorted[0] < 30) return;
+      // grid cell → banner pixel (cover crop, before the zoom)
+      const toX = gx => (gx / (gw - 1) * iw - sx) / sw * W, toY = gy => (gy / (gh - 1) * ih - sy) / sh * H;
+      const segs = [];
+      const at = (x, y) => F[y * gw + x] - lvl;
+      const ip = (a, b) => a / (a - b);
+      for (let y = 1; y < gh - 2; y++) for (let x = 1; x < gw - 2; x++) {
+        const a = at(x, y), b = at(x + 1, y), cc = at(x + 1, y + 1), e = at(x, y + 1);
+        const code = (a > 0 ? 8 : 0) | (b > 0 ? 4 : 0) | (cc > 0 ? 2 : 0) | (e > 0 ? 1 : 0);
+        if (!code || code === 15) continue;
+        const T = [x + ip(a, b), y], R = [x + 1, y + ip(b, cc)], B = [x + ip(e, cc), y + 1], Lp = [x, y + ip(a, e)];
+        const pairs = { 1: [[Lp, B]], 2: [[B, R]], 3: [[Lp, R]], 4: [[T, R]], 5: [[Lp, T], [B, R]], 6: [[T, B]], 7: [[Lp, T]], 8: [[Lp, T]], 9: [[T, B]], 10: [[T, R], [Lp, B]], 11: [[T, R]], 12: [[Lp, R]], 13: [[B, R]], 14: [[Lp, B]] }[code];
+        pairs.forEach(([p, q]) => segs.push([toX(p[0]), toY(p[1]), toX(q[0]), toY(q[1])]));
+      }
+      // chain segments into polylines
+      const key = (x, y) => Math.round(x * 4) + ',' + Math.round(y * 4);
+      const ends = new Map();
+      segs.forEach((sg, i) => { [key(sg[0], sg[1]), key(sg[2], sg[3])].forEach(k => { if (!ends.has(k)) ends.set(k, []); ends.get(k).push(i); }); });
+      const used = new Uint8Array(segs.length);
+      for (let i = 0; i < segs.length; i++) {
+        if (used[i]) continue; used[i] = 1;
+        const line = [[segs[i][0], segs[i][1]], [segs[i][2], segs[i][3]]];
+        for (const dir of [1, 0]) {
+          for (;;) {
+            const p = dir ? line[line.length - 1] : line[0], next = (ends.get(key(p[0], p[1])) || []).find(j => !used[j]);
+            if (next === undefined) break;
+            used[next] = 1; const sg = segs[next];
+            const far = key(sg[0], sg[1]) === key(p[0], p[1]) ? [sg[2], sg[3]] : [sg[0], sg[1]];
+            dir ? line.push(far) : line.unshift(far);
+          }
+        }
+        let len = 0; for (let k = 1; k < line.length; k++) len += Math.hypot(line[k][0] - line[k - 1][0], line[k][1] - line[k - 1][1]);
+        if (len > Math.max(W, H) * .1) coast.push({ pts: line, len });
+      }
+      edgesOk = coast.length > 0;
+    }
+    // the finished render, pre-drawn once so tiles are cheap copies
+    function prepRender() {
+      rc = null; if (!img) return;
+      rc = document.createElement('canvas'); rc.width = Math.round(W * dpr); rc.height = Math.round(H * dpr);
+      const r = rc.getContext('2d'); r.scale(dpr, dpr); zoom(r);
+      const [sx, sy, sw, sh] = cover(img.naturalWidth, img.naturalHeight, W, H);
+      r.drawImage(img, sx, sy, sw, sh, 0, 0, W, H);
+    }
+    // render buckets, spiralling out from the centre like a real renderer
+    function prepTiles() {
+      tg = Math.round(clamp(Math.min(W, H) / 7, 56, 112));
+      const nx = Math.ceil(W / tg), ny = Math.ceil(H / tg), cx = (nx - 1) / 2, cy = (ny - 1) / 2;
+      tiles = [];
+      for (let i = 0; i < nx; i++) for (let j = 0; j < ny; j++) {
+        const dx = i - cx, dy = (j - cy) * 1.25;
+        tiles.push({ x: i * tg, y: j * tg, k: Math.max(Math.abs(dx), Math.abs(dy)) * 10 + (Math.atan2(dy, dx) + Math.PI) / 7 + hash(i, j) * .6 });
+      }
+      tiles.sort((a, b) => a.k - b.k);
+      const span = T_DONE - T_RENDER - .28;
+      tiles.forEach((tl, r) => (tl.s = T_RENDER + Math.pow(r / tiles.length, .85) * span));
+    }
     const size = () => {
       dpr = Math.min(devicePixelRatio || 1, 2);
-      W = banner.clientWidth; H = banner.clientHeight; u = Math.min(W, H) / 640;
-      cv.width = W * dpr; cv.height = H * dpr;
+      W = banner.clientWidth; H = banner.clientHeight; u = clamp(Math.min(W, H) / 640, .7, 1.4);
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      prepTiles(); prepPlan(); prepRender();
     };
     size();
-    addEventListener('resize', () => { if (Math.abs(banner.clientWidth - W) > 40 || Math.abs(banner.clientHeight - H) > 80) size(); });
+    let rsT; addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(() => { if (Math.abs(banner.clientWidth - W) > 40 || Math.abs(banner.clientHeight - H) > 120) size(); }, 150); });
 
-    const rect = (c, x, y, w, h) => { ctx.fillStyle = c; ctx.fillRect(x, y, w, h); };
+    const src = ($('#showcaseImg') || {}).currentSrc || ($('#showcaseImg') || {}).src;
+    const imgReady = new Promise(res => {
+      if (!src) return res();
+      const im = new Image(); im.crossOrigin = 'anonymous'; im.decoding = 'async';
+      im.onload = () => { img = im; prepPlan(); prepRender(); res(); };
+      im.onerror = () => { const j = new Image(); j.onload = () => { img = j; prepPlan(); prepRender(); res(); }; j.onerror = res; j.src = src; };
+      im.src = src;
+    });
 
-    /* ── the model: a floating island with a keep, a tower, trees, a stream and lights ── */
-    const COL = {
-      grass: [116, 192, 68], gside: [138, 90, 51], dirt: [128, 84, 50], stone: [146, 146, 146], deep: [104, 98, 96],
-      brick: [182, 174, 162], pillar: [112, 104, 98], roof: [64, 82, 112], plank: [206, 158, 98], log: [108, 74, 44],
-      leaves: [74, 158, 58], win: [176, 222, 246], lamp: [255, 196, 96], water: [62, 146, 255], sand: [224, 202, 148],
-      beacon: [245, 158, 11], cloud: [250, 250, 252],
-    };
-    const GLOW = { lamp: 1, beacon: 1 };
-    const map = new Map(), B = [];
-    const K = (x, y, z) => ((x + 64) * 256 + (y + 64)) * 256 + (z + 64);
-    function put(x, y, z, m, ph = 0, dl = 0) {
-      const k = K(x, y, z), o = map.get(k);
-      if (o) { o.m = m; o.ph = ph; o.dl = dl; return; }
-      const b = { x, y, z, m, ph, dl, n: .93 + hash(x, y, z) * .1 };
-      map.set(k, b); B.push(b);
-    }
-    (() => {
-      const R = 8.4;
-      for (let x = -9; x <= 9; x++) for (let z = -9; z <= 9; z++) {
-        const d = Math.hypot(x, z), edge = R + (hash(x, 0, z) - .5) * 1.3;
-        if (d > edge) continue;
-        put(x, 0, z, 'grass'); put(x, -1, z, 'dirt');
-        const depth = Math.round(Math.pow(1 - d / (edge + .6), .75) * 9 + hash(x + 3, 1, z) * 1.6);
-        for (let y = -2; y >= -depth; y--) put(x, y, z, y > -4 ? 'dirt' : hash(x, y, z) > .8 ? 'deep' : 'stone');
-      }
-      // keep
-      for (let y = 1; y <= 10; y++) for (let x = -3; x <= 1; x++) for (let z = -3; z <= 1; z++) {
-        const ex = x === -3 || x === 1, ez = z === -3 || z === 1;
-        if (y < 10 && !ex && !ez) continue;
-        if (x === -1 && z === 1 && y <= 2) continue;
-        const win = (y === 4 || y === 7) && ((x === -1 && ez) || (z === -1 && ex));
-        put(x, y, z, win ? 'win' : ex && ez ? 'pillar' : 'brick');
-      }
-      for (let x = -3; x <= 1; x++) for (let z = -3; z <= 1; z++) if ((x === -3 || x === 1 || z === -3 || z === 1) && (x + z) % 2 === 0) put(x, 11, z, 'brick');
-      for (let y = 11; y <= 12; y++) for (let x = -2; x <= 0; x++) for (let z = -2; z <= 0; z++) put(x, y, z, 'roof');
-      put(-1, 13, -1, 'roof'); put(-1, 14, -1, 'roof'); put(-1, 15, -1, 'beacon');
-      // tower
-      for (let y = 1; y <= 6; y++) for (let x = 3; x <= 5; x++) for (let z = 2; z <= 4; z++) {
-        const ex = x === 3 || x === 5, ez = z === 2 || z === 4;
-        if (!ex && !ez && y < 6) continue;
-        put(x, y, z, y === 4 && ((x === 4 && ez) || (z === 3 && ex)) ? 'win' : ex && ez ? 'pillar' : 'brick');
-      }
-      for (let k = 0; k < 3; k++) for (let x = 2 + k; x <= 6 - k; x++) for (let z = 1 + k; z <= 5 - k; z++) put(x, 7 + k, z, 'roof');
-      // path, stream, trees and lights arrive in the detail pass
-      [[-1, 2], [-1, 3], [0, 4], [0, 5], [1, 6]].forEach(([x, z]) => put(x, 0, z, 'sand'));
-      [[-3, -5], [-4, -5], [-5, -4], [-6, -4], [-7, -3], [-8, -3]].forEach(([x, z], i) => { put(x, 0, z, 'water', 2, .05 + i * .05); put(x, -1, z, 'dirt'); });
-      [[-5, 3], [4, -5], [-6, -1]].forEach(([tx, tz], i) => {
-        const dl = .1 + i * .12;
-        for (let y = 1; y <= 3; y++) put(tx, y, tz, 'log', 2, dl);
-        for (let dx = -2; dx <= 2; dx++) for (let dy = -1; dy <= 2; dy++) for (let dz = -2; dz <= 2; dz++)
-          if (dx * dx + dy * dy * 1.6 + dz * dz <= 4.4 && !(dx === 0 && dz === 0 && dy < 0)) put(tx + dx, 4 + dy, tz + dz, 'leaves', 2, dl + .08);
-      });
-      [[1, 3], [-3, 4], [6, 1]].forEach(([x, z], i) => put(x, 1, z, 'lamp', 2, .4 + i * .06));
-    })();
-    const STRUCT = B.filter(b => b.ph === 0).length;
-    const ext = B.reduce((e, b) => [Math.min(e[0], b.x), Math.max(e[1], b.x), Math.min(e[2], b.y), Math.max(e[3], b.y), Math.min(e[4], b.z), Math.max(e[5], b.z)], [99, -99, 99, -99, 99, -99]);
-    const DIMS = `${ext[1] - ext[0] + 1} × ${ext[5] - ext[4] + 1} × ${ext[3] - ext[2] + 1}`;
-
-    // blueprint lines (model space, cube centres on integers)
-    const BLUE = (() => {
-      const L = [], ring = (y, r) => { const p = []; for (let i = 0; i <= 40; i++) { const a = i / 40 * Math.PI * 2; p.push([Math.cos(a) * r, y, Math.sin(a) * r]); } return p; };
-      const box = (x0, y0, z0, x1, y1, z1) => [
-        [[x0, y0, z0], [x1, y0, z0], [x1, y0, z1], [x0, y0, z1], [x0, y0, z0]],
-        [[x0, y1, z0], [x1, y1, z0], [x1, y1, z1], [x0, y1, z1], [x0, y1, z0]],
-        [[x0, y0, z0], [x0, y1, z0]], [[x1, y0, z0], [x1, y1, z0]], [[x1, y0, z1], [x1, y1, z1]], [[x0, y0, z1], [x0, y1, z1]]];
-      const pyr = (x0, y0, z0, x1, z1, ay) => { const ax = (x0 + x1) / 2, az = (z0 + z1) / 2; return [[[x0, y0, z0], [ax, ay, az], [x1, y0, z1]], [[x1, y0, z0], [ax, ay, az], [x0, y0, z1]]]; };
-      L.push(ring(.5, 8.6), ring(-.5, 8.6), ring(-3.5, 6.6), ring(-6.5, 4));
-      for (let i = 0; i < 6; i++) { const a = i / 6 * Math.PI * 2; L.push([[Math.cos(a) * 8.6, -.5, Math.sin(a) * 8.6], [Math.cos(a) * 4, -6.5, Math.sin(a) * 4], [0, -9.5, 0]]); }
-      L.push(...box(-3.5, .5, -3.5, 1.5, 11.5, 1.5), ...pyr(-2.5, 10.5, -2.5, .5, .5, 15.5));
-      L.push(...box(2.5, .5, 1.5, 5.5, 6.5, 4.5), ...pyr(1.5, 6.5, .5, 6.5, 5.5, 9.5));
-      return L;
-    })();
-
-    /* ── camera: orthographic, ~31° above, spinning around the island ── */
-    const CE = Math.cos(.55), SE = Math.sin(.55);
-    const cam = { c: 1, s: 0, S: 10, cx: 0, cy: 0 };
-    const setCam = (th, S, cx, cy) => { cam.c = Math.cos(th); cam.s = Math.sin(th); cam.S = S; cam.cx = cx; cam.cy = cy; };
-    const P3 = (x, y, z) => [cam.cx + (x * cam.c - z * cam.s) * cam.S, cam.cy + ((x * cam.s + z * cam.c) * SE - y * CE) * cam.S];
-    const near = (x, y, z) => y * SE + (x * cam.s + z * cam.c) * CE;
-    const LIGHT = [-.55, -.83];
-    function shadeCol(c, f, warm) {
-      let r = c[0] * f, g = c[1] * f, b = c[2] * f;
-      if (warm) { r = lerp(r, r * 1.08 + 26, warm); g = lerp(g, g * .94 + 8, warm); b = lerp(b, b * .78, warm); }
-      return `rgb(${Math.min(255, r) | 0},${Math.min(255, g) | 0},${Math.min(255, b) | 0})`;
-    }
-    function quad(p, col, edge) {
-      ctx.fillStyle = col; ctx.beginPath();
-      ctx.moveTo(p[0][0], p[0][1]); ctx.lineTo(p[1][0], p[1][1]); ctx.lineTo(p[2][0], p[2][1]); ctx.lineTo(p[3][0], p[3][1]); ctx.closePath(); ctx.fill();
-      if (edge) { ctx.strokeStyle = edge; ctx.lineWidth = 1; ctx.stroke(); }
-    }
-    // draw one block; `full` tells which neighbours are solid right now (to skip hidden faces)
-    function drawBlock(x, y, z, m, sc, full, warm, glow) {
-      const h = .5 * sc, c = COL[m], edge = cam.S >= 8 ? 'rgba(0,0,0,.12)' : null;
-      const sides = [[1, 0, cam.s], [-1, 0, -cam.s], [0, 1, cam.c], [0, -1, -cam.c]];
-      for (const [nx, nz, vis] of sides) {
-        if (vis <= 0 || (full && full(x + nx, y, z + nz))) continue;
-        const ax = nx ? x + nx * h : x - h, bx = nx ? x + nx * h : x + h, az = nz ? z + nz * h : z - h, bz = nz ? z + nz * h : z + h;
-        const p = [P3(ax, y + h, az), P3(bx, y + h, bz), P3(bx, y - h, bz), P3(ax, y - h, az)];
-        const f = (.6 + .28 * Math.max(0, nx * LIGHT[0] + nz * LIGHT[1])) * (glow ? 1.25 : 1);
-        if (m === 'grass') {
-          quad(p, shadeCol(COL.gside, f, warm), edge);
-          const q = .26;
-          quad([p[0], p[1], [lerp(p[1][0], p[2][0], q), lerp(p[1][1], p[2][1], q)], [lerp(p[0][0], p[3][0], q), lerp(p[0][1], p[3][1], q)]], shadeCol(c, f * .92, warm), null);
-        } else quad(p, shadeCol(c, f, glow ? 0 : warm), edge);
-      }
-      if (!(full && full(x, y + 1, z))) quad([P3(x - h, y + h, z - h), P3(x + h, y + h, z - h), P3(x + h, y + h, z + h), P3(x - h, y + h, z + h)], shadeCol(c, glow ? 1.15 : 1, glow ? 0 : warm), edge);
-    }
-
-    /* ── background per phase ── */
-    function sky(t) {
-      const g = ctx.createLinearGradient(0, 0, 0, H);
-      g.addColorStop(0, '#18205a'); g.addColorStop(.55, '#d9653f'); g.addColorStop(1, '#ffc56e');
-      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-      const sx = W * .78, sy = H * .62, r = Math.min(W, H) * .5;
-      const s = ctx.createRadialGradient(sx, sy, 0, sx, sy, r);
-      s.addColorStop(0, 'rgba(255,236,170,.95)'); s.addColorStop(.12, 'rgba(255,214,130,.6)'); s.addColorStop(1, 'rgba(255,170,90,0)');
-      ctx.fillStyle = s; ctx.fillRect(0, 0, W, H);
-      // a few far stars in the dark top
-      ctx.fillStyle = 'rgba(255,255,255,.7)';
-      for (let i = 0; i < 26; i++) { const x = hash(i, 1) * W, y = hash(i, 2) * H * .35; if ((t * 2 + i) % 3 > .4) ctx.fillRect(x, y, 1.5, 1.5); }
-    }
-    function background(t) {
-      if (t < T_BUILD) {
-        rect(COBALT, 0, 0, W, H);
-        // blueprint grid
-        const g = 26 * u, k = sp(t, 0, .45);
-        ctx.strokeStyle = 'rgba(240,235,224,.1)'; ctx.lineWidth = 1; ctx.beginPath();
-        for (let x = 0; x < W * k; x += g) { ctx.moveTo(x, 0); ctx.lineTo(x, H); }
-        for (let y = 0; y < H * k; y += g) { ctx.moveTo(0, y); ctx.lineTo(W, y); }
+    /* ── drawing ── */
+    function paper(t) {
+      rect(BLUE, 0, 0, W, H);
+      const g = 24 * u, k = outCubic(sp(t, 0, .5));
+      ctx.lineWidth = 1;
+      for (let pass = 0; pass < 2; pass++) {
+        ctx.strokeStyle = pass ? `rgba(${LINE},.13)` : `rgba(${LINE},.055)`; ctx.beginPath();
+        const step = pass ? g * 5 : g;
+        for (let x = 0; x <= W; x += step) { ctx.moveTo(x + .5, 0); ctx.lineTo(x + .5, H * k); }
+        for (let y = 0; y <= H; y += step) { ctx.moveTo(0, y + .5); ctx.lineTo(W * k, y + .5); }
         ctx.stroke();
-      } else if (t < T_DETAIL) rect(PAPER, 0, 0, W, H);
-      else {
-        // the sunset opens like an iris from the sun
-        const k = sp(t, T_DETAIL, T_DETAIL + .4);
-        if (k < 1) {
-          rect(PAPER, 0, 0, W, H);
-          ctx.save(); ctx.beginPath(); ctx.arc(W * .78, H * .62, Math.hypot(W, H) * outCubic(k), 0, 7); ctx.clip(); sky(t); ctx.restore();
-        } else sky(t);
       }
+      const v = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * .3, W / 2, H / 2, Math.hypot(W, H) * .62);
+      v.addColorStop(0, 'rgba(8,14,70,0)'); v.addColorStop(1, 'rgba(8,14,70,.45)');
+      ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
     }
-
-    /* ── big phase word, like a title card ── */
-    const PH = [['Plan.', () => `Blueprint · ${DIMS}`, 0, T_BUILD], ['Build.', n => `${n.toLocaleString('en-US')} blocks placed`, T_BUILD, T_DETAIL],
-      ['Detail.', () => 'Trees · water · light', T_DETAIL, T_RENDER], ['Render.', () => 'Shaders on', T_RENDER, T_CUT]];
-    function title(t, placed, dark) {
-      const ph = PH.find(p => t >= p[2] && t < p[3]); if (!ph) return;
-      const [word, sub, a, b] = ph, wide = W > 760, pad = clamp(W * .025, 16, 30);
-      const fs = wide ? Math.min(H * .15, W * .085) : Math.min(W * .13, H * .1);
-      const x = pad + 22, y = wide ? H * .52 : pad + 40 + fs;
-      const inK = outCubic(sp(t, a + .02, a + .32)), out = sp(t, b - .14, b);
-      ctx.save(); ctx.beginPath(); ctx.rect(0, y - fs * 1.05, W, fs * 1.3); ctx.clip();
-      font(900, fs, DISPLAY); ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
-      ctx.fillStyle = dark ? CREAM : INK;
-      const yy = y + (1 - inK) * fs * 1.1 - out * fs * 1.1;
-      const dot = word.slice(-1), body = word.slice(0, -1);
-      ctx.fillText(body, x, yy); ctx.fillStyle = AMBER; ctx.fillText(dot, x + ctx.measureText(body).width, yy);
-      ctx.restore();
-      font(700, Math.max(10, 11 * u)); ctx.fillStyle = dark ? 'rgba(240,235,224,.78)' : 'rgba(13,13,13,.66)';
-      ctx.globalAlpha = sp(t, a + .15, a + .4) * (1 - out);
-      ctx.fillText(sub(placed).toUpperCase(), x + 3, y + 26 * u + 6); ctx.globalAlpha = 1;
+    // where a point of the photo lands on screen (same crop and zoom as the banner)
+    function imgPt(fx, fy) {
+      if (!img) return null;
+      const [sx, sy, sw, sh] = cover(img.naturalWidth, img.naturalHeight, W, H);
+      let x = (fx * img.naturalWidth - sx) / sw * W, y = (fy * img.naturalHeight - sy) / sh * H;
+      x = W * .5 + (x - W * .5) * IMG_SCALE0; y = H * .4 + (y - H * .4) * IMG_SCALE0;
+      return x > 40 && x < W - 40 && y > 60 && y < H - 60 ? [x, y] : null;
     }
-
-    function hud(t, dark) {
-      const fg = dark ? 'rgba(240,235,224,.75)' : 'rgba(13,13,13,.62)', line = dark ? 'rgba(240,235,224,.5)' : 'rgba(13,13,13,.45)';
-      const pad = clamp(W * .025, 16, 30);
-      ctx.strokeStyle = line; ctx.lineWidth = 1.5;
-      [[pad, pad, 1, 1], [W - pad, pad, -1, 1], [pad, H - pad, 1, -1], [W - pad, H - pad, -1, -1]].forEach(([x, y, a, b]) => {
-        ctx.beginPath(); ctx.moveTo(x, y + 18 * b); ctx.lineTo(x, y); ctx.lineTo(x + 18 * a, y); ctx.stroke();
-      });
-      const idx = SCENES.reduce((k, s, i) => (t >= s[0] ? i : k), 0);
-      font(600, 10); ctx.fillStyle = fg; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
-      ctx.fillText(`0${idx + 1} — ${SCENES[idx][1].toUpperCase()}`, pad + 26, pad + 7);
-      if (W > 640) ctx.fillText('FEATURED BUILD  /  REALTIME  /  60 FPS', pad + 26, H - pad - 7);
-      ctx.textAlign = 'right';
-      const code = tc(t * 60);
-      ctx.fillText(code, W - pad - 26, pad + 7);
-      ctx.fillStyle = (t % 1.2) < .6 ? '#ff4d2e' : 'rgba(0,0,0,0)';
-      ctx.beginPath(); ctx.arc(W - pad - 26 - ctx.measureText(code).width - 11, pad + 7, 3, 0, 7); ctx.fill();
-      const segW = 26, gap = 4, x0 = W - pad - 26 - SCENES.length * (segW + gap);
-      SCENES.forEach((s, i) => {
-        const e = (SCENES[i + 1] || [T_CUT])[0], f = sp(t, s[0], e);
-        rect(dark ? 'rgba(240,235,224,.22)' : 'rgba(13,13,13,.18)', x0 + i * (segW + gap), H - pad - 8, segW, 2);
-        rect(dark ? CREAM : INK, x0 + i * (segW + gap), H - pad - 8, segW * f, 2);
-      });
-      ctx.textAlign = 'left';
-    }
-    function tiles(color, p) {
-      if (p <= 0) return;
-      const g = Math.max(W, H) / 13, nx = Math.ceil(W / g), ny = Math.ceil(H / g);
-      ctx.fillStyle = color;
-      for (let i = 0; i < nx; i++) for (let j = 0; j < ny; j++) {
-        const d = (i / nx + (ny - j) / ny) / 2, k = clamp(p * 1.7 - d * .7, 0, 1);
-        if (k <= 0) continue;
-        const s = k >= 1 ? g + 2 : g * outCubic(k);
-        ctx.fillRect(Math.floor(i * g + (g - s) / 2), Math.floor(j * g + (g - s) / 2), Math.ceil(s) + 1, Math.ceil(s) + 1);
+    function linework(t) {
+      // the blueprint print develops from the centre
+      const dv = sp(t, .45, 1.85);
+      if (cyan && dv > 0) {
+        ctx.save();
+        const r = Math.hypot(W, H) * .6 * outCubic(dv);
+        const gr = ctx.createRadialGradient(W * .5, H * .48, r * .55, W * .5, H * .48, Math.max(1, r));
+        ctx.beginPath(); ctx.arc(W * .5, H * .48, r, 0, 7); ctx.clip();
+        zoom(ctx); ctx.globalAlpha = .55 + .45 * dv; ctx.drawImage(cyan, 0, 0, W, H);
+        ctx.restore();
+        gr.addColorStop(0, 'rgba(43,61,255,0)'); gr.addColorStop(1, 'rgba(43,61,255,.85)');
+        if (dv < 1) { ctx.fillStyle = gr; ctx.fillRect(0, 0, W, H); }
+        // keep the paper grid visible over the print
+        ctx.strokeStyle = `rgba(${LINE},.07)`; ctx.lineWidth = 1; ctx.beginPath();
+        const g = 24 * u * 5;
+        for (let x = 0; x <= W; x += g) { ctx.moveTo(x + .5, 0); ctx.lineTo(x + .5, H); }
+        for (let y = 0; y <= H; y += g) { ctx.moveTo(0, y + .5); ctx.lineTo(W, y + .5); }
+        ctx.stroke();
       }
-    }
-
-    /* ── one frame of the island ── */
-    const vis = new Float32Array(B.length), lift = new Float32Array(B.length);
-    const idx = new Map(B.map((b, i) => [K(b.x, b.y, b.z), i]));
-    const order = B.map((_, i) => i), keys = new Float32Array(B.length);
-    function island(t) {
-      const wide = W > 760;
-      let S = Math.min(H * .9 / 29, W * (wide ? .56 : .84) / 24);
-      let cx = wide ? W * .63 : W / 2, cy = H * (wide ? .5 : .6);
-      const th = -.7 + t * .5 + Math.pow(sp(t, T_RENDER, T_CUT), 2) * 1.4;
-      // render push: fly into the beacon on the keep
-      const push = Math.pow(sp(t, T_RENDER + .2, T_CUT), 3);
-      S *= 1 + push * 7;
-      setCam(th, S, 0, 0);
-      const bp = P3(-1, 15 - 3, -1);
-      setCam(th, S, lerp(cx, W / 2 - bp[0], push), lerp(cy + 3 * CE * S, H * .45 - bp[1], push));
-      const yP = lerp(-11, 17, io(sp(t, T_BUILD + .05, T_DETAIL - .2)));
-      const warm = sp(t, T_DETAIL, T_DETAIL + .6);
-      let placed = 0;
-      for (let i = 0; i < B.length; i++) {
-        const b = B[i];
-        let k;
-        if (b.ph === 0) k = t >= T_DETAIL ? 1 : t < T_BUILD ? 0 : clamp((yP - b.y) / 1.6, 0, 1);
-        else k = sp(t, T_DETAIL + .12 + b.dl, T_DETAIL + .42 + b.dl);
-        vis[i] = k; if (b.ph === 0 && k > 0) placed++;
-        lift[i] = b.ph === 0 ? (1 - outCubic(k)) * 1.8 : 0;
-        keys[i] = near(b.x, b.y + lift[i] - 3, b.z);
-      }
-      const solid = (x, y, z) => { const j = idx.get(K(x, y, z)); return j !== undefined && vis[j] >= 1 && B[j].m !== 'leaves'; };
-      order.sort((a, b) => keys[a] - keys[b]);
-      const falls = t >= T_DETAIL + .3 ? sp(t, T_DETAIL + .3, T_DETAIL + .6) : 0;
-      const fallKey = near(-9, -6, -3);
-      let fallDone = !falls;
-      const drawFalls = () => {
-        fallDone = true;
-        for (let i = 0; i < 90; i++) {
-          const ph = (t * 1.2 + i / 90) % 1, sx = (hash(i, 9) - .5), sz = (hash(i, 7) - .5);
-          const p = P3(-8.9 - ph * 1.2 + sx * .5, -.1 - ph * ph * 16 - 3, -3 + sz * .9);
-          ctx.globalAlpha = falls * (1 - ph * .9) * .9;
-          rect(i % 5 ? '#9fd0ff' : '#ffffff', p[0] - S * .2, p[1] - S * .45, S * .4, S * .9);
+      // coastline linework grows along its length
+      const p = io(sp(t, .2, 1.45));
+      if (edgesOk && p > 0) {
+        ctx.save(); zoom(ctx);
+        ctx.strokeStyle = CREAM; ctx.lineWidth = 1.8 / IMG_SCALE0; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+        ctx.shadowColor = 'rgba(240,235,224,.5)'; ctx.shadowBlur = 6;
+        for (const c of coast) {
+          let left = c.len * p; ctx.beginPath(); ctx.moveTo(c.pts[0][0], c.pts[0][1]);
+          for (let k = 1; k < c.pts.length && left > 0; k++) {
+            const a = c.pts[k - 1], b = c.pts[k], sl = Math.hypot(b[0] - a[0], b[1] - a[1]);
+            if (sl <= left) { ctx.lineTo(b[0], b[1]); left -= sl; } else { const f = left / sl; ctx.lineTo(a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f); left = 0; }
+          }
+          ctx.stroke();
         }
-        ctx.globalAlpha = 1;
-      };
-      for (let n = 0; n < order.length; n++) {
-        const i = order[n];
-        if (!fallDone && keys[i] > fallKey) drawFalls();
-        const k = vis[i]; if (k <= 0) continue;
-        const b = B[i];
-        const glowOn = (GLOW[b.m] || b.m === 'win') && warm > 0;
-        const m = b.m === 'win' && warm > .3 ? 'lamp' : b.m;
-        const sc = b.ph === 0 ? 1 : outBack(k);
-        ctx.globalAlpha = b.ph === 0 ? Math.min(1, k * 3) : Math.min(1, k * 2);
-        const yy = b.y + lift[i] - 3;
-        drawBlock(b.x, yy, b.z, m, sc, k >= 1 ? (x, y, z) => solid(x, y + 3, z) : null, warm * .9, glowOn);
+        ctx.restore();
+      }
+    }
+    const pad = () => clamp(W * .028, 16, 32);
+    // sheet border with grid references, like an architectural drawing
+    function sheet(t, prog, rendering) {
+      const P = pad(), k = outCubic(sp(t, .05, .55)), a = 1 - sp(t, T_DONE, T_DONE + .35);
+      if (a <= 0) return;
+      ctx.globalAlpha = a; ctx.strokeStyle = `rgba(${LINE},.7)`; ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(P, P + (H - 2 * P) * (1 - k)); ctx.lineTo(P, P); ctx.lineTo(P + (W - 2 * P) * k, P);
+      ctx.moveTo(W - P, H - P - (H - 2 * P) * (1 - k)); ctx.lineTo(W - P, H - P); ctx.lineTo(W - P - (W - 2 * P) * k, H - P);
+      ctx.stroke();
+      font(600, 9); ctx.fillStyle = `rgba(${LINE},.7)`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      const cols = W > 700 ? 6 : 3, rowsN = 4;
+      for (let i = 0; i < cols; i++) { const x = P + (W - 2 * P) * (i + .5) / cols; ctx.globalAlpha = a * sp(t, .2 + i * .04, .4 + i * .04); ctx.fillText('ABCDEF'[i], x, P + 10); if (i) { ctx.beginPath(); ctx.moveTo(P + (W - 2 * P) * i / cols, P); ctx.lineTo(P + (W - 2 * P) * i / cols, P + 6); ctx.stroke(); } }
+      for (let j = 0; j < rowsN; j++) { const y = P + (H - 2 * P) * (j + .5) / rowsN; ctx.globalAlpha = a * sp(t, .25 + j * .04, .45 + j * .04); ctx.fillText(String(j + 1), P + 10, y); }
+      ctx.globalAlpha = a;
+      // title block
+      const bw = clamp(W * .3, 210, 300), rh = 17, bh = rh * 4, bx = W - P - bw, by = H - P - bh;
+      const tb = sp(t, .35, .7);
+      if (tb > 0) {
+        ctx.globalAlpha = a * tb;
+        rect('rgba(15,24,110,.55)', bx, by, bw, bh);
+        ctx.strokeStyle = `rgba(${LINE},.7)`; ctx.strokeRect(bx + .5, by + .5, bw, bh);
+        for (let r = 1; r < 4; r++) { ctx.beginPath(); ctx.moveTo(bx, by + r * rh + .5); ctx.lineTo(bx + bw, by + r * rh + .5); ctx.stroke(); }
+        ctx.textAlign = 'left'; ctx.fillStyle = CREAM;
+        font(700, 9); ctx.fillText('FEATURED BUILD', bx + 8, by + rh * .5 + .5);
+        font(500, 9); ctx.fillStyle = `rgba(${LINE},.85)`;
+        ctx.fillText(rendering ? 'SHEET A-02  ·  FINAL RENDER' : 'SHEET A-01  ·  SITE DRAWING', bx + 8, by + rh * 1.5 + .5);
+        ctx.fillText('SCALE 1 : 1 BLOCK  ·  DRAWN BY COLO', bx + 8, by + rh * 2.5 + .5);
+        const label = rendering ? 'RENDERING' : 'DRAFTING';
+        ctx.fillText(`${label}  ${Math.round(prog * 100)}%`, bx + 8, by + rh * 3.5 + .5);
+        const px = bx + bw * .56, pw = bw * .4;
+        rect(`rgba(${LINE},.2)`, px, by + rh * 3.5 - 1, pw, 2); rect(rendering ? AMBER : CREAM, px, by + rh * 3.5 - 1, pw * prog, 2);
+      }
+      ctx.globalAlpha = 1; ctx.textAlign = 'left';
+    }
+    // a couple of callouts and a north arrow
+    function callouts(t) {
+      const a = 1 - sp(t, T_RENDER + .6, T_RENDER + 1.1); if (a <= 0) return;
+      const C = [[.393, .52, '01', 'TOWER', 1.0], [.27, .58, '02', 'BAY', 1.2], [.8, .26, '03', 'MOUNTAINS', 1.4]];
+      ctx.lineWidth = 1;
+      C.forEach(([fx, fy, n, label, st]) => {
+        const pt = imgPt(fx, fy); if (!pt) return;
+        const k = outCubic(sp(t, st, st + .35)); if (k <= 0) return;
+        const [x, y] = pt, r = 9;
+        ctx.globalAlpha = a * k; ctx.strokeStyle = CREAM; ctx.fillStyle = CREAM;
+        ctx.beginPath(); ctx.arc(x, y, r * k, 0, 7); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x - r * 1.6, y); ctx.lineTo(x + r * 1.6, y); ctx.moveTo(x, y - r * 1.6); ctx.lineTo(x, y + r * 1.6); ctx.stroke();
+        const lx = x + 24 + 40 * k, ly = y - 26;
+        ctx.beginPath(); ctx.moveTo(x + r * .7, y - r * .7); ctx.lineTo(x + 20, ly); ctx.lineTo(lx + 60, ly); ctx.stroke();
+        font(700, 9); ctx.textBaseline = 'bottom'; ctx.fillText(`${n}  ${label}`, x + 22, ly - 3);
+      });
+      // north arrow
+      const P = pad(), nx = P + 34, ny = H - P - 40, k = sp(t, .6, 1);
+      if (W > 520 && k > 0) {
+        ctx.globalAlpha = a * k; ctx.strokeStyle = CREAM; ctx.fillStyle = CREAM;
+        ctx.beginPath(); ctx.arc(nx, ny, 14, 0, 7); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(nx, ny - 12); ctx.lineTo(nx + 5, ny + 6); ctx.lineTo(nx, ny + 2); ctx.closePath(); ctx.fill();
+        font(700, 9); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('N', nx, ny - 22); ctx.textAlign = 'left';
       }
       ctx.globalAlpha = 1;
-      if (!fallDone) drawFalls();
-      // light from lamps, windows and the beacon
-      if (warm > 0) {
-        ctx.globalCompositeOperation = 'lighter';
-        B.forEach((b, i) => {
-          if (vis[i] < 1 || !(GLOW[b.m] || b.m === 'win')) return;
-          const p = P3(b.x, b.y - 3, b.z), r = S * (b.m === 'beacon' ? 6 : 2.2) * (1 + push * 2);
-          const g = ctx.createRadialGradient(p[0], p[1], 0, p[0], p[1], r);
-          g.addColorStop(0, `rgba(255,190,90,${.42 * warm})`); g.addColorStop(1, 'rgba(255,170,60,0)');
-          ctx.fillStyle = g; ctx.fillRect(p[0] - r, p[1] - r, r * 2, r * 2);
-        });
-        ctx.globalCompositeOperation = 'source-over';
-      }
-      // the scanning build plane
-      if (t >= T_BUILD && t < T_DETAIL) {
-        const a = sp(t, T_BUILD, T_BUILD + .15) * (1 - sp(t, T_DETAIL - .3, T_DETAIL - .1));
-        const y = yP - 3 - .5, r = 10.5;
-        const pts = [P3(-r, y, -r), P3(r, y, -r), P3(r, y, r), P3(-r, y, r)];
-        ctx.globalAlpha = a * .14; quad(pts, AMBER, null); ctx.globalAlpha = a;
-        ctx.strokeStyle = AMBER; ctx.lineWidth = 1.5; ctx.beginPath(); pts.forEach((p, j) => (j ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); ctx.closePath(); ctx.stroke();
-        font(600, 9); ctx.fillStyle = INK; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-        ctx.fillText(`Y ${Math.round(64 + yP)}`, pts[1][0] + 8, pts[1][1]); ctx.globalAlpha = 1;
-      }
-      // blueprint lines: drawn in during the plan, then a faint ghost over what is still to be built
-      const bpA = t < T_BUILD ? 1 : (1 - sp(t, T_BUILD + 1.4, T_DETAIL)) * .35;
-      if (bpA > 0) {
-        ctx.strokeStyle = t < T_BUILD ? 'rgba(240,235,224,.9)' : 'rgba(13,13,13,.5)'; ctx.lineWidth = t < T_BUILD ? 1.3 : 1;
-        ctx.globalAlpha = bpA;
-        BLUE.forEach((pl, li) => {
-          const st = .25 + li * .045, p = t < T_BUILD ? sp(t, st, st + .55) : 1;
-          if (p <= 0) return;
-          const n = pl.length - 1, f = p * n; ctx.beginPath();
-          for (let j = 0; j <= Math.min(n, Math.floor(f)); j++) { const q = P3(pl[j][0], pl[j][1] - 3, pl[j][2]); j ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]); }
-          if (f < n) { const j = Math.floor(f), a = pl[j], b = pl[j + 1], r = f - j; const q = P3(lerp(a[0], b[0], r), lerp(a[1], b[1], r) - 3, lerp(a[2], b[2], r)); ctx.lineTo(q[0], q[1]); }
-          ctx.stroke();
-        });
-        if (t < T_BUILD) {
-          const q = P3(8.6, -2.5, 0); font(600, 9); ctx.fillStyle = CREAM; ctx.globalAlpha = sp(t, .8, 1.1);
-          ctx.fillText('R 8.6', q[0] + 8, q[1]);
-          const k2 = P3(-3.5, 11.5 - 3, 1.5); ctx.fillText('KEEP · 5×5×16', k2[0] + 8, k2[1] - 8);
-        }
-        ctx.globalAlpha = 1;
-      }
-      return placed;
     }
-
-    /* ── the cut: the real render resolves out of blocks ── */
-    let oc = null;
-    function mosaic(t) {
-      rect(INK, 0, 0, W, H);
-      if (!sample) return;
-      const steps = [56, 32, 18, 10, 6, 3], k = Math.min(steps.length - 1, Math.floor((t - T_CUT) / .1)), cell = Math.max(2, Math.round(steps[k] * Math.max(.7, u)));
-      const ow = Math.ceil(W / cell), oh = Math.ceil(H / cell);
-      if (!oc) oc = document.createElement('canvas');
-      oc.width = ow; oc.height = oh;
-      const o = oc.getContext('2d'), ir = sample.naturalWidth / sample.naturalHeight, br = W / H;
-      let sw, sh, sx, sy;
-      if (ir > br) { sh = sample.naturalHeight; sw = sh * br; sx = (sample.naturalWidth - sw) / 2; sy = 0; } else { sw = sample.naturalWidth; sh = sw / br; sx = 0; sy = (sample.naturalHeight - sh) / 2; }
-      o.drawImage(sample, sx, sy, sw, sh, 0, 0, ow, oh);
-      ctx.imageSmoothingEnabled = false; ctx.drawImage(oc, 0, 0, ow * cell, oh * cell); ctx.imageSmoothingEnabled = true;
-      if (cell >= 8) {
-        ctx.strokeStyle = 'rgba(0,0,0,.28)'; ctx.lineWidth = 1; ctx.beginPath();
-        for (let x = 0; x <= W; x += cell) { ctx.moveTo(x + .5, 0); ctx.lineTo(x + .5, H); }
-        for (let y = 0; y <= H; y += cell) { ctx.moveTo(0, y + .5); ctx.lineTo(W, y + .5); }
+    // big title card on the left
+    function title(t) {
+      const P = [['Plan.', 'Linework of the real build', 0, T_RENDER], ['Render.', 'Light · materials · shaders', T_RENDER, T_DONE + .25]];
+      const ph = P.find(q => t >= q[2] && t < q[3]); if (!ph) return;
+      const [word, sub, a, b] = ph, wide = W > 760, x = pad() + 26;
+      const fs = wide ? Math.min(H * .14, W * .08) : Math.min(W * .14, H * .09);
+      const y = wide ? H * .5 : pad() + 34 + fs;
+      const inK = outCubic(sp(t, a + .05, a + .4)), out = sp(t, b - .18, b);
+      ctx.save(); ctx.beginPath(); ctx.rect(0, y - fs * 1.05, W, fs * 1.3); ctx.clip();
+      font(900, fs, DISPLAY); ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
+      ctx.shadowColor = 'rgba(0,0,20,.35)'; ctx.shadowBlur = 24;
+      const yy = y + (1 - inK) * fs * 1.1 - out * fs * 1.1, body = word.slice(0, -1);
+      ctx.fillStyle = CREAM; ctx.fillText(body, x, yy);
+      ctx.fillStyle = AMBER; ctx.fillText('.', x + ctx.measureText(body).width, yy);
+      ctx.restore();
+      font(700, Math.max(10, 11 * u)); ctx.fillStyle = 'rgba(240,235,224,.82)';
+      ctx.globalAlpha = sp(t, a + .2, a + .45) * (1 - out);
+      ctx.fillText(sub.toUpperCase(), x + 3, y + 22 + 6 * u); ctx.globalAlpha = 1;
+    }
+    function render(t) {
+      if (!rc) return 0;
+      let done = 0;
+      const g = tg, s = dpr;
+      for (const tl of tiles) {
+        const k = sp(t, tl.s, tl.s + .28);
+        if (k <= 0) continue;
+        if (k >= 1) { done++; ctx.drawImage(rc, tl.x * s, tl.y * s, g * s, g * s, tl.x, tl.y, g, g); continue; }
+        // rendering bucket: samples resolve, corner brackets hold the tile
+        ctx.globalAlpha = .25 + k * .75; ctx.drawImage(rc, tl.x * s, tl.y * s, g * s, g * s, tl.x, tl.y, g, g);
+        ctx.globalAlpha = (1 - k) * .55; rect(BLUE, tl.x, tl.y, g, g);
+        ctx.globalAlpha = 1; ctx.strokeStyle = k < .7 ? AMBER : CREAM; ctx.lineWidth = 1.5;
+        const c = g * .22, x0 = tl.x + 2, y0 = tl.y + 2, x1 = tl.x + g - 2, y1 = tl.y + g - 2;
+        ctx.beginPath();
+        ctx.moveTo(x0, y0 + c); ctx.lineTo(x0, y0); ctx.lineTo(x0 + c, y0);
+        ctx.moveTo(x1 - c, y0); ctx.lineTo(x1, y0); ctx.lineTo(x1, y0 + c);
+        ctx.moveTo(x1, y1 - c); ctx.lineTo(x1, y1); ctx.lineTo(x1 - c, y1);
+        ctx.moveTo(x0 + c, y1); ctx.lineTo(x0, y1); ctx.lineTo(x0, y1 - c);
         ctx.stroke();
       }
-      // white flash on the cut
-      const f = 1 - sp(t, T_CUT, T_CUT + .18);
-      if (f > 0) { ctx.globalAlpha = f * .85; rect('#fff6e0', 0, 0, W, H); ctx.globalAlpha = 1; }
+      ctx.globalAlpha = 1;
+      return done / tiles.length;
+    }
+    function sheen(t) {
+      const k = sp(t, T_DONE - .05, REVEAL + .1); if (k <= 0 || k >= 1) return;
+      const x = lerp(-W * .4, W * 1.4, io(k)), g = ctx.createLinearGradient(x - W * .25, 0, x + W * .25, H * .4);
+      g.addColorStop(0, 'rgba(255,240,210,0)'); g.addColorStop(.5, 'rgba(255,240,210,.22)'); g.addColorStop(1, 'rgba(255,240,210,0)');
+      ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); ctx.globalCompositeOperation = 'source-over';
     }
 
     /* ── timeline control ── */
     let t0 = 0, playing = false, revealed = false, raf = 0;
-    const setBtn = () => { btn.innerHTML = playing ? 'Skip <span aria-hidden="true">››</span>' : '<span aria-hidden="true">↻</span> Replay reel'; btn.setAttribute('aria-label', playing ? 'Skip the intro reel' : 'Replay the intro reel'); };
+    const setBtn = () => { btn.innerHTML = playing ? 'Skip <span aria-hidden="true">››</span>' : '<span aria-hidden="true">↻</span> Replay intro'; btn.setAttribute('aria-label', playing ? 'Skip the intro' : 'Replay the intro'); };
     function reveal() {
       if (revealed) return; revealed = true;
-      banner.classList.remove('cm-reel-on');
       startHero();
+    }
+    function draw(t) {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (t >= T_DONE && rc) ctx.drawImage(rc, 0, 0, W, H);
+      else { paper(t); linework(t); }
+      const prog = t < T_RENDER ? sp(t, T_DRAFT, T_RENDER - .25) : 0;
+      const done = t >= T_RENDER && t < T_DONE ? render(t) : t >= T_DONE ? 1 : 0;
+      if (!rc && t >= T_RENDER) { ctx.globalAlpha = sp(t, T_RENDER, T_DONE); rect(INK, 0, 0, W, H); ctx.globalAlpha = 1; }
+      callouts(t);
+      sheet(t, t < T_RENDER ? prog : done, t >= T_RENDER);
+      title(t);
+      sheen(t);
     }
     function frameFn(now) {
       const t = (now - t0) / 1000;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      if (t < T_CUT) {
-        background(t);
-        const placed = island(t), dark = t < T_BUILD || t >= T_DETAIL;
-        if (t < T_BUILD) tiles(PAPER, sp(t, T_BUILD - .25, T_BUILD));
-        title(t, placed, dark);
-        hud(t, dark);
-      } else { mosaic(Math.min(t, END)); hud(Math.min(t, T_CUT + .01), true); }
+      draw(Math.min(t, END));
       if (t > REVEAL) reveal();
-      cv.style.opacity = 1 - sp(t, REVEAL + .2, END);
+      cv.style.opacity = 1 - sp(t, REVEAL + .05, END);
       if (t < END) raf = requestAnimationFrame(frameFn);
       else { playing = false; cv.style.visibility = 'hidden'; setBtn(); }
     }
     function play() {
       cancelAnimationFrame(raf);
-      playing = true; revealed = false;
-      banner.classList.add('cm-reel-on');
+      playing = true; revealed = false; heroStart = 0;
+      banner.classList.remove('cm-live');
       heroHeading && heroHeading.classList.remove('cm-in');
-      frame && frame.classList.remove('cm-in');
-      heroStart = 0;
       cv.style.visibility = 'visible'; cv.style.opacity = 1;
       setBtn();
+      draw(0);
       const go = () => { t0 = performance.now(); raf = requestAnimationFrame(frameFn); };
-      Promise.race([document.fonts ? document.fonts.load(`900 100px 'Archivo'`) : Promise.resolve(), new Promise(r => setTimeout(r, 700))]).then(go, go);
+      const wait = ms => new Promise(r => setTimeout(r, ms));
+      Promise.race([Promise.all([imgReady, document.fonts ? document.fonts.load(`900 100px 'Archivo'`) : 0]), wait(1600)]).then(go, go);
     }
     function skip() { t0 = performance.now() - REVEAL * 1000; }
     btn.addEventListener('click', () => (playing ? skip() : play()));
-    addEventListener('scroll', () => { if (playing && scrollY > banner.offsetHeight * .3) skip(); }, { passive: true });
+    addEventListener('scroll', () => { if (playing && scrollY > banner.offsetHeight * .25) skip(); }, { passive: true });
 
-    let seenReel = false;
-    try { seenReel = sessionStorage.getItem('cm-reel') === '1'; } catch (e) {}
-    if (reduce || seenReel || scrollY > 40) {
+    let seen = false;
+    try { seen = sessionStorage.getItem('cm-reel') === '1'; } catch (e) {}
+    if (reduce || seen || scrollY > 40) {
       cv.style.visibility = 'hidden'; reveal(); setBtn();
       if (reduce) btn.hidden = true;
     } else {
